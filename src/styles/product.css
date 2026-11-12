@@ -1,0 +1,218 @@
+/* Product card and the grid / carousel rail that holds cards. */
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding: 12px;
+  border-radius: var(--radius-lg);
+  background: var(--c-surface);
+  transition:
+    transform var(--t-med) var(--ease),
+    box-shadow var(--t-med) var(--ease);
+}
+
+.section--paper .product-card {
+  background: var(--c-paper-raise);
+}
+
+.product-card[data-hover='lift']:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgb(0 0 0 / 0.28);
+}
+
+.product-card__media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: var(--c-raise);
+}
+
+.product-card__media a {
+  display: block;
+  height: 100%;
+}
+
+.product-card__media img {
+  transition: transform var(--t-slow) var(--ease);
+}
+
+.product-card[data-hover='zoom']:hover .product-card__media img {
+  transform: scale(1.07);
+}
+
+.product-card__badge {
+  position: absolute;
+  inset-block-start: 12px;
+  inset-inline-start: 12px;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.product-card__wish {
+  position: absolute;
+  inset-block-start: 8px;
+  inset-inline-end: 8px;
+  width: 44px;
+  height: 44px;
+  border-color: transparent;
+  background: rgb(21 17 14 / 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.product-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  padding-inline: 4px;
+}
+
+.product-card__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--c-accent);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.product-card__meta span:last-child {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--c-text-muted);
+  font-weight: 400;
+}
+
+.product-card__name {
+  font-size: 1.5rem;
+}
+
+.product-card__name a {
+  transition: color var(--t-fast) var(--ease);
+}
+
+.product-card__name a:hover {
+  color: var(--c-accent);
+}
+
+.product-card__notes {
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+}
+
+.product-card__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-block-start: auto;
+  padding-block-start: 8px;
+}
+
+.product-card__price {
+  font-size: 1.15rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.product-card__price s {
+  margin-inline-start: 8px;
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+  font-weight: 400;
+}
+
+.product-card__add {
+  min-height: 44px;
+  padding-inline: 18px;
+  font-size: var(--fs-sm);
+}
+
+/* On light sections the card inverts: dark text, dark button. */
+.section--paper .product-card__meta {
+  color: #7a5a1e;
+}
+
+.section--paper .product-card__meta span:last-child,
+.section--paper .product-card__notes,
+.section--paper .product-card__price s {
+  color: var(--c-on-paper-muted);
+}
+
+.section--paper .product-card__add {
+  border-color: var(--c-on-paper);
+  background: var(--c-on-paper);
+  color: var(--c-text);
+}
+
+.section--paper .product-card__add:hover {
+  background: transparent;
+  color: var(--c-on-paper);
+}
+
+.section--paper .product-card__name a:hover {
+  color: #7a5a1e;
+}
+
+/* ---------- Rail ---------- */
+
+.product-rail__list {
+  display: grid;
+  gap: clamp(12px, 2vw, 22px);
+}
+
+.product-rail[data-layout='grid'] .product-rail__list {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
+}
+
+.product-rail[data-layout='carousel'] .product-rail__list {
+  grid-auto-flow: column;
+  grid-auto-columns: min(78vw, 280px);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  padding-block-end: 12px;
+}
+
+.product-rail[data-layout='carousel'] li {
+  scroll-snap-align: start;
+}
+
+.product-rail__controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-block-start: 12px;
+}
+
+/* Two cards per row on phones keeps cards readable down to 320px. */
+@media (max-width: 520px) {
+  .product-rail[data-layout='grid'] .product-rail__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .product-card {
+    padding: 8px;
+    border-radius: var(--radius-md);
+  }
+
+  .product-card__name {
+    font-size: 1.15rem;
+  }
+
+  .product-card__notes {
+    display: none;
+  }
+
+  .product-card__add {
+    flex: 1 1 100%;
+  }
+}

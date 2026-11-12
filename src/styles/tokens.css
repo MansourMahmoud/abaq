@@ -1,0 +1,76 @@
+/*
+ * Design tokens.
+ *
+ * Every colour, radius and type size used by the storefront is declared here.
+ * The palette block is the only part the merchant's colour settings touch:
+ * `applyPalette()` in `settings/palette.ts` rewrites these custom properties
+ * at runtime, so components must never hard-code a colour.
+ */
+
+:root {
+  /* Palette (default "Abaq gold on oud") */
+  --c-bg: #15110e;
+  --c-surface: #1e1915;
+  --c-raise: #262019;
+  --c-line: #3a3129;
+  --c-accent: #d4af72;
+  --c-on-accent: #15110e;
+  --c-text: #f4ede3;
+  --c-text-soft: #cdbfaa;
+  --c-text-muted: #b8ab98;
+  --c-success: #5fd08a;
+  --c-paper: #f1e9dc;
+  --c-paper-raise: #fbf7f0;
+  --c-on-paper: #1e1915;
+  --c-on-paper-muted: #5e5144;
+
+  /* Typography */
+  --font-display: 'Amiri', 'Cormorant Garamond', serif;
+  --font-body: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
+  --fs-scale: 1; /* merchant "font size" setting multiplies every step */
+  --fs-xs: calc(0.75rem * var(--fs-scale));
+  --fs-sm: calc(0.875rem * var(--fs-scale));
+  --fs-md: calc(1rem * var(--fs-scale));
+  --fs-lg: calc(1.125rem * var(--fs-scale));
+  --fs-xl: calc(1.5rem * var(--fs-scale));
+  --fs-2xl: calc(clamp(1.75rem, 1.2rem + 2vw, 2.75rem) * var(--fs-scale));
+  --fs-hero: calc(clamp(2.5rem, 1.4rem + 5.2vw, 5.25rem) * var(--fs-scale));
+
+  /*
+   * Arabic display type carries tashkeel above and below the line, so display
+   * headings need a taller line box than Latin ones or the marks get clipped.
+   */
+  --lh-display: 1.45;
+  --lh-body: 1.7;
+
+  /* Shape and rhythm */
+  --radius-sm: 12px;
+  --radius-md: 18px;
+  --radius-lg: 28px;
+  --radius-pill: 999px;
+  --gutter: clamp(16px, 3vw, 40px);
+  --container: 1360px;
+  --section-gap: clamp(48px, 6vw, 88px);
+
+  /* Motion: one duration and easing so hover states feel like one system */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --t-fast: 160ms;
+  --t-med: 320ms;
+  --t-slow: 700ms;
+
+  --header-h: 84px;
+}
+
+html[lang='en'] {
+  --font-display: 'Cormorant Garamond', 'Amiri', serif;
+  --font-body: 'Inter', 'IBM Plex Sans Arabic', system-ui, sans-serif;
+  --lh-display: 1.15;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-fast: 0ms;
+    --t-med: 0ms;
+    --t-slow: 0ms;
+  }
+}
