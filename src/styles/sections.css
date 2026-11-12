@@ -1,0 +1,263 @@
+/* Home sections: bestsellers feature, offer countdown, FAQ, journal teaser. */
+
+/* ---------- Bestsellers with editorial banner ---------- */
+
+.feature-layout {
+  display: grid;
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.feature-layout__products {
+  min-width: 0;
+}
+
+.feature-banner {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-lg);
+  color: var(--c-text);
+}
+
+.feature-banner > img {
+  position: absolute;
+  inset: 0;
+}
+
+.feature-banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(21 17 14 / 0.92), rgb(21 17 14 / 0.1) 75%);
+}
+
+.feature-banner__text {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 8px;
+  justify-items: start;
+  padding: clamp(20px, 2.5vw, 30px);
+}
+
+.feature-banner__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.4rem);
+  font-weight: 700;
+  line-height: var(--lh-display);
+}
+
+.feature-banner .button {
+  margin-block-start: 8px;
+}
+
+.feature-banner:hover .button {
+  background: transparent;
+  color: var(--c-accent);
+}
+
+@media (min-width: 1000px) {
+  .feature-layout {
+    grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .feature-banner {
+    aspect-ratio: auto;
+  }
+
+  /* Beside the banner the product area is narrower: three whole cards. */
+  .feature-layout .carousel[data-variant='products'] {
+    --carousel-item: calc((100% - 2 * var(--carousel-gap)) / 3);
+  }
+}
+
+/* ---------- Offer countdown ---------- */
+
+.offer {
+  background: #2a1a12;
+}
+
+.offer__layout {
+  display: grid;
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .offer__layout {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
+  }
+}
+
+.offer__intro {
+  display: grid;
+  gap: 16px;
+}
+
+.countdown {
+  display: flex;
+  gap: 10px;
+}
+
+.countdown > div {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  flex: 1;
+  max-width: 84px;
+  aspect-ratio: 1 / 1.1;
+  border: 1px solid #5a4630;
+  border-radius: var(--radius-md);
+  background: var(--c-bg);
+  line-height: 1.3;
+}
+
+.countdown strong {
+  color: var(--c-accent);
+  font-size: clamp(1.4rem, 1rem + 1.4vw, 1.9rem);
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown span {
+  color: var(--c-text-soft);
+  font-size: var(--fs-xs);
+}
+
+.offer__deals {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+  gap: 16px;
+}
+
+.deal {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--radius-lg);
+  background: var(--c-bg);
+  transition: transform var(--t-med) var(--ease);
+}
+
+.deal:hover {
+  transform: translateY(-4px);
+}
+
+.deal__media {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: var(--radius-md);
+}
+
+.deal__name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: var(--lh-display);
+}
+
+.deal__sold {
+  color: var(--c-text-muted);
+  font-size: var(--fs-xs);
+}
+
+/* ---------- FAQ and help ---------- */
+
+.faq-layout {
+  display: grid;
+  gap: clamp(20px, 3vw, 32px);
+}
+
+@media (min-width: 900px) {
+  .faq-layout {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.faq-layout__title {
+  margin-block-end: 20px;
+}
+
+.faq {
+  margin-block-end: 12px;
+  padding: 18px 22px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-md);
+  transition: border-color var(--t-fast) var(--ease);
+}
+
+.faq[open],
+.faq:hover {
+  border-color: var(--c-accent);
+}
+
+.faq summary {
+  cursor: pointer;
+  font-size: var(--fs-lg);
+  font-weight: 600;
+}
+
+.faq p {
+  margin-block-start: 10px;
+  color: var(--c-text-soft);
+}
+
+.help-card {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  padding: clamp(24px, 3vw, 36px);
+  border-radius: var(--radius-lg);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+
+.help-card .button {
+  border-color: var(--c-on-accent);
+  background: var(--c-on-accent);
+  color: var(--c-text);
+}
+
+.help-card .button:hover {
+  background: transparent;
+  color: var(--c-on-accent);
+}
+
+/* ---------- Journal cards ---------- */
+
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(16px, 2vw, 24px);
+}
+
+.post-card {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+}
+
+.post-card__media {
+  aspect-ratio: 16 / 10;
+  margin-block-end: 6px;
+  border-radius: var(--radius-lg);
+}
+
+.post-card__title {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: var(--lh-display);
+  transition: color var(--t-fast) var(--ease);
+}
+
+.post-card:hover .post-card__title {
+  color: var(--c-accent);
+}
+
+.post-card__meta {
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+}

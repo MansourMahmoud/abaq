@@ -162,57 +162,34 @@
   color: #7a5a1e;
 }
 
-/* ---------- Rail ---------- */
+/* ---------- Grid ---------- */
 
-.product-rail__list {
+.product-grid {
   display: grid;
-  gap: clamp(12px, 2vw, 22px);
-}
-
-.product-rail[data-layout='grid'] .product-rail__list {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr));
-}
-
-.product-rail[data-layout='carousel'] .product-rail__list {
-  grid-auto-flow: column;
-  grid-auto-columns: min(78vw, 280px);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  padding-block-end: 12px;
-}
-
-.product-rail[data-layout='carousel'] li {
-  scroll-snap-align: start;
-}
-
-.product-rail__controls {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-block-start: 12px;
+  gap: clamp(12px, 2vw, 22px);
 }
 
 /* Two cards per row on phones keeps cards readable down to 320px. */
 @media (max-width: 520px) {
-  .product-rail[data-layout='grid'] .product-rail__list {
+  .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .product-card {
+  .product-grid .product-card {
     padding: 8px;
     border-radius: var(--radius-md);
   }
 
-  .product-card__name {
+  .product-grid .product-card__name {
     font-size: 1.15rem;
   }
 
-  .product-card__notes {
+  .product-grid .product-card__notes {
     display: none;
   }
 
-  .product-card__add {
+  .product-grid .product-card__add {
     flex: 1 1 100%;
   }
 }

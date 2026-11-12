@@ -34,7 +34,7 @@ export function CategoryPage() {
         <div className="banner category-hero__banner">
           <Picture photo={banner?.photo ?? category.photo} alt="" sizes="100vw" priority />
           <div className="banner__text">
-            <nav className="breadcrumb" aria-label="Breadcrumb">
+            <nav className="breadcrumb" aria-label={t('nav.breadcrumb')}>
               <Link to="/">{t('nav.home')}</Link>
               {path.map((entry, index) =>
                 index === path.length - 1 ? (
@@ -74,10 +74,10 @@ export function CategoryPage() {
         <div className="listing-bar">
           <p className="text-muted">{t('category.count', { count: items.length.toLocaleString() })}</p>
           <div className="listing-bar__layout">
-            <button className="icon-button" type="button" aria-pressed={layout === 'grid'} aria-label="Grid" onClick={() => setLayout('grid')}>
+            <button className="icon-button" type="button" aria-pressed={layout === 'grid'} aria-label={t('category.grid')} onClick={() => setLayout('grid')}>
               <LuLayoutGrid aria-hidden />
             </button>
-            <button className="icon-button" type="button" aria-pressed={layout === 'carousel'} aria-label="Carousel" onClick={() => setLayout('carousel')}>
+            <button className="icon-button" type="button" aria-pressed={layout === 'carousel'} aria-label={t('category.carousel')} onClick={() => setLayout('carousel')}>
               <LuGalleryHorizontal aria-hidden />
             </button>
           </div>

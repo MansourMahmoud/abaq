@@ -1,0 +1,636 @@
+/* Reusable pieces: logo, carousel, preloader, dialog, badges, reviews, forms. */
+
+/* ---------- Logo ---------- */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--c-accent);
+}
+
+.logo__mark {
+  width: 40px;
+  height: 40px;
+  flex: none;
+}
+
+.logo__word {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* ---------- Buttons and links ---------- */
+
+.button--outline {
+  background: transparent;
+  color: var(--c-accent);
+}
+
+.button--outline:hover {
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+
+.icon-button:disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.link {
+  border-block-end: 1px solid currentColor;
+  color: var(--c-accent);
+  transition: opacity var(--t-fast) var(--ease);
+}
+
+.link:hover {
+  opacity: 0.75;
+}
+
+/* ---------- Carousel ---------- */
+
+.carousel {
+  --carousel-gap: clamp(12px, 1.6vw, 20px);
+  min-width: 0;
+}
+
+.carousel__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: var(--carousel-item);
+  gap: var(--carousel-gap);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel[data-indicator='bar'] .carousel__track {
+  padding-block-end: 12px;
+  scrollbar-width: thin;
+}
+
+.carousel[data-indicator='bar'] .carousel__track::-webkit-scrollbar {
+  display: block;
+  height: 4px;
+}
+
+.carousel[data-indicator='bar'] .carousel__track::-webkit-scrollbar-thumb {
+  border-radius: 2px;
+  background: var(--c-accent);
+}
+
+.carousel__track > li {
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+/*
+ * Item widths. Each step leaves a fraction of the next item visible, which is
+ * the cue that the row scrolls; from the widest step the row shows whole items.
+ */
+.carousel[data-variant='products'] { --carousel-item: 78%; }
+.carousel[data-variant='categories'] { --carousel-item: 42%; }
+.carousel[data-variant='reels'] { --carousel-item: 64%; }
+.carousel[data-variant='cards'] { --carousel-item: 86%; }
+
+@media (min-width: 560px) {
+  .carousel[data-variant='products'] { --carousel-item: 44%; }
+  .carousel[data-variant='categories'] { --carousel-item: 29%; }
+  .carousel[data-variant='reels'] { --carousel-item: 38%; }
+  .carousel[data-variant='cards'] { --carousel-item: 58%; }
+}
+
+@media (min-width: 900px) {
+  .carousel[data-variant='products'] { --carousel-item: 30.5%; }
+  .carousel[data-variant='categories'] { --carousel-item: 21%; }
+  .carousel[data-variant='reels'] { --carousel-item: 27%; }
+  .carousel[data-variant='cards'] { --carousel-item: 40%; }
+}
+
+@media (min-width: 1200px) {
+  .carousel[data-variant='products'] { --carousel-item: calc((100% - 3 * var(--carousel-gap)) / 4); }
+  .carousel[data-variant='categories'] { --carousel-item: calc((100% - 4 * var(--carousel-gap)) / 5.3); }
+  .carousel[data-variant='reels'] { --carousel-item: calc((100% - 3 * var(--carousel-gap)) / 4); }
+  .carousel[data-variant='cards'] { --carousel-item: calc((100% - 2 * var(--carousel-gap)) / 3); }
+}
+
+.carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-block-start: 20px;
+}
+
+.carousel__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.carousel__dots button {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--c-line);
+  transition:
+    width var(--t-med) var(--ease),
+    background-color var(--t-med) var(--ease);
+}
+
+/* Enlarges the hit area to 24px without changing the dot's look. */
+.carousel__dots button::after {
+  content: '';
+  position: absolute;
+  inset: -8px;
+}
+
+.carousel__dots button:hover {
+  background: var(--c-text-muted);
+}
+
+.carousel__dots button[aria-current='true'] {
+  width: 28px;
+  background: var(--c-accent);
+}
+
+.section--paper .carousel__dots button {
+  background: #cdbfa8;
+}
+
+.section--paper .carousel__dots button[aria-current='true'] {
+  background: var(--c-on-paper);
+}
+
+.section--paper .carousel__controls .icon-button {
+  border-color: #cdbfa8;
+  color: var(--c-on-paper);
+}
+
+.section--paper .carousel__controls .icon-button:hover {
+  border-color: var(--c-on-paper);
+  background: var(--c-on-paper);
+  color: var(--c-text);
+}
+
+/* ---------- Preloader ---------- */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  transition: opacity 500ms var(--ease);
+}
+
+.preloader[data-background='blur'] {
+  background: rgb(21 17 14 / 0.55);
+  backdrop-filter: blur(22px) saturate(1.2);
+}
+
+.preloader[data-background='solid'] {
+  background: var(--c-bg);
+}
+
+.preloader[data-leaving='true'] {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.preloader__badge {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
+  background: rgb(21 17 14 / 0.7);
+  color: var(--c-accent);
+}
+
+/* A ring that expands and fades behind the mark, like scent diffusing. */
+.preloader__badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--c-accent);
+  border-radius: 50%;
+  animation: preloader-ring 1.3s var(--ease) infinite;
+}
+
+.preloader__mark {
+  width: 72px;
+  height: 72px;
+}
+
+/* Each stroke draws itself; `pathLength="1"` on the paths makes 1 the full length. */
+.preloader__mark > * {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: preloader-draw 1s var(--ease) forwards;
+}
+
+.preloader__mark > :nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.preloader__mark > :nth-child(3) {
+  animation-delay: 0.35s;
+}
+
+@keyframes preloader-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes preloader-ring {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader__badge::before {
+    animation: none;
+    opacity: 0;
+  }
+
+  .preloader__mark > * {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------- Dialog ---------- */
+
+.dialog {
+  width: min(92vw, 460px);
+  max-height: 90vh;
+  padding: 0;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-lg);
+  background: var(--c-surface);
+  color: var(--c-text);
+}
+
+.dialog::backdrop {
+  background: rgb(15 12 10 / 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.dialog[open] {
+  animation: dialog-in var(--t-med) var(--ease);
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.dialog__body {
+  display: grid;
+  gap: 20px;
+  padding: 24px;
+}
+
+.dialog__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dialog__head h2 {
+  font-size: 1.6rem;
+}
+
+.choice-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.choice-list legend {
+  margin-block-end: 8px;
+  padding: 0;
+  color: var(--c-accent);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.choice-list label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding-inline: 14px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    border-color var(--t-fast) var(--ease),
+    background-color var(--t-fast) var(--ease);
+}
+
+.choice-list label:hover,
+.choice-list label:has(input:checked) {
+  border-color: var(--c-accent);
+  background: var(--c-raise);
+}
+
+.choice-list input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--c-accent);
+}
+
+.choice-list__hint {
+  margin-inline-start: auto;
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+}
+
+/* ---------- Payment badges ---------- */
+
+.payments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.payments li {
+  display: grid;
+  place-items: center;
+  min-width: 52px;
+  height: 32px;
+  padding-inline: 8px;
+  border-radius: 6px;
+  background: var(--c-text);
+  color: #15110e;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.payments svg {
+  font-size: 1.6rem;
+}
+
+/* ---------- Floating actions ---------- */
+
+.floating-actions {
+  position: fixed;
+  inset-block-end: 20px;
+  inset-inline-end: 20px;
+  z-index: 15;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.floating-actions__top {
+  background: var(--c-surface);
+}
+
+.floating-actions__whatsapp {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  font-size: 1.7rem;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+  transition: transform var(--t-fast) var(--ease);
+}
+
+.floating-actions__whatsapp:hover {
+  transform: scale(1.08);
+}
+
+/* ---------- Flags, progress, stars ---------- */
+
+.flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-sm);
+}
+
+.flag--accent {
+  border-color: var(--c-accent);
+  color: var(--c-accent);
+  font-weight: 600;
+}
+
+.flag--solid {
+  justify-self: start;
+  border-color: var(--c-accent);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+  font-weight: 600;
+}
+
+.flag--brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+.progress {
+  display: block;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: var(--c-line);
+}
+
+.progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--c-accent);
+}
+
+.stars {
+  display: inline-flex;
+  gap: 2px;
+  color: var(--c-line);
+}
+
+.stars [data-filled='true'] {
+  color: var(--c-accent);
+  fill: currentColor;
+}
+
+/* ---------- Reviews ---------- */
+
+.review {
+  display: grid;
+  gap: 14px;
+  height: 100%;
+  align-content: start;
+  padding: clamp(18px, 2.5vw, 26px);
+  border-radius: var(--radius-lg);
+  background: var(--c-surface);
+}
+
+.review blockquote {
+  font-size: var(--fs-lg);
+  line-height: 1.8;
+}
+
+.review figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding-block-start: 14px;
+  border-block-start: 1px solid var(--c-line);
+}
+
+.review__avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--c-accent);
+  border-radius: 50%;
+  background: var(--c-raise);
+  color: var(--c-accent);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.review__who {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.5;
+}
+
+.review__who span {
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+}
+
+.review__verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border: 1px solid var(--c-accent);
+  border-radius: var(--radius-pill);
+  color: var(--c-accent);
+  font-size: var(--fs-xs);
+}
+
+/* ---------- Quantity stepper ---------- */
+
+.quantity {
+  display: inline-flex;
+  align-items: center;
+  height: 52px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-pill);
+}
+
+.quantity button {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 100%;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: none;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.quantity button:hover:not(:disabled) {
+  color: var(--c-accent);
+}
+
+.quantity button:disabled {
+  opacity: 0.35;
+}
+
+.quantity output {
+  min-width: 28px;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Long-form text ---------- */
+
+.prose {
+  display: grid;
+  gap: 20px;
+  max-width: 720px;
+  color: var(--c-text-soft);
+  font-size: var(--fs-lg);
+  line-height: 2;
+}
+
+.prose h1 {
+  color: var(--c-text);
+  font-size: clamp(2rem, 1.2rem + 3vw, 3.6rem);
+}
+
+.prose h2 {
+  color: var(--c-text);
+  font-size: 2rem;
+}
+
+.prose__block {
+  display: grid;
+  gap: 14px;
+}
+
+.prose__lead {
+  color: var(--c-text);
+  font-size: 1.3rem;
+}
+
+.prose blockquote {
+  padding: 24px 28px;
+  border-radius: var(--radius-md);
+  background: var(--c-surface);
+  color: var(--c-accent);
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  line-height: 1.7;
+}
+
+.prose ul {
+  display: grid;
+  gap: 6px;
+  padding-inline-start: 22px;
+  list-style: disc;
+}

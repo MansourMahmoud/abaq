@@ -11,6 +11,8 @@ export interface Category {
   id: string;
   slug: string;
   name: Localized;
+  /** Short line shown under the name on category cards. */
+  tagline?: Localized;
   description?: Localized;
   photo: PhotoKey;
   /** Hero banner shown at the top of the category page and in the drawer. */
@@ -41,6 +43,7 @@ export const categories: Category[] = [
     id: 'men',
     slug: 'men',
     name: l('عطور رجالية', 'For him'),
+    tagline: l('خشبي · شرقي · منعش', 'Woody · oriental · fresh'),
     description: l('عطور خشبية وشرقية ومنعشة للاستخدام اليومي والمناسبات.', 'Woody, oriental and fresh scents for every day and for occasions.'),
     photo: 'monoBottle',
     banner: { title: l('حضور يسبقك', 'Arrive before you do'), photo: 'bottlesRow' },
@@ -54,6 +57,7 @@ export const categories: Category[] = [
     id: 'women',
     slug: 'women',
     name: l('عطور نسائية', 'For her'),
+    tagline: l('زهري · عنبري', 'Floral · amber'),
     description: l('زهرية وعنبرية وفاكهية، من الخفيف إلى الفاخر.', 'Floral, amber and fruity, from light to opulent.'),
     photo: 'daisyShadows',
     banner: { title: l('أنوثة تبقى في الذاكرة', 'Femininity that lingers'), photo: 'pinkBottle' },
@@ -66,6 +70,7 @@ export const categories: Category[] = [
     id: 'oud',
     slug: 'oud',
     name: l('دهن العود', 'Oud oil'),
+    tagline: l('هندي · كمبودي · مخلطات', 'Indian · Cambodian · blends'),
     description: l('دهن عود طبيعي بدرجات تعتيق مختلفة، بالتولة ونصف التولة وربعها.', 'Natural oud oil in several ages, sold by the tola, half and quarter.'),
     photo: 'oudOil',
     banner: { title: l('وصل حديثاً من كمبوديا', 'Just in from Cambodia'), photo: 'handsHolding' },
@@ -88,6 +93,7 @@ export const categories: Category[] = [
     id: 'bakhoor',
     slug: 'bakhoor',
     name: l('البخور', 'Bakhoor'),
+    tagline: l('معمول ودقة ومباخر', 'Maamoul and burners'),
     description: l('معمول ودقة وعود مروكي، ومباخر للبيت والسفر.', 'Maamoul, dukhoon and incense burners for home and travel.'),
     photo: 'burnerCarpet',
     banner: { title: l('رائحة المجالس', 'The scent of the majlis'), photo: 'burnerMajlis' },
@@ -96,6 +102,7 @@ export const categories: Category[] = [
     id: 'gifts',
     slug: 'gifts',
     name: l('أطقم الهدايا', 'Gift sets'),
+    tagline: l('جاهزة بالتغليف', 'Wrapped and ready'),
     description: l('أطقم جاهزة بتغليف وبطاقة إهداء.', 'Ready-made sets, wrapped with a gift card.'),
     photo: 'amberTrio',
     banner: { title: l('هدية جاهزة باسم من تحب', 'A gift, ready with their name on it'), photo: 'bottlesRow' },
@@ -104,6 +111,7 @@ export const categories: Category[] = [
     id: 'samples',
     slug: 'samples',
     name: l('العيّنات', 'Samples'),
+    tagline: l('جرّب قبل الشراء', 'Try before you buy'),
     description: l('جرّب قبل أن تشتري الزجاجة الكاملة.', 'Try before you buy the full bottle.'),
     photo: 'rollOns',
   },
@@ -166,6 +174,66 @@ export const products: Product[] = [
     photos: ['rollOns', 'bottlesRow'], categoryIds: ['samples', 'gifts'],
   },
 ];
+
+export interface ProductDetails {
+  description: Localized;
+  /** Fragrance pyramid; only perfumes have one. */
+  pyramid?: { top: Localized; heart: Localized; base: Localized };
+  /** 1–5 scale. */
+  longevity?: number;
+  sillage?: number;
+  stock: number;
+}
+
+const DEFAULT_DETAILS: ProductDetails = {
+  description: l('منتج مختار بعناية من مجموعة عبق، يصلك بتغليف يحفظه ومعه عيّنة مجانية.', 'A carefully chosen piece from the Abaq collection, packed safely and shipped with a free sample.'),
+  stock: 12,
+};
+
+const DETAILS: Record<string, ProductDetails> = {
+  p1: {
+    description: l('افتتاحية زعفران مشرقة تهدأ على قلب من الورد الطائفي، وتستقر على قاعدة عود كمبودي دافئة تبقى معك حتى المساء.', 'A bright saffron opening settles into a heart of Taif rose and rests on a warm Cambodian oud base that stays until evening.'),
+    pyramid: { top: l('زعفران · برغموت', 'Saffron · bergamot'), heart: l('ورد طائفي · ياسمين', 'Taif rose · jasmine'), base: l('عود كمبودي · عنبر · صندل', 'Cambodian oud · amber · sandalwood') },
+    longevity: 4, sillage: 4, stock: 6,
+  },
+  p2: {
+    description: l('عطر نهاري نظيف: برغموت منعش فوق مسك أبيض ناعم، يناسب الدوام والأيام الحارة.', 'A clean daytime scent: fresh bergamot over soft white musk, made for work and warm days.'),
+    pyramid: { top: l('برغموت · ليمون', 'Bergamot · lemon'), heart: l('زهر البرتقال', 'Orange blossom'), base: l('مسك أبيض · أرز', 'White musk · cedar') },
+    longevity: 3, sillage: 2, stock: 18,
+  },
+  p3: {
+    description: l('عنبر دافئ مع فانيلا وباتشولي، عطر مسائي عميق يناسب الشتاء والمناسبات.', 'Warm amber with vanilla and patchouli: a deep evening scent for winter and occasions.'),
+    pyramid: { top: l('هيل · فلفل وردي', 'Cardamom · pink pepper'), heart: l('عنبر · لبان', 'Amber · frankincense'), base: l('فانيلا · باتشولي', 'Vanilla · patchouli') },
+    longevity: 5, sillage: 4, stock: 9,
+  },
+  p4: {
+    description: l('ورد طائفي في ذروة موسمه، مع لمسة فلفل وردي وقاعدة صندل كريمية.', 'Taif rose at the peak of its season, with a touch of pink pepper and a creamy sandalwood base.'),
+    pyramid: { top: l('فلفل وردي · ليتشي', 'Pink pepper · lychee'), heart: l('ورد طائفي · فاوانيا', 'Taif rose · peony'), base: l('صندل · مسك', 'Sandalwood · musk') },
+    longevity: 4, sillage: 3, stock: 14,
+  },
+};
+
+export function productDetails(productId: string): ProductDetails {
+  return DETAILS[productId] ?? DEFAULT_DETAILS;
+}
+
+/** Perfumes are sold in several concentrations and sizes; oils, bakhoor and sets are not. */
+export function hasVariants(product: Product): boolean {
+  return Boolean(DETAILS[product.id]?.pyramid);
+}
+
+export function findProduct(slug: string): Product | undefined {
+  return products.find((product) => product.slug === slug);
+}
+
+/** Other products sharing a category with `product`, most shared first. */
+export function relatedProducts(product: Product, limit = 8): Product[] {
+  const shared = (other: Product) => other.categoryIds.filter((id) => product.categoryIds.includes(id)).length;
+  return products
+    .filter((other) => other.id !== product.id)
+    .sort((a, b) => shared(b) - shared(a))
+    .slice(0, limit);
+}
 
 /** Depth-first search for a category by slug, returning it with its ancestors. */
 export function findCategoryPath(slug: string, tree: Category[] = categories, trail: Category[] = []): Category[] | null {

@@ -29,6 +29,18 @@ export interface ThemeSettings {
     hover: 'zoom' | 'lift' | 'none';
     imageRatio: '1/1' | '4/5' | '3/4';
   };
+  preloader: {
+    enabled: boolean;
+    /** blur: frosted view of the page behind · solid: the store background colour */
+    background: 'blur' | 'solid';
+  };
+  home: {
+    /** How the category and product sections lay out their items. */
+    categoriesLayout: 'carousel' | 'grid';
+    productsLayout: 'carousel' | 'grid';
+    /** dots: one dot per page under the carousel · bar: a thin scrollbar */
+    carouselIndicator: 'dots' | 'bar';
+  };
   footer: {
     showSocial: boolean;
     showPayments: boolean;
@@ -41,6 +53,8 @@ export const defaultSettings: ThemeSettings = {
   header: { variant: 'overlay', sticky: true, logoPosition: 'start', showActionLabels: false },
   announcement: { enabled: true, mode: 'marquee', dismissible: true, stickWithHeader: false },
   productCard: { hover: 'zoom', imageRatio: '4/5' },
+  preloader: { enabled: true, background: 'blur' },
+  home: { categoriesLayout: 'carousel', productsLayout: 'carousel', carouselIndicator: 'dots' },
   footer: { showSocial: true, showPayments: true, showCompliance: true, contactStyle: 'icons' },
 };
 

@@ -7,6 +7,8 @@ import { useI18n } from '../../i18n/I18nProvider';
 import { useCart } from '../../lib/cart';
 
 const showcaseClips = clips.filter((clip) => clip.orientation === 'landscape');
+// Portrait clips are offered here too, letter-boxed, so the playlist shows how a longer list behaves.
+const playlist = [...showcaseClips, ...clips.filter((clip) => clip.orientation === 'portrait').slice(0, 2)];
 
 /**
  * "Watch, then shop": a player with a small playlist, and beside it the
@@ -20,7 +22,7 @@ export function VideoShowcase() {
   const [playing, setPlaying] = useState(false);
   const video = useRef<HTMLVideoElement>(null);
 
-  const clip = showcaseClips[index];
+  const clip = playlist[index];
   const product = products.find((entry) => entry.id === clip.productId)!;
 
   const select = (next: number) => {
@@ -37,7 +39,7 @@ export function VideoShowcase() {
     <section className="section section--flush-top">
       <div className="container video-showcase">
         <div className="video-showcase__stage">
-          <div className="video-showcase__player">
+          <div className="video-showcase__player" data-orientation={clip.orientation}>
             {/* `key` remounts the element so the new clip starts from its poster. */}
             <video
               key={clip.file}
@@ -59,7 +61,7 @@ export function VideoShowcase() {
             )}
           </div>
           <ul className="video-showcase__playlist">
-            {showcaseClips.map((entry, entryIndex) => (
+            {playlist.map((entry, entryIndex) => (
               <li key={entry.file}>
                 <button type="button" aria-pressed={entryIndex === index} onClick={() => select(entryIndex)}>
                   <img src={clipPoster(entry)} alt="" loading="lazy" decoding="async" />
@@ -81,7 +83,7 @@ export function VideoShowcase() {
             </Link>
             <p className="product-card__price">{money(product.price)}</p>
           </div>
-          <button className="button" type="button" onClick={() => add(product.id)}>
+          <button className="button" type="button" onClick={() => add(product)}>
             {t('action.addToCart')}
           </button>
         </div>

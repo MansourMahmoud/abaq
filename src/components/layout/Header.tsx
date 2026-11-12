@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { LuHeart, LuMenu, LuSearch, LuShoppingBag, LuUser } from 'react-icons/lu';
+import { LuGlobe, LuHeart, LuMenu, LuSearch, LuShoppingBag, LuUser } from 'react-icons/lu';
 import { categories } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
 import { useThemeSettings } from '../../settings/ThemeSettings';
+import { LocaleDialog } from '../ui/LocaleDialog';
+import { Logo } from '../ui/Logo';
 import { CategoryDrawer } from './CategoryDrawer';
 
 interface HeaderProps {
@@ -19,9 +21,10 @@ interface HeaderProps {
  * variant collapses to the drawer layout, because a category row cannot fit.
  */
 export function Header({ overHero, cartCount }: HeaderProps) {
-  const { t, pick, locale, setLocale } = useI18n();
+  const { t, pick, currency } = useI18n();
   const { header } = useThemeSettings().settings;
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [localeOpen, setLocaleOpen] = useState(false);
 
   const floats = overHero && header.variant !== 'classic';
 
@@ -35,9 +38,12 @@ export function Header({ overHero, cartCount }: HeaderProps) {
       data-labels={header.showActionLabels}
     >
       <div className="header__utility container">
-        <Link to="/branches">{t('nav.branches')}</Link>
-        <button type="button" className="header__language" onClick={() => setLocale(locale === 'ar' ? 'en' : 'ar')}>
-          {t('header.language')}
+        <span className="header__utility-links">
+          <Link to="/branches">{t('nav.branches')}</Link>
+          <Link to="/blog">{t('nav.blog')}</Link>
+        </span>
+        <button type="button" className="header__language" onClick={() => setLocaleOpen(true)}>
+          <LuGlobe aria-hidden /> {t('locale.title')} · {currency}
         </button>
       </div>
 
@@ -48,7 +54,7 @@ export function Header({ overHero, cartCount }: HeaderProps) {
         </button>
 
         <Link className="header__logo" to="/" aria-label={t('nav.home')}>
-          {locale === 'ar' ? 'عبق' : 'Abaq'}
+          <Logo />
         </Link>
 
         <form className="header__search" role="search" onSubmit={(event) => event.preventDefault()}>
@@ -71,6 +77,9 @@ export function Header({ overHero, cartCount }: HeaderProps) {
           <button className="icon-button header__search-toggle" type="button" aria-label={t('action.search')}>
             <LuSearch aria-hidden />
           </button>
+          <button className="icon-button header__action--secondary header__locale" type="button" aria-label={t('locale.title')} onClick={() => setLocaleOpen(true)}>
+            <LuGlobe aria-hidden />
+          </button>
           <button className="icon-button header__action--secondary" type="button" aria-label={t('action.account')}>
             <LuUser aria-hidden />
             <span className="header__label">{t('action.account')}</span>
@@ -87,7 +96,8 @@ export function Header({ overHero, cartCount }: HeaderProps) {
         </div>
       </div>
 
-      <CategoryDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+      <CategoryDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} onLocale={() => setLocaleOpen(true)} />
+      <LocaleDialog open={localeOpen} onClose={() => setLocaleOpen(false)} />
     </header>
   );
 }

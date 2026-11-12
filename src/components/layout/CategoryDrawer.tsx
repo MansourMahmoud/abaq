@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { LuChevronLeft, LuChevronRight, LuX } from 'react-icons/lu';
+import { LuChevronLeft, LuChevronRight, LuGlobe, LuX } from 'react-icons/lu';
 import { categories, type Category } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Picture } from '../ui/Picture';
@@ -8,6 +8,8 @@ import { Picture } from '../ui/Picture';
 interface CategoryDrawerProps {
   open: boolean;
   onClose: () => void;
+  /** Opens the language and currency picker (the only entry point on phones). */
+  onLocale: () => void;
 }
 
 /**
@@ -15,8 +17,8 @@ interface CategoryDrawerProps {
  * with children pushes it onto `trail` and the panel shows that level, with a
  * back button to pop. The current level's banner is shown beside the list.
  */
-export function CategoryDrawer({ open, onClose }: CategoryDrawerProps) {
-  const { pick, t, dir } = useI18n();
+export function CategoryDrawer({ open, onClose, onLocale }: CategoryDrawerProps) {
+  const { pick, t, dir, currency } = useI18n();
   const [trail, setTrail] = useState<Category[]>([]);
   const closeButton = useRef<HTMLButtonElement>(null);
 
@@ -85,6 +87,14 @@ export function CategoryDrawer({ open, onClose }: CategoryDrawerProps) {
               </li>
             ))}
           </ul>
+
+          <div className="drawer__extras">
+            <Link to="/branches" onClick={close}>{t('nav.branches')}</Link>
+            <Link to="/blog" onClick={close}>{t('nav.blog')}</Link>
+            <button type="button" onClick={() => { close(); onLocale(); }}>
+              <LuGlobe aria-hidden /> {t('locale.title')} · {currency}
+            </button>
+          </div>
         </div>
 
         {banner && (

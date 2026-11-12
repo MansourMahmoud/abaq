@@ -4,6 +4,7 @@ import { products } from '../../data/catalog';
 import { clipPoster, clipSrc, clips, type Clip } from '../../data/videos';
 import { useI18n } from '../../i18n/I18nProvider';
 import { useCart } from '../../lib/cart';
+import { Carousel } from '../ui/Carousel';
 
 const reelClips = clips.filter((clip) => clip.orientation === 'portrait');
 
@@ -34,7 +35,7 @@ function Reel({ clip }: { clip: Clip }) {
           <span>{pick(product.name)}</span>
           <span className="reel__price">{money(product.price)}</span>
         </p>
-        <button className="icon-button" type="button" aria-label={`${t('action.addToCart')}: ${pick(product.name)}`} onClick={() => add(product.id)}>
+        <button className="icon-button" type="button" aria-label={`${t('action.addToCart')}: ${pick(product.name)}`} onClick={() => add(product)}>
           <LuPlus aria-hidden />
         </button>
       </div>
@@ -42,7 +43,7 @@ function Reel({ clip }: { clip: Clip }) {
   );
 }
 
-/** Short vertical clips, each tied to a product. Scrolls sideways on phones. */
+/** Short vertical clips, each tied to a product. Any number of clips fits: the row scrolls. */
 export function Reels() {
   const { t } = useI18n();
   return (
@@ -54,13 +55,11 @@ export function Reels() {
             <h2 className="section__title">{t('reels.title')}</h2>
           </div>
         </div>
-        <ul className="reels">
+        <Carousel label={t('reels.title')} variant="reels">
           {reelClips.map((clip) => (
-            <li key={clip.file}>
-              <Reel clip={clip} />
-            </li>
+            <Reel key={clip.file} clip={clip} />
           ))}
-        </ul>
+        </Carousel>
       </div>
     </section>
   );

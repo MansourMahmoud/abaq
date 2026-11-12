@@ -13,7 +13,7 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, sizes = '(min-width: 1024px) 25vw, 50vw' }: ProductCardProps) {
-  const { pick, t, money } = useI18n();
+  const { pick, t, money, number } = useI18n();
   const { productCard } = useThemeSettings().settings;
   const { add } = useCart();
   const name = pick(product.name);
@@ -35,7 +35,7 @@ export function ProductCard({ product, sizes = '(min-width: 1024px) 25vw, 50vw' 
         <p className="product-card__meta">
           <span>{pick(product.family)}</span>
           <span aria-label={`${t('product.rating')} ${product.rating}`}>
-            <LuStar aria-hidden /> {product.rating.toLocaleString()}
+            <LuStar aria-hidden /> {number(product.rating)}
           </span>
         </p>
         <h3 className="product-card__name">
@@ -47,7 +47,7 @@ export function ProductCard({ product, sizes = '(min-width: 1024px) 25vw, 50vw' 
             {money(product.price)}
             {product.compareAt && <s>{money(product.compareAt)}</s>}
           </p>
-          <button className="button product-card__add" type="button" onClick={() => add(product.id)}>
+          <button className="button product-card__add" type="button" onClick={() => add(product)}>
             {t('action.addToCart')}
           </button>
         </div>

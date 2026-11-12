@@ -1,26 +1,48 @@
 /* Page-level blocks: hero, category arches, banners, tabs, chips, listing. */
 
-/* ---------- Hero ---------- */
+/* ---------- Hero slider ---------- */
 
 .hero {
   position: relative;
+  display: grid;
+  /* Sized by content with a floor, never 100vh: the next section stays in view. */
+  min-height: clamp(540px, 80vh, 820px);
+  overflow: hidden;
+  background: var(--c-raise);
+}
+
+/* Slides share one grid cell so the tallest sets the height and they cross-fade. */
+.hero__slide {
+  position: relative;
+  grid-area: 1 / 1;
   display: flex;
   align-items: flex-end;
-  /* Sized by content with a floor, never 100vh: the next section stays in view. */
-  min-height: clamp(520px, 78vh, 800px);
-  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--t-slow) var(--ease),
+    visibility 0s linear var(--t-slow);
 }
 
-.hero__image {
+.hero__slide[data-active='true'] {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.hero__media {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.hero::after {
+.hero__slide::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgb(21 17 14 / 0.92), rgb(21 17 14 / 0.35) 55%, rgb(21 17 14 / 0.55));
+  background: linear-gradient(to top, rgb(21 17 14 / 0.94), rgb(21 17 14 / 0.4) 55%, rgb(21 17 14 / 0.6));
 }
 
 .hero__content {
@@ -31,18 +53,22 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 28px;
-  padding-block: calc(var(--header-h) + 48px) clamp(32px, 6vw, 64px);
+  padding-block: calc(var(--header-h) + 56px) 104px;
 }
 
 .hero__copy {
   display: grid;
-  gap: 18px;
+  gap: 16px;
   justify-items: start;
-  max-width: 640px;
+  max-width: 660px;
 }
 
 .hero__title {
+  font-family: var(--font-display);
   font-size: var(--fs-hero);
+  font-weight: 700;
+  line-height: var(--lh-display);
+  text-wrap: balance;
 }
 
 .hero__lead {
@@ -74,7 +100,7 @@
   display: grid;
   flex: 1;
   min-width: 0;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 .hero__product-text .eyebrow {
@@ -99,9 +125,23 @@
   color: var(--c-accent);
 }
 
+.hero__controls {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 28px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.hero__controls .icon-button {
+  background: rgb(21 17 14 / 0.55);
+}
+
 /* ---------- Category arches ---------- */
 
-.category-arches {
+.category-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(45%, 150px), 1fr));
   gap: clamp(12px, 2vw, 18px);
@@ -109,27 +149,36 @@
 
 .category-arch {
   display: grid;
-  gap: 12px;
+  gap: 4px;
   justify-items: center;
-  font-weight: 600;
   text-align: center;
-  transition: color var(--t-fast) var(--ease);
-}
-
-.category-arch:hover {
-  color: var(--c-accent);
 }
 
 .category-arch__frame {
   width: 100%;
   aspect-ratio: 3 / 4.2;
+  margin-block-end: 8px;
   border: 1px solid var(--c-line);
   border-radius: var(--radius-pill) var(--radius-pill) var(--radius-md) var(--radius-md);
   transition: border-color var(--t-fast) var(--ease);
 }
 
+.category-arch__name {
+  font-weight: 600;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.category-arch__tagline {
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+}
+
 .category-arch:hover .category-arch__frame {
   border-color: var(--c-accent);
+}
+
+.category-arch:hover .category-arch__name {
+  color: var(--c-accent);
 }
 
 /* ---------- Tabs ---------- */
@@ -416,8 +465,21 @@
 
 .video-showcase__playlist {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-auto-flow: column;
+  /* Three and a bit fit, so a fourth clip visibly continues the row. */
+  grid-auto-columns: minmax(130px, 30%);
   gap: 12px;
+  overflow-x: auto;
+  padding-block-end: 8px;
+  scroll-snap-type: x proximity;
+}
+
+.video-showcase__playlist li {
+  scroll-snap-align: start;
+}
+
+.video-showcase__player[data-orientation='portrait'] video {
+  object-fit: contain;
 }
 
 .video-showcase__playlist button {
@@ -484,25 +546,9 @@
 
 /* ---------- Reels ---------- */
 
-.reels {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(min(62vw, 240px), 1fr);
-  gap: clamp(12px, 2vw, 18px);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  padding-block-end: 10px;
-}
-
-.reels > li {
-  scroll-snap-align: start;
-}
-
 .reel {
   position: relative;
   aspect-ratio: 9 / 16;
-  max-height: 560px;
   width: 100%;
   overflow: hidden;
   border-radius: var(--radius-lg);
