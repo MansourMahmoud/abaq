@@ -205,14 +205,61 @@ export const layering = {
 
 /* ---------- Loyalty ---------- */
 
+/**
+ * Loyalty programme, following Salla's loyalty system: customers earn points
+ * for actions the merchant chooses, then exchange them for rewards (a coupon,
+ * free shipping or a free product) on the loyalty page, at checkout or on a
+ * product page. Figures here are sample values; the store's settings supply
+ * the real ones.
+ */
 export const loyalty = {
   eyebrow: l('برنامج الولاء', 'Loyalty programme'),
   title: l('كل طلب يقرّبك من عطرك القادم', 'Every order brings your next scent closer'),
-  steps: [
-    { value: l('١ ر.س = نقطة', 'SAR 1 = 1 point'), text: l('تجمع نقاطاً مع كل طلب تلقائياً.', 'Points add up with every order, automatically.') },
-    { value: l('٢٠٠ نقطة', '200 points'), text: l('هدية ترحيب عند أول طلب.', 'A welcome gift on your first order.') },
-    { value: l('٥٠٠ نقطة = ٢٥ ر.س', '500 points = SAR 25'), text: l('استبدلها خصماً عند إتمام الطلب.', 'Redeem them as a discount at checkout.') },
-    { value: l('ادعُ صديقاً', 'Invite a friend'), text: l('لك وله ٥٠ ر.س على أول طلب له.', 'SAR 50 each on their first order.') },
+  text: l('اجمع النقاط مع كل طلب وتقييم ومشاركة، واستبدلها بكوبونات وشحن مجاني ومنتجات.', 'Collect points with every order, review and share, and exchange them for coupons, free shipping and products.'),
+  /** Sample member shown on the loyalty page. */
+  member: { points: 320, pending: 45, expiry: l('٣١ ديسمبر ٢٠٢٦', '31 December 2026') },
+  /** Ways to earn. `icon` names an entry in the loyalty icon set. */
+  earn: [
+    { icon: 'bag', title: l('أكمل طلباً', 'Complete an order'), text: l('نقطة عن كل ريال تدفعه.', 'One point for every riyal you spend.'), points: l('١ نقطة / ر.س', '1 point / SAR'), action: { label: l('تسوّق الآن', 'Shop now'), to: '/category/all' } },
+    { icon: 'user', title: l('سجّل حساباً', 'Create an account'), text: l('هدية ترحيب تضاف فور التسجيل.', 'A welcome gift, added as soon as you sign up.'), points: l('٥٠ نقطة', '50 points') },
+    { icon: 'profile', title: l('أكمل ملفك الشخصي', 'Complete your profile'), text: l('أضف تاريخ ميلادك ورقم جوالك.', 'Add your birthday and mobile number.'), points: l('٢٥ نقطة', '25 points') },
+    { icon: 'star', title: l('قيّم مشترياتك', 'Review your purchases'), text: l('عن كل تقييم لمنتج اشتريته.', 'For every review of a product you bought.'), points: l('٣٠ نقطة', '30 points'), action: { label: l('قيّم طلباتك', 'Review your orders'), to: '/category/all' } },
+    { icon: 'share', title: l('شارك منتجاً', 'Share a product'), text: l('عند مشاركة منتج على حساباتك.', 'When you share a product on your accounts.'), points: l('١٠ نقاط', '10 points') },
+    { icon: 'friend', title: l('ادعُ صديقاً', 'Invite a friend'), text: l('عند أول طلب يكمله صديقك.', 'When your friend completes a first order.'), points: l('١٠٠ نقطة', '100 points') },
+  ] as { icon: 'bag' | 'user' | 'profile' | 'star' | 'share' | 'friend'; title: Localized; text: Localized; points: Localized; action?: { label: Localized; to: string } }[],
+  /** Rewards to redeem, in the three kinds Salla offers. */
+  rewards: [
+    { kind: 'coupon', title: l('كوبون خصم ٢٥ ر.س', 'SAR 25 coupon'), text: l('على أي طلب فوق ١٥٠ ر.س.', 'On any order over SAR 150.'), cost: 250, photo: 'amberTrio' },
+    { kind: 'shipping', title: l('شحن مجاني', 'Free shipping'), text: l('لطلبك القادم داخل المملكة.', 'On your next order within the Kingdom.'), cost: 300, photo: 'bottlesRow' },
+    { kind: 'coupon', title: l('كوبون خصم ٦٠ ر.س', 'SAR 60 coupon'), text: l('على أي طلب فوق ٣٠٠ ر.س.', 'On any order over SAR 300.'), cost: 500, photo: 'goldBottle' },
+    { kind: 'product', title: l('طقم العيّنات مجاناً', 'Free discovery set'), text: l('خمسة عطور ٢ مل مع طلبك.', 'Five 2 ml scents with your order.'), cost: 600, photo: 'rollOns' },
+    { kind: 'product', title: l('بخور المجالس مجاناً', 'Free Majlis Bakhoor'), text: l('علبة كاملة تضاف لسلتك.', 'A full box, added to your cart.'), cost: 900, photo: 'burnerCarpet' },
+    { kind: 'shipping', title: l('شحن سريع مجاني', 'Free express shipping'), text: l('توصيل في اليوم التالي.', 'Next-day delivery.'), cost: 450, photo: 'spraying' },
+  ] as { kind: 'coupon' | 'shipping' | 'product'; title: Localized; text: Localized; cost: number; photo: PhotoKey }[],
+  /** Recent point movements for the sample member. */
+  history: [
+    { label: l('طلب #١٠٤٨', 'Order #1048'), date: '2026-11-02', points: 285 },
+    { label: l('تقييم «عود ملكي»', 'Review of Royal Oud'), date: '2026-10-28', points: 30 },
+    { label: l('استبدال: كوبون ٢٥ ر.س', 'Redeemed: SAR 25 coupon'), date: '2026-10-11', points: -250 },
+    { label: l('طلب #١٠١٣', 'Order #1013'), date: '2026-09-29', points: 205 },
+    { label: l('هدية التسجيل', 'Welcome gift'), date: '2026-09-12', points: 50 },
   ],
-  action: { label: l('انضم الآن', 'Join now'), to: '/page/about' },
+  terms: [
+    l('النقاط المعلّقة تُعتمد بعد ١٤ يوماً من استلام الطلب.', 'Pending points are confirmed 14 days after delivery.'),
+    l('تنتهي صلاحية النقاط بعد ١٢ شهراً من اكتسابها.', 'Points expire 12 months after they are earned.'),
+    l('يمكن استبدال النقاط من هذه الصفحة أو عند إتمام الطلب.', 'Points can be redeemed here or at checkout.'),
+  ],
 };
+
+/* ---------- Gifting by occasion ---------- */
+
+export const occasions: { name: Localized; hint: Localized; photo: PhotoKey; to: string }[] = [
+  { name: l('عيد', 'Eid'), hint: l('أطقم جاهزة بالتغليف', 'Sets, wrapped and ready'), photo: 'bottlesRow', to: '/category/gifts' },
+  { name: l('زواج', 'Wedding'), hint: l('دهن عود وبخور فاخر', 'Fine oud oil and bakhoor'), photo: 'oudOil', to: '/category/oud' },
+  { name: l('مولود جديد', 'New baby'), hint: l('عطور ناعمة للأم', 'Soft scents for the mother'), photo: 'pinkBottle', to: '/category/women-floral' },
+  { name: l('تخرّج ونجاح', 'Graduation'), hint: l('عطر يومي يبقى ذكرى', 'An everyday scent to remember'), photo: 'monoBottle', to: '/category/men-fresh' },
+  { name: l('شكر وتقدير', 'Thank you'), hint: l('طقم العيّنات بـ ٧٥ ر.س', 'Discovery set for SAR 75'), photo: 'rollOns', to: '/product/discovery-set' },
+];
+
+/** Category each concentration in the guide links to. */
+export const guideShop = ['/category/men-fresh', '/category/women', '/category/men-oriental', '/category/oud'];

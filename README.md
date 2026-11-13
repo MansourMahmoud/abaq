@@ -31,6 +31,7 @@ npm run lint
 | Listing | Filters in the URL (category, price, brand, rating, offers, stock), sorting, infinite loading or a "show more" button, promotional card inside the grid, bottom sheet filters on phones |
 | Product | Gallery with zoom and video, options with live price, discount and savings, notes pyramid, reviews with filters and customer photos, sticky buy bar on phones |
 | Cart | Free-shipping meter, gift option, configurable banner, promotional slots, suggestions |
+| Loyalty | Points balance, ways to earn, rewards to redeem (coupon, free shipping, free product), history |
 | Other | Journal, article, static pages, branches with map, 404, error and loading states |
 
 Arabic (right to left) and English (left to right) are both supported, with

@@ -162,7 +162,14 @@ export const brands: Brand[] = [
   { id: 'nafha', name: l('نفحة', 'Nafha') },
   { id: 'sidra', name: l('سدرة', 'Sidra') },
   { id: 'wateen', name: l('وتين', 'Wateen') },
+  { id: 'rayhan', name: l('ريحان', 'Rayhan') },
+  { id: 'dana', name: l('دانة', 'Dana') },
+  { id: 'mishkat', name: l('مشكاة', 'Mishkat') },
+  { id: 'ghaim', name: l('غيم', 'Ghaim') },
 ];
+
+/** Logo file of a brand, in `public/brand/brands`. */
+export const brandLogo = (brand: Brand) => `/brand/brands/${brand.id}.svg`;
 
 /**
  * Pseudo-category behind the "all products" page. It is not part of the tree,
@@ -234,12 +241,12 @@ export const products: Product[] = [
     photos: ['rollOns', 'bottlesRow'], categoryIds: ['samples', 'gifts'],
   },
   {
-    id: 'p12', brand: 'nafha', slug: 'cedar-leather', name: l('أرز وجلد', 'Cedar & Leather'), family: l('خشبي', 'Woody'),
+    id: 'p12', brand: 'rayhan', slug: 'cedar-leather', name: l('أرز وجلد', 'Cedar & Leather'), family: l('خشبي', 'Woody'),
     notes: l('أرز · جلد · فلفل أسود', 'Cedar · leather · black pepper'), price: 365, rating: 4.6,
     photos: ['monoBottle', 'goldBottle'], categoryIds: ['men', 'men-woody'],
   },
   {
-    id: 'p13', brand: 'nafha', slug: 'sea-breeze', name: l('نسيم البحر', 'Sea Breeze'), family: l('منعش', 'Fresh'),
+    id: 'p13', brand: 'dana', slug: 'sea-breeze', name: l('نسيم البحر', 'Sea Breeze'), family: l('منعش', 'Fresh'),
     notes: l('ليمون · نعناع · ملح البحر', 'Lemon · mint · sea salt'), price: 240, compareAt: 300, rating: 4.4,
     photos: ['blueBottle', 'clearOnFur'], categoryIds: ['men', 'men-fresh'],
   },
@@ -254,7 +261,7 @@ export const products: Product[] = [
     photos: ['goldBottle', 'monoBottle'], categoryIds: ['men', 'men-woody'],
   },
   {
-    id: 'p16', brand: 'sidra', slug: 'white-jasmine', name: l('ياسمين أبيض', 'White Jasmine'), family: l('زهري', 'Floral'),
+    id: 'p16', brand: 'mishkat', slug: 'white-jasmine', name: l('ياسمين أبيض', 'White Jasmine'), family: l('زهري', 'Floral'),
     notes: l('ياسمين · زهر البرتقال', 'Jasmine · orange blossom'), price: 295, rating: 4.7,
     photos: ['clearOnFur', 'daisyShadows'], categoryIds: ['women', 'women-floral', 'women-floral-white'],
   },
@@ -264,7 +271,7 @@ export const products: Product[] = [
     photos: ['pinkBottle', 'amberTrio'], categoryIds: ['women', 'women-amber'],
   },
   {
-    id: 'p18', brand: 'nafha', slug: 'peony-dew', name: l('ندى الفاوانيا', 'Peony Dew'), family: l('زهري', 'Floral'),
+    id: 'p18', brand: 'ghaim', slug: 'peony-dew', name: l('ندى الفاوانيا', 'Peony Dew'), family: l('زهري', 'Floral'),
     notes: l('فاوانيا · كمثرى · مسك', 'Peony · pear · musk'), price: 275, rating: 4.5,
     photos: ['pinkBottle', 'daisyShadows'], categoryIds: ['women', 'women-floral', 'women-floral-white'],
   },
@@ -274,7 +281,7 @@ export const products: Product[] = [
     photos: ['oudOil', 'handsHolding'], categoryIds: ['oud', 'oud-cambodian', 'oud-cambodian-maroki'],
   },
   {
-    id: 'p20', brand: 'wateen', slug: 'sandal-attar', name: l('عطر الصندل', 'Sandal Attar'), family: l('صندل · ورد', 'Sandalwood · rose'),
+    id: 'p20', brand: 'dana', slug: 'sandal-attar', name: l('عطر الصندل', 'Sandal Attar'), family: l('صندل · ورد', 'Sandalwood · rose'),
     notes: l('ربع تولة · نصف تولة', 'Quarter · half tola'), price: 260, compareAt: 310, rating: 4.4,
     photos: ['rollOns', 'blueBottle'], categoryIds: ['oud', 'oud-blends'],
   },
@@ -284,7 +291,7 @@ export const products: Product[] = [
     badge: l('الأكثر مبيعاً', 'Bestseller'), photos: ['burnerMajlis', 'burnerCarpet'], categoryIds: ['bakhoor'],
   },
   {
-    id: 'p22', brand: 'sidra', slug: 'majlis-bakhoor', name: l('بخور المجالس', 'Majlis Bakhoor'), family: l('بخور', 'Bakhoor'),
+    id: 'p22', brand: 'rayhan', slug: 'majlis-bakhoor', name: l('بخور المجالس', 'Majlis Bakhoor'), family: l('بخور', 'Bakhoor'),
     notes: l('عود · ورد · صندل', 'Oud · rose · sandalwood'), price: 120, rating: 4.6,
     photos: ['burnerCarpet', 'souk'], categoryIds: ['bakhoor'],
   },

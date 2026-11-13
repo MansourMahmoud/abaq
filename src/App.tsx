@@ -26,6 +26,7 @@ const BlogPage = lazy(() => import('./pages/BlogPage').then((module) => ({ defau
 const BranchesPage = lazy(() => import('./pages/BranchesPage').then((module) => ({ default: module.BranchesPage })));
 const CartPage = lazy(() => import('./pages/CartPage').then((module) => ({ default: module.CartPage })));
 const CategoryPage = lazy(() => import('./pages/CategoryPage').then((module) => ({ default: module.CategoryPage })));
+const LoyaltyPage = lazy(() => import('./pages/LoyaltyPage').then((module) => ({ default: module.LoyaltyPage })));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then((module) => ({ default: module.NotFoundPage })));
 const ProductPage = lazy(() => import('./pages/ProductPage').then((module) => ({ default: module.ProductPage })));
 const StaticPage = lazy(() => import('./pages/StaticPage').then((module) => ({ default: module.StaticPage })));
@@ -96,6 +97,7 @@ export default function App() {
             <Route path="blog/:slug" element={<ArticlePage />} />
             <Route path="page/:slug" element={<StaticPage />} />
             <Route path="branches" element={<BranchesPage />} />
+            <Route path="loyalty" element={<LoyaltyPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>

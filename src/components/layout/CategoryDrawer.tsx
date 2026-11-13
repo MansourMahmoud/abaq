@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaWhatsapp } from 'react-icons/fa6';
-import { LuArrowLeft, LuArrowRight, LuChevronLeft, LuChevronRight, LuGlobe, LuHeart, LuLayoutGrid, LuMapPin, LuNewspaper, LuPhone, LuSearch, LuShoppingBag, LuUser, LuX } from 'react-icons/lu';
+import { LuArrowLeft, LuArrowRight, LuChevronLeft, LuChevronRight, LuCrown, LuGlobe, LuHeart, LuLayoutGrid, LuMapPin, LuNewspaper, LuPhone, LuSearch, LuShoppingBag, LuUser, LuX } from 'react-icons/lu';
 import type { IconType } from 'react-icons';
 import { ALL_PRODUCTS, categories, productsInCategory, type Category } from '../../data/catalog';
 import { STORE, whatsappUrl } from '../../data/content';
@@ -22,6 +22,7 @@ interface CategoryDrawerProps {
 
 const PAGES: { to: string; label: MessageKey; Icon: IconType }[] = [
   { to: `/category/${ALL_PRODUCTS.slug}`, label: 'nav.allProducts', Icon: LuLayoutGrid },
+  { to: '/loyalty', label: 'loyalty.name', Icon: LuCrown },
   { to: '/branches', label: 'nav.branches', Icon: LuMapPin },
   { to: '/blog', label: 'nav.blog', Icon: LuNewspaper },
 ];

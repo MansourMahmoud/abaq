@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0
+
+- Loyalty programme page (balance, ways to earn, rewards by kind, history, terms) and a home teaser linking to it
+- Brand logos in a self-moving, draggable row
+- Gifting by occasion, recently viewed products
+- Perfume guide links each concentration to its collection and offers the discovery set
+- Header dropdown caps long category lists and points to the rest
+
 ## 0.5.1
 
 - Header dropdown as a column menu with a footer row

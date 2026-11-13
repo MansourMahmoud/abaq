@@ -331,3 +331,52 @@
 .tiktok-tile:hover {
   outline-color: var(--c-accent);
 }
+
+/* ---------- Brand strip ---------- */
+
+/* Logos fade out toward both edges, so the row has no hard start or end. */
+.brand-strip {
+  overflow: hidden;
+  cursor: grab;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.brand-strip:active {
+  cursor: grabbing;
+}
+
+.brand-strip__logo {
+  position: relative;
+  display: block;
+  height: 110px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-md);
+  background: var(--c-surface);
+  user-select: none;
+  transition: border-color var(--t-med) var(--ease);
+}
+
+.brand-strip__logo:hover {
+  border-color: var(--c-accent);
+}
+
+/* Greyed until hovered, so a row of different logos reads as one set. */
+/* Inset box with `contain`: logos of any proportion fit without cropping. */
+.brand-strip__logo img {
+  position: absolute;
+  inset: 18px 24px;
+  width: calc(100% - 48px);
+  height: calc(100% - 36px);
+  max-width: none;
+  object-fit: contain;
+  filter: grayscale(1);
+  opacity: 0.7;
+  transition:
+    filter var(--t-med) var(--ease),
+    opacity var(--t-med) var(--ease);
+}
+
+.brand-strip__logo:hover img {
+  filter: none;
+  opacity: 1;
+}

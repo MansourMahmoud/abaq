@@ -1,4 +1,4 @@
-import { useState, type CSSProperties, type MouseEvent } from 'react';
+import { useEffect, useState, type CSSProperties, type MouseEvent } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { LuBadgeCheck, LuGift, LuHeart, LuMinus, LuPlay, LuPlus, LuRefreshCw, LuTestTubeDiagonal, LuTruck } from 'react-icons/lu';
 import type { IconType } from 'react-icons';
@@ -14,6 +14,7 @@ import { clipPoster, clips } from '../data/videos';
 import { useI18n, type Localized } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/messages';
 import { useCart } from '../lib/cart';
+import { rememberProduct } from '../lib/recentlyViewed';
 import { NotFoundPage } from './NotFoundPage';
 
 /** Price multipliers relative to the catalogue price (eau de parfum, 50 ml). */
@@ -50,6 +51,10 @@ export function ProductPage() {
   const [quantity, setQuantity] = useState(1);
   const [zoom, setZoom] = useState<CSSProperties>({});
   const [tab, setTab] = useState<'description' | 'reviews'>('description');
+
+  useEffect(() => {
+    if (product) rememberProduct(product.id);
+  }, [product]);
 
   if (!product) return <NotFoundPage title={t('product.notFound')} />;
 

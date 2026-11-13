@@ -9,8 +9,10 @@ import { InstagramFeed } from '../components/home/InstagramFeed';
 import { HeroSlider } from '../components/home/HeroSlider';
 import { LayeringSet } from '../components/home/LayeringSet';
 import { LoyaltyBand } from '../components/home/LoyaltyBand';
+import { Occasions } from '../components/home/Occasions';
 import { OfferCountdown } from '../components/home/OfferCountdown';
 import { PerksStrip } from '../components/home/PerksStrip';
+import { RecentlyViewed } from '../components/home/RecentlyViewed';
 import { Reels } from '../components/home/Reels';
 import { PerfumeGuide } from '../components/home/PerfumeGuide';
 import { ScentFinder } from '../components/home/ScentFinder';
@@ -45,6 +47,7 @@ export function HomePage() {
       <OfferCountdown />
       <div className="home-gap" />
       <BudgetPicker />
+      <Occasions />
       <Reels />
 
       <section className="section section--flush-top">
@@ -66,6 +69,7 @@ export function HomePage() {
       <Testimonials />
       <InstagramFeed />
       <TikTokFeed />
+      <RecentlyViewed />
       <LoyaltyBand />
       <FaqHelp />
 

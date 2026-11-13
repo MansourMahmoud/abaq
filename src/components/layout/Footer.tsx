@@ -90,6 +90,7 @@ export function Footer() {
                   <Link to={`/page/${page.slug}`}>{pick(page.title)}</Link>
                 </li>
               ))}
+              <li><Link to="/loyalty">{t('loyalty.name')}</Link></li>
               <li><Link to="/branches">{t('nav.branches')}</Link></li>
               <li><Link to="/blog">{t('nav.blog')}</Link></li>
             </ul>

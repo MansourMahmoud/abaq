@@ -13,16 +13,26 @@ import { Picture } from '../ui/Picture';
  * The panel is a descendant of the navigation item, so hover and keyboard
  * focus keep it open without any script (see `.header__nav-item` styles).
  */
+/*
+ * The panel stays a fixed, readable size however large the tree is: at most
+ * this many sub-categories, each with this many of its children. The rest is
+ * one click away through the "view all" links (the listing page shows every
+ * sub-category in a row that scrolls).
+ */
+const MAX_COLUMNS = 8;
+const MAX_LEAVES = 4;
+
 export function MegaMenu({ category }: { category: Category }) {
   const { t, pick, number, dir } = useI18n();
   const Arrow = dir === 'rtl' ? LuArrowLeft : LuArrowRight;
-  const children = category.children ?? [];
+  const all = category.children ?? [];
+  const children = all.slice(0, MAX_COLUMNS);
 
   return (
     <div className="mega">
       <div className="scope-light mega__panel overflow-hidden rounded-lg border border-line bg-surface shadow-[0_24px_60px_rgb(29_26_23/0.16)]">
         <div className="grid gap-8 p-6 lg:grid-cols-[minmax(0,1fr)_250px]">
-          <ul className="grid content-start gap-x-6 gap-y-6 sm:grid-cols-3">
+          <ul className={`grid content-start gap-x-6 gap-y-6 ${children.length > 6 ? 'sm:grid-cols-4' : 'sm:grid-cols-3'}`}>
             {children.map((child) => (
               <li key={child.id} className="min-w-0">
                 <Link to={`/category/${child.slug}`} className="group/head flex items-center gap-3 border-b border-line pb-3">
@@ -35,7 +45,7 @@ export function MegaMenu({ category }: { category: Category }) {
                   </span>
                 </Link>
                 <ul className="mt-2 grid gap-0.5 text-[0.92rem]">
-                  {(child.children ?? []).map((leaf) => (
+                  {(child.children ?? []).slice(0, MAX_LEAVES).map((leaf) => (
                     <li key={leaf.id}>
                       <Link to={`/category/${leaf.slug}`} className="mega__leaf">
                         {pick(leaf.name)}
@@ -66,7 +76,7 @@ export function MegaMenu({ category }: { category: Category }) {
         <div className="flex items-center justify-between gap-4 border-t border-line bg-raise px-6 py-3 text-sm">
           <span className="text-muted">{category.description ? pick(category.description) : ''}</span>
           <Link to={`/category/${category.slug}`} className="inline-flex shrink-0 items-center gap-2 font-semibold text-accent transition-opacity duration-300 hover:opacity-70">
-            {t('nav.viewAllIn', { name: pick(category.name) })} <Arrow aria-hidden />
+            {all.length > children.length ? t('nav.moreCategories', { count: number(all.length - children.length) }) : t('nav.viewAllIn', { name: pick(category.name) })} <Arrow aria-hidden />
           </Link>
         </div>
       </div>
