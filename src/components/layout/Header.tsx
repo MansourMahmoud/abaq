@@ -104,7 +104,7 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
         </div>
       </div>
 
-      <CategoryDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} onLocale={onLocale} />
+      <CategoryDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} onLocale={onLocale} onSearch={() => setSearchOpen(true)} cartCount={cartCount} />
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );

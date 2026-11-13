@@ -481,125 +481,15 @@
   inset-block: 0;
   inset-inline-start: 0;
   display: flex;
-  gap: 20px;
-  width: min(720px, 100%);
-  padding: 24px;
+  flex-direction: column;
+  gap: 16px;
+  width: min(420px, 100%);
+  padding: 20px;
   overflow-y: auto;
+  overscroll-behavior: contain;
   background: var(--c-bg);
-  border-inline-end: 1px solid var(--c-line);
+  box-shadow: 0 0 60px rgb(15 12 10 / 0.25);
   animation: drawer-in var(--t-med) var(--ease);
-}
-
-.drawer__list {
-  flex: 1;
-  min-width: 0;
-}
-
-.drawer__bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-block-end: 12px;
-}
-
-.drawer__back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  min-height: 44px;
-  border: 0;
-  background: none;
-  color: var(--c-accent);
-}
-
-.drawer__all {
-  display: block;
-  padding-block: 10px;
-  color: var(--c-text-muted);
-  font-size: var(--fs-sm);
-}
-
-.drawer__item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding-block: 12px;
-  border: 0;
-  border-block-end: 1px solid var(--c-raise);
-  background: none;
-  font-family: var(--font-display);
-  font-size: clamp(1.4rem, 1rem + 1.5vw, 1.9rem);
-  font-weight: 700;
-  line-height: var(--lh-display);
-  text-align: start;
-  transition:
-    color var(--t-fast) var(--ease),
-    padding var(--t-fast) var(--ease);
-}
-
-.drawer__item:hover,
-.drawer__all:hover {
-  color: var(--c-accent);
-}
-
-.drawer__item:hover {
-  padding-inline-start: 8px;
-}
-
-.drawer__extras {
-  display: grid;
-  gap: 4px;
-  margin-block-start: 20px;
-  color: var(--c-text-muted);
-  font-size: var(--fs-sm);
-}
-
-.drawer__extras > * {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0;
-  border: 0;
-  background: none;
-  text-align: start;
-  transition: color var(--t-fast) var(--ease);
-}
-
-.drawer__extras > *:hover {
-  color: var(--c-accent);
-}
-
-.drawer__banner {
-  position: relative;
-  display: none;
-  flex: 0 0 260px;
-  border-radius: var(--radius-md);
-}
-
-.drawer__banner::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgb(21 17 14 / 0.9), transparent 60%);
-}
-
-.drawer__banner-text {
-  position: absolute;
-  inset-inline: 18px;
-  inset-block-end: 18px;
-  z-index: 1;
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 700;
-  line-height: var(--lh-display);
-}
-
-@media (min-width: 640px) {
-  .drawer__banner {
-    display: block;
-  }
 }
 
 @keyframes fade-in {

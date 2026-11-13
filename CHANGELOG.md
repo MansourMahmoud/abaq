@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.1
+
+- Category drawer rebuilt: search, account shortcuts, photo rows, landscape banner, pages and contact
+
 ## 0.4.0
 
 - Header slides away on scroll down and returns on scroll up; solid once the page scrolls

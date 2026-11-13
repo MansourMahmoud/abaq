@@ -238,6 +238,7 @@ export const ar = {
   'chat.online': 'متصل الآن',
   'social.follow': 'تابعنا',
   'social.views': 'مشاهدة',
+  'nav.allProducts': 'كل المنتجات',
 } as const;
 
 export type MessageKey = keyof typeof ar;
@@ -479,4 +480,5 @@ export const en: Messages = {
   'chat.online': 'Online now',
   'social.follow': 'Follow',
   'social.views': 'views',
+  'nav.allProducts': 'All products',
 };
