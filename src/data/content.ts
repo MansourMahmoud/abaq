@@ -296,10 +296,10 @@ export interface Announcement {
 }
 
 export const announcements: Announcement[] = [
-  { icon: 'truck', text: l('شحن مجاني للطلبات فوق ٣٠٠ ر.س', 'Free shipping on orders over SAR 300') },
-  { icon: 'tag', text: l('خصم ١٠٪ على أول طلب', '10% off your first order'), action: { kind: 'copy', code: 'ABAQ10' } },
-  { icon: 'sample', text: l('عيّنة مجانية مع كل طلب', 'A free sample with every order') },
-  { icon: 'gift', text: l('أطقم هدايا جاهزة بالتغليف', 'Gift sets, wrapped and ready'), action: { kind: 'link', label: l('تسوّق الهدايا', 'Shop gifts'), to: '/category/gifts' } },
+  { icon: 'truck', text: l('شحن مجاني على كل طلب يتجاوز ٣٠٠ ر.س', 'Free shipping on every order over SAR 300') },
+  { icon: 'tag', text: l('خصم ١٠٪ على طلبك الأول', '10% off your first order'), action: { kind: 'copy', code: 'ABAQ10' } },
+  { icon: 'sample', text: l('عيّنة هدية داخل كل شحنة', 'A free sample in every parcel') },
+  { icon: 'gift', text: l('أطقم هدايا بتغليف فاخر وبطاقة باسمك', 'Gift sets, finely wrapped, with a card in your name'), action: { kind: 'link', label: l('اكتشف الأطقم', 'See the sets'), to: '/category/gifts' } },
 ];
 
 /** Short prompts that pop up beside the WhatsApp button, one at a time. */

@@ -6,13 +6,14 @@ import { useI18n } from '../../i18n/I18nProvider';
 import { useCart } from '../../lib/cart';
 import { Picture } from '../ui/Picture';
 import { Reveal } from '../ui/Reveal';
+import { Price } from '../ui/Price';
 
 /**
  * Short buying guide: how the concentrations compare (share of perfume oil
  * and typical lasting time) and four habits that make a scent last.
  */
 export function PerfumeGuide() {
-  const { t, pick, number, money, dir } = useI18n();
+  const { t, pick, number, dir } = useI18n();
   const { add } = useCart();
   const Arrow = dir === 'rtl' ? LuArrowLeft : LuArrowRight;
   const starter = products.find((product) => product.slug === 'discovery-set');
@@ -77,7 +78,7 @@ export function PerfumeGuide() {
                 <p className="grid min-w-0 flex-1 leading-snug">
                   <span className="text-xs text-accent">{t('guide.starter')}</span>
                   <strong className="truncate font-display text-xl">{pick(starter.name)}</strong>
-                  <span className="text-sm tabular-nums text-soft">{money(starter.price)}</span>
+                  <Price product={starter} className="text-sm" />
                 </p>
                 <button className="button !min-h-[44px] !px-5 text-sm" type="button" onClick={() => add(starter)}>
                   {t('action.addToCart')}

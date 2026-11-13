@@ -949,3 +949,36 @@ html[dir='ltr'] .floating-actions__prompt {
     inset-block-end: 88px;
   }
 }
+
+/* ---------- Price (outside product cards) ---------- */
+
+.price {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.price[data-sale='true'] .price__now {
+  color: var(--c-sale);
+  font-weight: 700;
+}
+
+.price s {
+  color: var(--c-text-muted);
+  font-size: 0.85em;
+  font-weight: 400;
+}
+
+.price__off {
+  align-self: center;
+  padding: 0 8px;
+  border-radius: var(--radius-pill);
+  background: var(--c-sale);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.7;
+  white-space: nowrap;
+}

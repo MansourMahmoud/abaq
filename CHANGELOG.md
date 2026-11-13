@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.0
+
+- Discounts show wherever a product appears (hero, video, reels, search, menus, reviews, sets)
+- Welcome popup for new visitors with remind-later and don't-show-again
+- Discount ticket on the screen edge: slides out on hover, copies the code on press
+- Announcement bar restyled; slim scrollbar without track or arrows
+- Home: collection banners redesigned, plain product section, pick your moment, gift card
+- Recently viewed on the home and product pages, with a clear button
+
 ## 0.7.1
 
 - Header menu opens and switches only after the pointer rests; content fades in; calmer, roomier layout

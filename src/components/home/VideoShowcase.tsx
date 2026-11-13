@@ -7,6 +7,7 @@ import { useI18n } from '../../i18n/I18nProvider';
 import { useCart } from '../../lib/cart';
 import { Picture } from '../ui/Picture';
 import { Reveal } from '../ui/Reveal';
+import { Price } from '../ui/Price';
 
 /** Landscape clips first; portrait ones follow, letter-boxed in the stage. */
 const playlist = [...clips].sort((a, b) => Number(a.orientation === 'portrait') - Number(b.orientation === 'portrait'));
@@ -24,7 +25,7 @@ function clock(seconds: number): string {
  * through the playlist on their own.
  */
 export function VideoShowcase() {
-  const { t, pick, money } = useI18n();
+  const { t, pick } = useI18n();
   const { add } = useCart();
   const stage = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
@@ -117,7 +118,7 @@ export function VideoShowcase() {
                 <Link to={`/product/${product.slug}`} className="truncate font-display text-lg font-bold transition-colors hover:text-accent">
                   {pick(product.name)}
                 </Link>
-                <span className="text-sm">{money(product.price)}</span>
+                <Price product={product} className="text-sm" />
               </p>
               <button type="button" aria-label={`${t('action.addToCart')}: ${pick(product.name)}`} onClick={() => add(product)} className="grid h-11 w-11 shrink-0 place-items-center rounded-pill bg-accent text-lg text-on-accent transition-colors duration-300 hover:bg-text hover:text-bg">
                 <LuPlus aria-hidden />
@@ -209,7 +210,7 @@ export function VideoShowcase() {
             <Link to={`/product/${product.slug}`} className="truncate font-display text-lg font-bold">
               {pick(product.name)}
             </Link>
-            <span className="text-sm">{money(product.price)}</span>
+            <Price product={product} className="text-sm" />
           </p>
           <button className="button !min-h-[44px] !px-5 text-sm" type="button" onClick={() => add(product)}>
             {t('action.addToCart')}

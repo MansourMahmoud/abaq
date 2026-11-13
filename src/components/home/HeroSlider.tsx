@@ -10,6 +10,7 @@ import { useI18n } from '../../i18n/I18nProvider';
 import { useCart } from '../../lib/cart';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 import { Picture } from '../ui/Picture';
+import { Price } from '../ui/Price';
 
 /**
  * Full-bleed hero with image and video slides.
@@ -21,7 +22,7 @@ import { Picture } from '../ui/Picture';
  * for visitors who ask for reduced motion.
  */
 export function HeroSlider() {
-  const { t, pick, money, dir } = useI18n();
+  const { t, pick, dir } = useI18n();
   const { add } = useCart();
   const { hero } = useThemeSettings().settings;
   const delay = hero.autoplaySeconds * 1000;
@@ -86,7 +87,7 @@ export function HeroSlider() {
                         <Link to={`/product/${product.slug}`} tabIndex={active ? 0 : -1}>
                           {pick(product.name)}
                         </Link>
-                        <span>{money(product.price)}</span>
+                        <Price product={product} />
                       </p>
                       <button className="icon-button" type="button" tabIndex={active ? 0 : -1} aria-label={`${t('action.addToCart')}: ${pick(product.name)}`} onClick={() => add(product)}>
                         <LuPlus aria-hidden />

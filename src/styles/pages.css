@@ -568,8 +568,11 @@
 }
 
 .reel__price {
-  color: var(--c-accent);
   font-weight: 400;
+}
+
+.reel__price:not([data-sale='true']) .price__now {
+  color: var(--c-accent);
 }
 
 .reel__product .icon-button {

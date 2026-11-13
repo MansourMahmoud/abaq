@@ -4,6 +4,7 @@ import type { Product } from '../../data/catalog';
 import type { Review } from '../../data/content';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Picture } from '../ui/Picture';
+import { Price } from '../ui/Price';
 
 /** Five stars with `rating` of them filled. */
 export function Stars({ rating }: { rating: number }) {
@@ -41,7 +42,7 @@ interface ReviewCardProps {
 }
 
 export function ReviewCard({ review, variant = 'full', product }: ReviewCardProps) {
-  const { t, pick, number, money, locale } = useI18n();
+  const { t, pick, number, locale } = useI18n();
   const date = new Intl.DateTimeFormat(locale === 'ar' ? 'ar-SA-u-ca-gregory' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(review.date));
 
   return (
@@ -85,7 +86,7 @@ export function ReviewCard({ review, variant = 'full', product }: ReviewCardProp
           </span>
           <span className="review__who">
             <strong>{pick(product.name)}</strong>
-            <span>{money(product.price)}</span>
+            <Price product={product} />
           </span>
         </Link>
       )}

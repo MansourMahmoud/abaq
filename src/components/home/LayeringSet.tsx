@@ -7,6 +7,7 @@ import { useI18n } from '../../i18n/I18nProvider';
 import { useCart } from '../../lib/cart';
 import { Picture } from '../ui/Picture';
 import { Reveal } from '../ui/Reveal';
+import { Price } from '../ui/Price';
 
 /** How long the button confirms that the set went into the cart. */
 const ADDED_MS = 2200;
@@ -63,7 +64,7 @@ export function LayeringSet() {
                   <span className="grid gap-0.5 leading-snug">
                     <span className="text-xs text-accent">{pick(step)}</span>
                     <strong className="truncate font-display text-xl transition-colors duration-300 group-hover:text-accent">{pick(product.name)}</strong>
-                    <span className="text-sm tabular-nums text-soft">{money(product.price)}</span>
+                    <Price product={product} className="text-sm" />
                   </span>
                 </Link>
                 {/* Plus sign between steps, on wide screens. */}

@@ -73,6 +73,16 @@ export interface ThemeSettings {
     side: 'right' | 'left';
     /** Rotate short prompts beside the chat button. */
     prompts: boolean;
+    /** Discount ticket on the edge of the screen opposite the chat button. */
+    coupon: boolean;
+  };
+  popup: {
+    /** Welcome offer shown to new visitors. */
+    enabled: boolean;
+    /** Seconds to wait after the page loads before showing it. */
+    delaySeconds: number;
+    /** Days before it may return after being closed without "don't show again". */
+    remindAfterDays: number;
   };
   footer: {
     /** Promotional card that overlaps the top edge of the footer. */
@@ -93,7 +103,8 @@ export const defaultSettings: ThemeSettings = {
   hero: { effect: 'fade', autoplaySeconds: 7 },
   category: { perPage: 8, pagination: 'infinite', filters: true, inlineBanner: true },
   cart: { banner: true, bannerHeight: 'medium', bannerWidth: 'contained' },
-  floating: { whatsapp: true, side: 'right', prompts: true },
+  floating: { whatsapp: true, side: 'right', prompts: true, coupon: true },
+  popup: { enabled: true, delaySeconds: 6, remindAfterDays: 3 },
   footer: { showPromo: true, showSocial: true, showPayments: true, showCompliance: true, contactStyle: 'icons' },
 };
 

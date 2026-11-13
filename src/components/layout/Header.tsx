@@ -168,7 +168,7 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
           <button className="icon-button header__search-toggle" type="button" aria-label={t('action.search')} onClick={() => setSearchOpen(true)}>
             <LuSearch aria-hidden />
           </button>
-          <button className="icon-button header__action--secondary header__locale" type="button" aria-label={t('locale.title')} onClick={onLocale}>
+          <button className={`icon-button header__action--secondary header__locale ${header.topBar ? 'md:!hidden' : ''}`} type="button" aria-label={t('locale.title')} onClick={onLocale}>
             <LuGlobe aria-hidden />
           </button>
           <button className="icon-button header__action--secondary" type="button" aria-label={t('action.account')}>

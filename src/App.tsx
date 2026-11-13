@@ -3,11 +3,13 @@ import { LazyMotion, MotionConfig, domAnimation } from 'motion/react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { BrowserRouter, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { AnnouncementBar } from './components/layout/AnnouncementBar';
+import { CouponTab } from './components/layout/CouponTab';
 import { FloatingActions } from './components/layout/FloatingActions';
 import { Footer } from './components/layout/Footer';
 import { FooterPromo } from './components/layout/FooterPromo';
 import { Header } from './components/layout/Header';
 import { TopBar } from './components/layout/TopBar';
+import { WelcomePopup } from './components/layout/WelcomePopup';
 import { ErrorState } from './components/ui/ErrorState';
 import { LocaleDialog } from './components/ui/LocaleDialog';
 import { PageSkeleton } from './components/ui/PageSkeleton';
@@ -61,6 +63,8 @@ function Layout() {
       <FooterPromo />
       <Footer />
       <FloatingActions />
+      <CouponTab />
+      <WelcomePopup />
       <LocaleDialog open={localeOpen} onClose={() => setLocaleOpen(false)} />
       <Preloader />
     </>

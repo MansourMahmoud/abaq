@@ -263,3 +263,36 @@ export const occasions: { name: Localized; hint: Localized; photo: PhotoKey; to:
 
 /** Category each concentration in the guide links to. */
 export const guideShop = ['/category/men-fresh', '/category/women', '/category/men-oriental', '/category/oud'];
+
+/* ---------- Welcome offer (popup and edge ticket) ---------- */
+
+export const welcomeOffer = {
+  code: 'ABAQ10',
+  percent: 10,
+  eyebrow: l('هدية الترحيب', 'A welcome gift'),
+  title: l('أهلاً بك في عبق', 'Welcome to Abaq'),
+  text: l('خصم ١٠٪ على طلبك الأول. انسخ الكود واستخدمه عند إتمام الطلب.', '10% off your first order. Copy the code and use it at checkout.'),
+  photo: 'spraying' as PhotoKey,
+  to: '/category/all',
+  perks: [l('شحن مجاني فوق ٣٠٠ ر.س', 'Free shipping over SAR 300'), l('عيّنة هدية مع كل طلب', 'A free sample with every order')],
+};
+
+/* ---------- A scent for every moment ---------- */
+
+export const moments: { icon: 'sun' | 'work' | 'moon' | 'party'; name: Localized; headline: Localized; text: Localized; photo: PhotoKey; categories: string[]; to: string }[] = [
+  { icon: 'sun', name: l('الصباح', 'Morning'), headline: l('بداية خفيفة ومنعشة', 'A light, fresh start'), text: l('حمضيات ومسك أبيض لا يثقل على من حولك.', 'Citrus and white musk that never overwhelm.'), photo: 'daisyShadows', categories: ['men-fresh', 'women-floral'], to: '/category/men-fresh' },
+  { icon: 'work', name: l('الدوام', 'Work'), headline: l('حضور هادئ يدوم', 'A quiet presence that lasts'), text: l('أخشاب ناعمة وثبات يكفي يوم العمل.', 'Soft woods with staying power for the working day.'), photo: 'monoBottle', categories: ['men-woody', 'women-amber'], to: '/category/men-woody' },
+  { icon: 'moon', name: l('المساء', 'Evening'), headline: l('دفء يليق بالسهرة', 'Warmth for the evening'), text: l('عنبر وعود وفانيلا لليالي الطويلة.', 'Amber, oud and vanilla for long nights.'), photo: 'amberTrio', categories: ['men-oriental', 'women-amber'], to: '/category/men-oriental' },
+  { icon: 'party', name: l('المناسبات', 'Occasions'), headline: l('أثر لا يُنسى', 'An unforgettable trail'), text: l('دهن العود والمخلطات الفاخرة لليالي الكبيرة.', 'Oud oils and fine blends for the big nights.'), photo: 'oudOil', categories: ['oud'], to: '/category/oud' },
+];
+
+/* ---------- Gift card ---------- */
+
+export const giftCard = {
+  eyebrow: l('بطاقة إهداء رقمية', 'Digital gift card'),
+  title: l('لا تعرف ذوقه؟ اترك له الاختيار', 'Not sure of their taste? Let them choose'),
+  text: l('بطاقة إهداء تصل بالبريد الإلكتروني خلال دقائق، ويختار بها من يحب ما يناسبه من المتجر.', 'A gift card that arrives by email within minutes, for them to spend on whatever suits them.'),
+  cardLine: l('رصيد إهداء بقيمة', 'Gift balance of'),
+  amounts: [100, 250, 500, 1000],
+  points: [l('تصل فوراً بالبريد الإلكتروني', 'Delivered instantly by email'), l('مع رسالة شخصية باسمك', 'With a personal message from you')],
+};

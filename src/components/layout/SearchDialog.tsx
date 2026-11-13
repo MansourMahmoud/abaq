@@ -4,6 +4,7 @@ import { LuSearch, LuX } from 'react-icons/lu';
 import { products } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Picture } from '../ui/Picture';
+import { Price } from '../ui/Price';
 
 interface SearchDialogProps {
   open: boolean;
@@ -18,7 +19,7 @@ const MAX_RESULTS = 6;
  * the local catalogue; the Salla theme queries the store's search endpoint.
  */
 export function SearchDialog({ open, onClose }: SearchDialogProps) {
-  const { t, pick, money } = useI18n();
+  const { t, pick } = useI18n();
   const dialog = useRef<HTMLDialogElement>(null);
   const [query, setQuery] = useState('');
 
@@ -76,7 +77,7 @@ export function SearchDialog({ open, onClose }: SearchDialogProps) {
                     <span className="truncate font-semibold">{pick(product.name)}</span>
                     <span className="truncate text-sm text-muted">{pick(product.notes)}</span>
                   </span>
-                  <span className="shrink-0 font-semibold">{money(product.price)}</span>
+                  <Price product={product} className="shrink-0 justify-end font-semibold" />
                 </Link>
               </li>
             ))}

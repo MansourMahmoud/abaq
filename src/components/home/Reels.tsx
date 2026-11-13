@@ -8,12 +8,13 @@ import { useCart } from '../../lib/cart';
 import { Carousel } from '../ui/Carousel';
 import { Picture } from '../ui/Picture';
 import { Reveal } from '../ui/Reveal';
+import { Price } from '../ui/Price';
 
 /** Portrait clips lead; landscape ones are centre-cropped to the same tall frame. */
 const reelClips = [...clips].sort((a, b) => Number(a.orientation !== 'portrait') - Number(b.orientation !== 'portrait'));
 
 function Reel({ clip }: { clip: Clip }) {
-  const { t, pick, money } = useI18n();
+  const { t, pick } = useI18n();
   const { add } = useCart();
   const video = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
@@ -61,7 +62,7 @@ function Reel({ clip }: { clip: Clip }) {
         </Link>
         <p>
           <Link to={`/product/${product.slug}`}>{pick(product.name)}</Link>
-          <span className="reel__price">{money(product.price)}</span>
+          <Price product={product} className="reel__price" />
         </p>
         <button className="icon-button" type="button" aria-label={`${t('action.addToCart')}: ${pick(product.name)}`} onClick={() => add(product)}>
           <LuPlus aria-hidden />

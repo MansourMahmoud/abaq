@@ -73,6 +73,15 @@ code or opens a link (`data/content.ts`, `announcements`).
 | `floating.whatsapp` | on / off | on |
 | `floating.side` | `right`, `left` | `right` |
 | `floating.prompts` | on / off: rotating messages beside the button | on |
+| `floating.coupon` | on / off: discount ticket on the opposite edge | on |
+
+## Welcome popup
+
+| Setting | Values | Default |
+| --- | --- | --- |
+| `popup.enabled` | on / off | on |
+| `popup.delaySeconds` | number | 6 |
+| `popup.remindAfterDays` | number: days before it may return after being closed | 3 |
 
 ## Footer
 

@@ -707,7 +707,13 @@
   position: relative; /* anchor for the floating header */
 }
 
-/* ---------- Announcement: icons and the coupon / link button ---------- */
+/* ---------- Announcement: icons, coupon ticket and link button ---------- */
+
+.announcement {
+  min-height: 44px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--c-accent) 86%, #000), var(--c-accent) 50%, color-mix(in srgb, var(--c-accent) 86%, #000));
+  letter-spacing: 0.01em;
+}
 
 .announcement__group li,
 .announcement__single {
@@ -721,34 +727,63 @@
   width: 100%;
 }
 
+/* A hairline between messages instead of a bullet. */
 .announcement__group li::after {
+  width: 1px;
+  height: 16px;
   margin-inline-start: 46px;
+  transform: none;
+  opacity: 0.35;
 }
 
+/* Icon in a soft disc. */
 .announcement__icon {
   flex: none;
-  font-size: 1.05rem;
+  box-sizing: content-box;
+  width: 1rem;
+  height: 1rem;
+  padding: 6px;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.16);
 }
 
 .announcement__action {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 2px 12px;
-  border: 1px dashed currentColor;
+  min-height: 28px;
+  padding: 0 12px;
   border-radius: var(--radius-pill);
-  background: transparent;
-  color: inherit;
   font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-weight: 700;
   transition:
     background-color var(--t-fast) var(--ease),
-    color var(--t-fast) var(--ease);
+    color var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease);
 }
 
-.announcement__action:hover {
+/* Link: a solid light pill. */
+a.announcement__action {
+  background: var(--c-on-accent);
+  color: var(--c-accent);
+}
+
+a.announcement__action:hover {
+  background: #15110e;
+  color: #fff;
+}
+
+/* Coupon: a dashed ticket; the code is set in wide capitals. */
+button.announcement__action {
+  border: 1px dashed rgb(255 255 255 / 0.7);
+  background: rgb(255 255 255 / 0.1);
+  color: inherit;
+  letter-spacing: 0.12em;
+}
+
+button.announcement__action:hover {
   border-style: solid;
+  border-color: var(--c-on-accent);
   background: var(--c-on-accent);
   color: var(--c-accent);
 }

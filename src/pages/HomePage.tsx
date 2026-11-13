@@ -4,14 +4,18 @@ import { Bestsellers } from '../components/home/Bestsellers';
 import { BrandStrip } from '../components/home/BrandStrip';
 import { BudgetPicker } from '../components/home/BudgetPicker';
 import { CategoryShowcase } from '../components/home/CategoryShowcase';
+import { CollectionBanners } from '../components/home/CollectionBanners';
 import { FaqHelp } from '../components/home/FaqHelp';
+import { GiftCardBand } from '../components/home/GiftCardBand';
 import { InstagramFeed } from '../components/home/InstagramFeed';
 import { HeroSlider } from '../components/home/HeroSlider';
 import { LayeringSet } from '../components/home/LayeringSet';
 import { LoyaltyBand } from '../components/home/LoyaltyBand';
+import { MomentPicker } from '../components/home/MomentPicker';
 import { Occasions } from '../components/home/Occasions';
 import { OfferCountdown } from '../components/home/OfferCountdown';
 import { PerksStrip } from '../components/home/PerksStrip';
+import { ProductShowcase } from '../components/home/ProductShowcase';
 import { RecentlyViewed } from '../components/home/RecentlyViewed';
 import { Reels } from '../components/home/Reels';
 import { PerfumeGuide } from '../components/home/PerfumeGuide';
@@ -21,17 +25,17 @@ import { Story } from '../components/home/Story';
 import { Testimonials } from '../components/home/Testimonials';
 import { TikTokFeed } from '../components/home/TikTokFeed';
 import { VideoShowcase } from '../components/home/VideoShowcase';
-import { Picture } from '../components/ui/Picture';
 import { Reveal } from '../components/ui/Reveal';
-import { categories } from '../data/catalog';
+import { products } from '../data/catalog';
 import { posts } from '../data/content';
 import { useI18n } from '../i18n/I18nProvider';
 
-const BANNER_CATEGORIES = ['oud', 'bakhoor', 'gifts'].map((id) => categories.find((category) => category.id === id)!);
+/** Newest products first; the catalogue lists them in the order they were added. */
+const NEW_ARRIVALS = [...products].reverse().filter((product) => !product.soldOut).slice(0, 8);
 
 /** Home page: an ordered stack of sections, each a self-contained component. */
 export function HomePage() {
-  const { t, pick } = useI18n();
+  const { t } = useI18n();
 
   return (
     <>
@@ -46,23 +50,20 @@ export function HomePage() {
       <VideoShowcase />
       <OfferCountdown />
       <div className="home-gap" />
+      <ProductShowcase
+        eyebrow={t('arrivals.eyebrow')}
+        title={t('arrivals.title')}
+        lead={t('arrivals.lead')}
+        products={NEW_ARRIVALS}
+        layout="grid"
+        link={{ label: t('nav.viewAll'), to: '/category/all' }}
+      />
       <BudgetPicker />
       <Occasions />
       <Reels />
 
-      <section className="section section--flush-top">
-        <Reveal className="container banner-trio">
-          {BANNER_CATEGORIES.map((category, index) => (
-            <Link key={category.id} className="banner media-zoom" data-size={index === 0 ? 'tall' : undefined} to={`/category/${category.slug}`}>
-              <Picture photo={category.banner?.photo ?? category.photo} alt="" sizes="(min-width: 900px) 50vw, 100vw" />
-              <span className="banner__text">
-                <span className="eyebrow">{pick(category.name)}</span>
-                <span className="banner__title">{pick(category.banner?.title ?? category.name)}</span>
-              </span>
-            </Link>
-          ))}
-        </Reveal>
-      </section>
+      <CollectionBanners />
+      <MomentPicker />
 
       <PerfumeGuide />
       <Story />
@@ -70,6 +71,7 @@ export function HomePage() {
       <InstagramFeed />
       <TikTokFeed />
       <RecentlyViewed />
+      <GiftCardBand />
       <LoyaltyBand />
       <FaqHelp />
 

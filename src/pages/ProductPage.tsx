@@ -2,6 +2,7 @@ import { useEffect, useState, type CSSProperties, type MouseEvent } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { LuBadgeCheck, LuGift, LuHeart, LuMinus, LuPlay, LuPlus, LuRefreshCw, LuTestTubeDiagonal, LuTruck } from 'react-icons/lu';
 import type { IconType } from 'react-icons';
+import { RecentlyViewed } from '../components/home/RecentlyViewed';
 import { ProductRail } from '../components/product/ProductRail';
 import { Stars } from '../components/product/ReviewCard';
 import { ReviewsPanel } from '../components/product/ReviewsPanel';
@@ -291,6 +292,10 @@ export function ProductPage() {
           <ProductRail products={relatedProducts(product)} layout="carousel" label={t('product.related')} />
         </div>
       </section>
+
+      <div className="pt-[var(--section-gap)]">
+        <RecentlyViewed excludeId={product.id} />
+      </div>
 
       {/* Phones: the add-to-cart action stays reachable while scrolling. */}
       <div className="sticky-buy">

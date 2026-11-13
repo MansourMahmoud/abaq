@@ -4,6 +4,7 @@ import { LuArrowLeft, LuArrowRight, LuChevronLeft, LuChevronRight } from 'react-
 import { productsInCategory, type Category } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Picture } from '../ui/Picture';
+import { Price } from '../ui/Price';
 
 interface MegaMenuProps {
   category: Category;
@@ -31,7 +32,7 @@ const HOVER_INTENT_MS = 160;
  * new content fades in, so moving down the list does not make the panel flash.
  */
 export function MegaMenu({ category, onNavigate }: MegaMenuProps) {
-  const { t, pick, number, money, dir } = useI18n();
+  const { t, pick, number, dir } = useI18n();
   const children = category.children ?? [];
   const [activeId, setActiveId] = useState<string | undefined>(children[0]?.id);
   const intent = useRef<number | undefined>(undefined);
@@ -128,7 +129,7 @@ export function MegaMenu({ category, onNavigate }: MegaMenuProps) {
                         <span className="grid min-w-0 gap-0.5 leading-snug">
                           <strong className="truncate transition-colors duration-300 group-hover:text-accent">{pick(product.name)}</strong>
                           <span className="truncate text-sm text-muted">{pick(product.family)}</span>
-                          <span className="text-sm font-semibold tabular-nums text-accent">{money(product.price)}</span>
+                          <Price product={product} className="text-sm font-semibold" />
                         </span>
                       </Link>
                     </li>

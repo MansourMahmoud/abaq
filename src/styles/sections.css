@@ -380,3 +380,533 @@
   filter: none;
   opacity: 1;
 }
+
+/* ---------- Collection banners ---------- */
+
+.collection {
+  position: relative;
+  display: block;
+  min-height: 240px;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  color: #fff;
+  isolation: isolate;
+}
+
+.collection > img {
+  position: absolute;
+  inset: 0;
+  transition: transform 1600ms var(--ease);
+}
+
+.collection:hover > img {
+  transform: scale(1.04);
+}
+
+/* Shade from the text side and from below, so the headline reads on any photo. */
+.collection::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(to top, rgb(15 12 10 / 0.9) 0%, rgb(15 12 10 / 0.45) 42%, transparent 70%),
+    linear-gradient(to left, rgb(15 12 10 / 0.5), transparent 60%);
+}
+
+[dir='ltr'] .collection::after {
+  background:
+    linear-gradient(to top, rgb(15 12 10 / 0.9) 0%, rgb(15 12 10 / 0.45) 42%, transparent 70%),
+    linear-gradient(to right, rgb(15 12 10 / 0.5), transparent 60%);
+}
+
+.collection__label {
+  position: absolute;
+  inset-block-start: 18px;
+  inset-inline-start: 18px;
+  z-index: 1;
+  padding: 4px 14px;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: var(--radius-pill);
+  background: rgb(15 12 10 / 0.45);
+  font-size: var(--fs-xs);
+  backdrop-filter: blur(6px);
+}
+
+.collection__text {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: 1;
+  display: grid;
+  gap: 4px;
+  padding: clamp(18px, 2.4vw, 30px);
+  padding-inline-end: 84px;
+}
+
+.collection__text strong {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 1rem + 1.6vw, 2.4rem);
+  line-height: var(--lh-display);
+}
+
+.collection__text span {
+  display: -webkit-box;
+  max-width: 46ch;
+  overflow: hidden;
+  color: rgb(255 255 255 / 0.82);
+  font-size: var(--fs-sm);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.collection__arrow {
+  position: absolute;
+  inset-block-end: clamp(18px, 2.4vw, 30px);
+  inset-inline-end: clamp(18px, 2.4vw, 30px);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid rgb(255 255 255 / 0.5);
+  border-radius: 50%;
+  font-size: 1.3rem;
+  transition:
+    background-color var(--t-med) var(--ease),
+    border-color var(--t-med) var(--ease),
+    color var(--t-med) var(--ease);
+}
+
+.collection:hover .collection__arrow {
+  border-color: #d4af72;
+  background: #d4af72;
+  color: #15110e;
+}
+
+@media (min-width: 900px) {
+  .banner-trio .collection[data-size='tall'] {
+    grid-row: span 2;
+    min-height: 500px;
+  }
+}
+
+/* ---------- Plain product section ---------- */
+
+.showcase-grid .product-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .showcase-grid .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .showcase-grid .product-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.moment {
+  animation: mega-content 600ms var(--ease);
+}
+
+/* ---------- Gift card ---------- */
+
+.gift-card {
+  display: grid;
+  align-content: space-between;
+  gap: 28px;
+  aspect-ratio: 1.586; /* a bank card's proportions */
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid rgb(212 175 114 / 0.4);
+  border-radius: 22px;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgb(212 175 114 / 0.28), transparent 55%),
+    linear-gradient(135deg, #2a2019, #15110e 60%);
+  box-shadow: 0 30px 60px rgb(29 26 23 / 0.28);
+  transform: rotate(-2deg);
+  transition: transform var(--t-slow) var(--ease);
+}
+
+.gift-card:hover {
+  transform: rotate(0);
+}
+
+/* ---------- Ticket (coupon drawn as a ticket) ---------- */
+
+.ticket {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  padding: 0;
+  border: 1px dashed var(--c-accent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--c-accent) 7%, var(--c-surface));
+  color: var(--c-text);
+  text-align: start;
+  transition: background-color var(--t-fast) var(--ease);
+}
+
+.ticket:hover {
+  background: color-mix(in srgb, var(--c-accent) 14%, var(--c-surface));
+}
+
+.ticket__code {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  padding: 12px 18px;
+  line-height: 1.3;
+}
+
+.ticket__code small {
+  color: var(--c-text-muted);
+  font-size: var(--fs-xs);
+}
+
+.ticket__code bdi {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+
+.ticket__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding-inline: 18px;
+  border-inline-start: 1px dashed var(--c-accent);
+  color: var(--c-accent);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ---------- Welcome popup ---------- */
+
+.welcome {
+  width: min(820px, calc(100vw - 24px));
+  max-height: calc(100vh - 24px);
+  padding: 0;
+  overflow: hidden auto;
+  border-radius: var(--radius-lg);
+  background: var(--c-surface);
+  color: var(--c-text);
+  box-shadow: 0 40px 100px rgb(15 12 10 / 0.45);
+}
+
+.welcome::backdrop {
+  background: rgb(15 12 10 / 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.welcome[open] {
+  animation: welcome-in 700ms var(--ease);
+}
+
+.welcome[open]::backdrop {
+  animation: fade-in 700ms var(--ease);
+}
+
+@keyframes welcome-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+}
+
+.welcome__layout {
+  display: grid;
+}
+
+@media (min-width: 760px) {
+  .welcome__layout {
+    grid-template-columns: 0.85fr 1fr;
+  }
+}
+
+.welcome__media {
+  position: relative;
+  min-height: 190px;
+  background: #15110e;
+}
+
+.welcome__media img {
+  position: absolute;
+  inset: 0;
+}
+
+.welcome__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgb(15 12 10 / 0.7), transparent 60%);
+}
+
+/* Round seal with the percentage, tilted like a stamp. */
+.welcome__seal {
+  position: absolute;
+  inset-block-end: 20px;
+  inset-inline-start: 20px;
+  z-index: 1;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background: #d4af72;
+  color: #15110e;
+  line-height: 1.1;
+  box-shadow:
+    0 0 0 5px rgb(21 17 14 / 0.9),
+    0 0 0 6px #d4af72;
+  transform: rotate(-10deg);
+}
+
+.welcome__seal strong {
+  font-size: 2.1rem;
+}
+
+.welcome__seal span {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.welcome__body {
+  position: relative;
+  display: grid;
+  gap: 14px;
+  padding: clamp(22px, 4vw, 40px);
+}
+
+.welcome__close {
+  position: absolute;
+  inset-block-start: 14px;
+  inset-inline-end: 14px;
+  min-width: 40px;
+  height: 40px;
+}
+
+.welcome__title {
+  font-size: clamp(1.9rem, 1.4rem + 1.6vw, 2.6rem);
+}
+
+.welcome__perks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  color: var(--c-text-soft);
+  font-size: var(--fs-sm);
+}
+
+.welcome__perks li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.welcome__perks svg {
+  color: var(--c-accent);
+}
+
+.welcome__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding-block-start: 14px;
+  border-block-start: 1px solid var(--c-line);
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+}
+
+.welcome__foot label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.welcome__foot input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--c-accent);
+}
+
+.welcome__foot button {
+  padding: 0;
+  background: transparent;
+  color: var(--c-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---------- Coupon ticket on the screen edge ---------- */
+
+.coupon-tab {
+  --stub: 42px;
+  --body: 190px;
+  position: fixed;
+  inset-block-start: 50%;
+  z-index: 14;
+  direction: ltr; /* physical layout: the stub always faces the page */
+  transform: translateY(-50%);
+}
+
+.coupon-tab[data-side='left'] {
+  left: 0;
+}
+
+.coupon-tab[data-side='right'] {
+  right: 0;
+}
+
+.coupon-tab__ticket {
+  display: flex;
+  align-items: stretch;
+  height: 132px;
+  padding: 0;
+  background: transparent;
+  filter: drop-shadow(0 10px 24px rgb(29 26 23 / 0.22));
+  transition: transform 700ms var(--ease);
+  /* Notches cut into the top and bottom edges where the stub tears off. */
+  -webkit-mask:
+    radial-gradient(circle 9px at var(--tear) 0, transparent 98%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle 9px at var(--tear) 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
+  mask:
+    radial-gradient(circle 9px at var(--tear) 0, transparent 98%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle 9px at var(--tear) 100%, transparent 98%, #000) bottom / 100% 51% no-repeat;
+}
+
+/* Left edge: body first, stub outermost; tucked away so only the stub shows. */
+.coupon-tab[data-side='left'] .coupon-tab__ticket {
+  --tear: var(--body);
+  flex-direction: row;
+  border-radius: 0 14px 14px 0;
+  transform: translateX(calc(-1 * var(--body)));
+}
+
+.coupon-tab[data-side='right'] .coupon-tab__ticket {
+  --tear: var(--stub);
+  flex-direction: row-reverse;
+  border-radius: 14px 0 0 14px;
+  transform: translateX(var(--body));
+}
+
+.coupon-tab[data-open='true'] .coupon-tab__ticket {
+  transform: none;
+}
+
+.coupon-tab__body {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 4px;
+  width: var(--body);
+  padding: 10px 14px;
+  background: var(--c-surface);
+  color: var(--c-text);
+  text-align: center;
+  line-height: 1.4;
+}
+
+.coupon-tab__body small {
+  color: var(--c-text-muted);
+  font-size: var(--fs-xs);
+}
+
+.coupon-tab__body bdi {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.coupon-tab__hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--c-accent);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}
+
+.coupon-tab__stub {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 8px;
+  width: var(--stub);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+}
+
+/* Perforation between body and stub. */
+.coupon-tab[data-side='left'] .coupon-tab__stub {
+  border-left: 2px dashed rgb(255 255 255 / 0.55);
+}
+
+.coupon-tab[data-side='right'] .coupon-tab__stub {
+  border-right: 2px dashed rgb(255 255 255 / 0.55);
+}
+
+.coupon-tab__stub span {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.04em;
+}
+
+.coupon-tab__stub svg {
+  font-size: 1.1rem;
+}
+
+/* Dismiss button, shown once the ticket is out. */
+.coupon-tab__close {
+  position: absolute;
+  inset-block-start: -12px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  background: var(--c-surface);
+  color: var(--c-text-muted);
+  font-size: 0.8rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--t-med) var(--ease);
+}
+
+.coupon-tab[data-side='left'] .coupon-tab__close {
+  left: calc(var(--body) + var(--stub) - 12px);
+}
+
+.coupon-tab[data-side='right'] .coupon-tab__close {
+  right: calc(var(--body) + var(--stub) - 12px);
+}
+
+.coupon-tab[data-open='true'] .coupon-tab__close {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 600px) {
+  .coupon-tab {
+    --stub: 34px;
+    --body: 170px;
+  }
+
+  .coupon-tab__ticket {
+    height: 112px;
+  }
+}

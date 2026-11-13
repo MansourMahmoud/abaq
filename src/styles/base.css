@@ -9,38 +9,50 @@
 }
 
 /*
- * Scrollbars: a slim rounded thumb and no visible track, on the page and on
- * every scrolling box.
+ * Scrollbars: a slim rounded thumb that floats over the page, with no track,
+ * no gutter colour and no arrow buttons.
+ *
+ * Chromium and Safari are styled through the ::-webkit-scrollbar parts. The
+ * standard properties are only given to browsers without those parts
+ * (Firefox): where both are present Chromium uses the standard ones, and
+ * draws the system track and arrows again.
  */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--c-accent) 70%, transparent) transparent;
-}
-
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
+  background: transparent;
 }
 
-/* No arrow buttons at the ends of the bar. */
 ::-webkit-scrollbar-button {
   display: none;
+  width: 0;
+  height: 0;
 }
 
 ::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece,
 ::-webkit-scrollbar-corner {
   background: transparent;
 }
 
+/* The transparent border leaves a 4px pill centred in the 10px lane. */
 ::-webkit-scrollbar-thumb {
   border: 3px solid transparent;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--c-accent) 70%, transparent);
+  background-color: color-mix(in srgb, var(--c-text) 28%, transparent);
   background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
+  border-width: 2px;
   background-color: var(--c-accent);
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: color-mix(in srgb, var(--c-text) 28%, transparent) transparent;
+  }
 }
 
 html {
