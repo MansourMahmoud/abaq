@@ -91,9 +91,8 @@ export function CategoryPage() {
 
   return (
     <>
-      <CategoryHero path={path} slides={slides}>
-        {chipsRoot && <SubcategoryNav root={chipsRoot} currentId={category.id} />}
-      </CategoryHero>
+      <CategoryHero path={path} slides={slides} />
+      {chipsRoot && <SubcategoryNav root={chipsRoot} parent={path[path.indexOf(chipsRoot) - 1]} currentId={category.id} />}
 
       <section className="section container">
         <div className="listing" data-filters={settings.filters}>

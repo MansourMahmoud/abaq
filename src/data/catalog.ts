@@ -52,9 +52,19 @@ export const categories: Category[] = [
     photo: 'monoBottle',
     banner: { title: l('حضور يسبقك', 'Arrive before you do'), photo: 'bottlesRow' },
     children: [
-      { id: 'men-woody', slug: 'men-woody', name: l('خشبي', 'Woody'), photo: 'goldBottle' },
-      { id: 'men-oriental', slug: 'men-oriental', name: l('شرقي', 'Oriental'), photo: 'amberTrio' },
-      { id: 'men-fresh', slug: 'men-fresh', name: l('منعش', 'Fresh'), photo: 'clearOnFur' },
+      { id: 'men-woody', slug: 'men-woody', name: l('خشبي', 'Woody'), tagline: l('أرز · صندل · فيتيفر', 'Cedar · sandalwood · vetiver'), photo: 'goldBottle' },
+      {
+        id: 'men-oriental',
+        slug: 'men-oriental',
+        name: l('شرقي', 'Oriental'),
+        tagline: l('عود · زعفران · عنبر', 'Oud · saffron · amber'),
+        photo: 'amberTrio',
+        children: [
+          { id: 'men-oriental-oud', slug: 'men-oriental-oud', name: l('عود وزعفران', 'Oud and saffron'), tagline: l('فخم وعميق للمناسبات', 'Rich and deep, for occasions'), photo: 'goldBottle' },
+          { id: 'men-oriental-amber', slug: 'men-oriental-amber', name: l('عنبر دافئ', 'Warm amber'), tagline: l('حلو وناعم لكل يوم', 'Sweet and soft, for every day'), photo: 'amberTrio' },
+        ],
+      },
+      { id: 'men-fresh', slug: 'men-fresh', name: l('منعش', 'Fresh'), tagline: l('حمضيات · مسك · بحري', 'Citrus · musk · marine'), photo: 'clearOnFur' },
     ],
   },
   {
@@ -66,8 +76,18 @@ export const categories: Category[] = [
     photo: 'daisyShadows',
     banner: { title: l('أنوثة تبقى في الذاكرة', 'Femininity that lingers'), photo: 'pinkBottle' },
     children: [
-      { id: 'women-floral', slug: 'women-floral', name: l('زهري', 'Floral'), photo: 'daisyShadows' },
-      { id: 'women-amber', slug: 'women-amber', name: l('عنبري', 'Amber'), photo: 'amberTrio' },
+      {
+        id: 'women-floral',
+        slug: 'women-floral',
+        name: l('زهري', 'Floral'),
+        tagline: l('ورد · ياسمين · فاوانيا', 'Rose · jasmine · peony'),
+        photo: 'daisyShadows',
+        children: [
+          { id: 'women-floral-rose', slug: 'women-floral-rose', name: l('ورد', 'Rose'), tagline: l('ورد طائفي طبيعي', 'Natural Taif rose'), photo: 'daisyShadows' },
+          { id: 'women-floral-white', slug: 'women-floral-white', name: l('زهور بيضاء', 'White florals'), tagline: l('ياسمين وفاوانيا وزهر البرتقال', 'Jasmine, peony and orange blossom'), photo: 'clearOnFur' },
+        ],
+      },
+      { id: 'women-amber', slug: 'women-amber', name: l('عنبري', 'Amber'), tagline: l('فانيلا · عنبر · تونكا', 'Vanilla · amber · tonka'), photo: 'amberTrio' },
     ],
   },
   {
@@ -83,14 +103,25 @@ export const categories: Category[] = [
         id: 'oud-indian',
         slug: 'oud-indian',
         name: l('عود هندي', 'Indian oud'),
+        tagline: l('قوي وعميق، بدرجتي تعتيق', 'Strong and deep, in two ages'),
         photo: 'oudOil',
         children: [
-          { id: 'oud-indian-aged', slug: 'oud-indian-aged', name: l('معتّق', 'Aged'), photo: 'rollOns' },
-          { id: 'oud-indian-young', slug: 'oud-indian-young', name: l('حديث', 'Young'), photo: 'oudOil' },
+          { id: 'oud-indian-aged', slug: 'oud-indian-aged', name: l('هندي معتّق', 'Aged Indian'), tagline: l('مخزّن ٣ سنوات فأكثر: أنعم وأغلى', 'Stored 3 years or more: smoother, pricier'), photo: 'rollOns' },
+          { id: 'oud-indian-young', slug: 'oud-indian-young', name: l('هندي حديث التقطير', 'Freshly distilled Indian'), tagline: l('تقطير هذا العام: أقوى وأوفر', 'Distilled this year: bolder, better value'), photo: 'oudOil' },
         ],
       },
-      { id: 'oud-cambodian', slug: 'oud-cambodian', name: l('عود كمبودي', 'Cambodian oud'), photo: 'handsHolding' },
-      { id: 'oud-blends', slug: 'oud-blends', name: l('مخلطات', 'Blends'), photo: 'rollOns' },
+      {
+        id: 'oud-cambodian',
+        slug: 'oud-cambodian',
+        name: l('عود كمبودي', 'Cambodian oud'),
+        tagline: l('حلو وفاكهي', 'Sweet and fruity'),
+        photo: 'handsHolding',
+        children: [
+          { id: 'oud-cambodian-pure', slug: 'oud-cambodian-pure', name: l('كمبودي صافي', 'Pure Cambodian'), tagline: l('من مزرعة واحدة', 'From a single plantation'), photo: 'handsHolding' },
+          { id: 'oud-cambodian-maroki', slug: 'oud-cambodian-maroki', name: l('مروكي', 'Maroki'), tagline: l('دخاني يميل للحلاوة', 'Smoky with a sweet edge'), photo: 'oudOil' },
+        ],
+      },
+      { id: 'oud-blends', slug: 'oud-blends', name: l('مخلطات', 'Blends'), tagline: l('عود مع ورد ومسك وصندل', 'Oud with rose, musk and sandalwood'), photo: 'rollOns' },
     ],
   },
   {
@@ -150,7 +181,7 @@ export const products: Product[] = [
   {
     id: 'p1', brand: 'abaq', slug: 'royal-oud', name: l('عود ملكي', 'Royal Oud'), family: l('شرقي خشبي', 'Woody oriental'),
     notes: l('عود · زعفران · ورد طائفي', 'Oud · saffron · Taif rose'), price: 420, rating: 4.8,
-    badge: l('الأكثر مبيعاً', 'Bestseller'), photos: ['goldBottle', 'spraying', 'handsHolding'], categoryIds: ['men', 'men-oriental'],
+    badge: l('الأكثر مبيعاً', 'Bestseller'), photos: ['goldBottle', 'spraying', 'handsHolding'], categoryIds: ['men', 'men-oriental', 'men-oriental-oud'],
   },
   {
     id: 'p2', brand: 'nafha', slug: 'morning-musk', name: l('مسك الصباح', 'Morning Musk'), family: l('منعش', 'Fresh'),
@@ -160,12 +191,12 @@ export const products: Product[] = [
   {
     id: 'p3', brand: 'abaq', slug: 'night-amber', name: l('عنبر الليل', 'Night Amber'), family: l('عنبري', 'Amber'),
     notes: l('عنبر · فانيلا · باتشولي', 'Amber · vanilla · patchouli'), price: 306, compareAt: 360, rating: 4.7,
-    badge: l('خصم ١٥٪', '15% off'), photos: ['amberTrio', 'goldBottle'], categoryIds: ['women', 'women-amber', 'men', 'men-oriental'],
+    badge: l('خصم ١٥٪', '15% off'), photos: ['amberTrio', 'goldBottle'], categoryIds: ['women', 'women-amber', 'men', 'men-oriental', 'men-oriental-amber'],
   },
   {
     id: 'p4', brand: 'sidra', slug: 'taif-rose', name: l('ورد الطائف', 'Taif Rose'), family: l('زهري', 'Floral'),
     notes: l('ورد طائفي · صندل', 'Taif rose · sandalwood'), price: 340, rating: 4.9,
-    badge: l('جديد', 'New'), photos: ['daisyShadows', 'pinkBottle'], categoryIds: ['women', 'women-floral'],
+    badge: l('جديد', 'New'), photos: ['daisyShadows', 'pinkBottle'], categoryIds: ['women', 'women-floral', 'women-floral-rose'],
   },
   {
     id: 'p5', brand: 'wateen', slug: 'indian-oud-oil', name: l('دهن عود هندي', 'Indian Oud Oil'), family: l('تعتيق ٥ سنوات', 'Aged 5 years'),
@@ -175,7 +206,7 @@ export const products: Product[] = [
   {
     id: 'p6', brand: 'wateen', slug: 'cambodian-oud', name: l('عود كمبودي', 'Cambodian Oud'), family: l('تعتيق ٣ سنوات', 'Aged 3 years'),
     notes: l('ربع تولة · نصف تولة', 'Quarter · half tola'), price: 580, rating: 4.7,
-    photos: ['handsHolding', 'oudOil'], categoryIds: ['oud', 'oud-cambodian'],
+    photos: ['handsHolding', 'oudOil'], categoryIds: ['oud', 'oud-cambodian', 'oud-cambodian-pure'],
   },
   {
     id: 'p7', brand: 'wateen', slug: 'young-indian-oud', name: l('عود هندي حديث', 'Young Indian Oud'), family: l('تعتيق سنة', 'Aged 1 year'),
@@ -215,7 +246,7 @@ export const products: Product[] = [
   {
     id: 'p14', brand: 'abaq', slug: 'black-saffron', name: l('زعفران أسود', 'Black Saffron'), family: l('شرقي', 'Oriental'),
     notes: l('زعفران · عود · عنبر', 'Saffron · oud · amber'), price: 510, rating: 4.9,
-    badge: l('جديد', 'New'), photos: ['spraying', 'goldBottle'], categoryIds: ['men', 'men-oriental'],
+    badge: l('جديد', 'New'), photos: ['spraying', 'goldBottle'], categoryIds: ['men', 'men-oriental', 'men-oriental-oud'],
   },
   {
     id: 'p15', brand: 'sidra', slug: 'smoked-vetiver', name: l('فيتيفر مدخّن', 'Smoked Vetiver'), family: l('خشبي', 'Woody'),
@@ -225,7 +256,7 @@ export const products: Product[] = [
   {
     id: 'p16', brand: 'sidra', slug: 'white-jasmine', name: l('ياسمين أبيض', 'White Jasmine'), family: l('زهري', 'Floral'),
     notes: l('ياسمين · زهر البرتقال', 'Jasmine · orange blossom'), price: 295, rating: 4.7,
-    photos: ['clearOnFur', 'daisyShadows'], categoryIds: ['women', 'women-floral'],
+    photos: ['clearOnFur', 'daisyShadows'], categoryIds: ['women', 'women-floral', 'women-floral-white'],
   },
   {
     id: 'p17', brand: 'abaq', slug: 'vanilla-silk', name: l('حرير الفانيلا', 'Vanilla Silk'), family: l('عنبري', 'Amber'),
@@ -235,12 +266,12 @@ export const products: Product[] = [
   {
     id: 'p18', brand: 'nafha', slug: 'peony-dew', name: l('ندى الفاوانيا', 'Peony Dew'), family: l('زهري', 'Floral'),
     notes: l('فاوانيا · كمثرى · مسك', 'Peony · pear · musk'), price: 275, rating: 4.5,
-    photos: ['pinkBottle', 'daisyShadows'], categoryIds: ['women', 'women-floral'],
+    photos: ['pinkBottle', 'daisyShadows'], categoryIds: ['women', 'women-floral', 'women-floral-white'],
   },
   {
     id: 'p19', brand: 'wateen', slug: 'maroki-oud', name: l('عود مروكي', 'Maroki Oud'), family: l('تعتيق ٤ سنوات', 'Aged 4 years'),
     notes: l('ربع تولة · نصف تولة · تولة', 'Quarter · half · full tola'), price: 720, rating: 4.8,
-    photos: ['oudOil', 'handsHolding'], categoryIds: ['oud', 'oud-cambodian'],
+    photos: ['oudOil', 'handsHolding'], categoryIds: ['oud', 'oud-cambodian', 'oud-cambodian-maroki'],
   },
   {
     id: 'p20', brand: 'wateen', slug: 'sandal-attar', name: l('عطر الصندل', 'Sandal Attar'), family: l('صندل · ورد', 'Sandalwood · rose'),

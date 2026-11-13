@@ -239,6 +239,12 @@ export const ar = {
   'social.follow': 'تابعنا',
   'social.views': 'مشاهدة',
   'nav.allProducts': 'كل المنتجات',
+  'category.allOf': 'كل {name}',
+  'category.browse': 'تصفّح {name}',
+  'category.backTo': 'رجوع إلى {name}',
+  'category.viewing': 'تتصفّحه الآن',
+  'category.branches': '{count} أقسام داخله',
+  'nav.inside': 'داخل {name}',
 } as const;
 
 export type MessageKey = keyof typeof ar;
@@ -481,4 +487,10 @@ export const en: Messages = {
   'social.follow': 'Follow',
   'social.views': 'views',
   'nav.allProducts': 'All products',
+  'category.allOf': 'All {name}',
+  'category.browse': 'Browse {name}',
+  'category.backTo': 'Back to {name}',
+  'category.viewing': 'Viewing',
+  'category.branches': '{count} inside',
+  'nav.inside': 'Inside {name}',
 };

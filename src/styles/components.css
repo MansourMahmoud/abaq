@@ -93,6 +93,7 @@
 .carousel[data-variant='reels'] { --carousel-item: 64%; }
 .carousel[data-variant='cards'] { --carousel-item: 86%; }
 .carousel[data-variant='deals'] { --carousel-item: 68%; }
+.carousel[data-variant='tiles'] { --carousel-item: 46%; }
 
 @media (min-width: 560px) {
   .carousel[data-variant='products'] { --carousel-item: 44%; }
@@ -100,6 +101,7 @@
   .carousel[data-variant='reels'] { --carousel-item: 38%; }
   .carousel[data-variant='cards'] { --carousel-item: 58%; }
   .carousel[data-variant='deals'] { --carousel-item: 46%; }
+  .carousel[data-variant='tiles'] { --carousel-item: 31%; }
 }
 
 @media (min-width: 900px) {
@@ -108,6 +110,7 @@
   .carousel[data-variant='reels'] { --carousel-item: 27%; }
   .carousel[data-variant='cards'] { --carousel-item: 40%; }
   .carousel[data-variant='deals'] { --carousel-item: calc((100% - 2 * var(--carousel-gap)) / 3); }
+  .carousel[data-variant='tiles'] { --carousel-item: calc((100% - 3 * var(--carousel-gap)) / 4); }
 }
 
 @media (min-width: 1200px) {
@@ -115,6 +118,7 @@
   .carousel[data-variant='categories'] { --carousel-item: calc((100% - 4 * var(--carousel-gap)) / 5.3); }
   .carousel[data-variant='reels'] { --carousel-item: calc((100% - 3 * var(--carousel-gap)) / 4); }
   .carousel[data-variant='cards'] { --carousel-item: calc((100% - 2 * var(--carousel-gap)) / 3); }
+  .carousel[data-variant='tiles'] { --carousel-item: calc((100% - 4 * var(--carousel-gap)) / 5); }
 }
 
 .carousel__controls {

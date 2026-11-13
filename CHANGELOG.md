@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.3
+
+- Sub-categories in their own section under the banner: a carousel of cards with a short description, product count and branch count
+- Third-level categories added and shown in the menu panel, drawer and listing pages
+
 ## 0.4.2
 
 - Listing pages open with a banner carousel (category, offers, top rated) and sub-category cards

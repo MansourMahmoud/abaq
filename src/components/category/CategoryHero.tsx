@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from 'react';
 import Autoplay from 'embla-carousel-autoplay';
 import Fade from 'embla-carousel-fade';
 import useEmblaCarousel from 'embla-carousel-react';
@@ -23,8 +23,6 @@ interface CategoryHeroProps {
   /** Path from the root category to the current one, for the breadcrumb. */
   path: Category[];
   slides: CategorySlide[];
-  /** Sub-category navigation; when given, it overlaps the banner's bottom edge. */
-  children?: ReactNode;
 }
 
 const AUTOPLAY_MS = 6000;
@@ -35,7 +33,7 @@ const AUTOPLAY_MS = 6000;
  * merchant attaches to it. The breadcrumb stays put while the slides change.
  * Slides change by dragging, with the arrows or dots, or on a timer.
  */
-export function CategoryHero({ path, slides, children }: CategoryHeroProps) {
+export function CategoryHero({ path, slides }: CategoryHeroProps) {
   const { t, pick, dir } = useI18n();
   const plugins = useMemo(() => {
     const reduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -62,7 +60,7 @@ export function CategoryHero({ path, slides, children }: CategoryHeroProps) {
   const Arrow = dir === 'rtl' ? LuArrowLeft : LuArrowRight;
 
   return (
-    <section className="container category-hero" data-has-nav={Boolean(children)}>
+    <section className="container category-hero">
       <div className="scope-dark hero category-hero__slider" aria-roledescription="carousel" style={{ '--hero-delay': `${AUTOPLAY_MS}ms` } as CSSProperties}>
         <div ref={viewport} className="hero__viewport">
           <div className="hero__track">
@@ -120,7 +118,6 @@ export function CategoryHero({ path, slides, children }: CategoryHeroProps) {
           </div>
         )}
       </div>
-      {children}
     </section>
   );
 }

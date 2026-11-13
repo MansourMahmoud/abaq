@@ -13,7 +13,7 @@ interface CarouselProps {
    * Names the item-width preset in `components.css`. Widths are chosen so the
    * next item always peeks in, which is what tells the shopper the row moves.
    */
-  variant: 'products' | 'categories' | 'reels' | 'cards' | 'deals';
+  variant: 'products' | 'categories' | 'reels' | 'cards' | 'deals' | 'tiles';
   children: ReactNode[];
 }
 

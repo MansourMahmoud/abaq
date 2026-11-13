@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { LuArrowLeft, LuArrowRight, LuCornerDownLeft, LuCornerDownRight } from 'react-icons/lu';
+import { LuArrowLeft, LuArrowRight, LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { productsInCategory, type Category } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Picture } from '../ui/Picture';
@@ -16,7 +16,7 @@ import { Picture } from '../ui/Picture';
 export function MegaMenu({ category }: { category: Category }) {
   const { t, pick, number, dir } = useI18n();
   const Arrow = dir === 'rtl' ? LuArrowLeft : LuArrowRight;
-  const Branch = dir === 'rtl' ? LuCornerDownLeft : LuCornerDownRight;
+  const Branch = dir === 'rtl' ? LuChevronLeft : LuChevronRight;
   const children = category.children ?? [];
 
   return (
@@ -44,19 +44,26 @@ export function MegaMenu({ category }: { category: Category }) {
                     <Picture photo={child.photo} alt="" sizes="200px" />
                     <span className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/10 to-transparent p-3 text-white">
                       <strong className="font-display text-lg leading-snug">{pick(child.name)}</strong>
-                      <span className="text-xs text-white/75">{t('category.count', { count: number(productsInCategory(child.id).length) })}</span>
+                      <span className="truncate text-xs text-white/75">{child.tagline ? pick(child.tagline) : t('category.count', { count: number(productsInCategory(child.id).length) })}</span>
                     </span>
                   </Link>
                   {child.children && (
-                    <ul className="mt-2 grid gap-0.5 text-[0.9rem]">
-                      {child.children.map((leaf) => (
-                        <li key={leaf.id}>
-                          <Link to={`/category/${leaf.slug}`} className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-soft transition-colors duration-300 hover:bg-raise hover:text-accent">
-                            <Branch className="shrink-0 text-muted" aria-hidden /> {pick(leaf.name)}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
+                    <div className="mt-2 rounded-md bg-raise p-2">
+                      <p className="px-1 pb-1 text-[0.72rem] text-muted">{t('nav.inside', { name: pick(child.name) })}</p>
+                      <ul className="grid gap-0.5 text-[0.88rem]">
+                        {child.children.map((leaf) => (
+                          <li key={leaf.id}>
+                            <Link to={`/category/${leaf.slug}`} className="flex items-center gap-2 rounded-sm p-1 text-soft transition-colors duration-300 hover:bg-surface hover:text-accent">
+                              <span className="h-7 w-7 shrink-0 overflow-hidden rounded-pill">
+                                <Picture photo={leaf.photo} alt="" sizes="28px" />
+                              </span>
+                              <span className="min-w-0 flex-1 truncate">{pick(leaf.name)}</span>
+                              <Branch className="shrink-0 text-muted" aria-hidden />
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   )}
                 </li>
               ))}

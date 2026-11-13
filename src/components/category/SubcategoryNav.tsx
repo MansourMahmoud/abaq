@@ -1,48 +1,70 @@
 import { Link } from 'react-router-dom';
+import { LuArrowLeft, LuArrowRight } from 'react-icons/lu';
 import { productsInCategory, type Category } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
+import { Carousel } from '../ui/Carousel';
 import { Picture } from '../ui/Picture';
 
 interface SubcategoryNavProps {
   /** The category whose children are listed. */
   root: Category;
+  /** The category above `root`, when there is one, for the "back" link. */
+  parent?: Category;
   /** The category being viewed: the root itself or one of its children. */
   currentId: string;
 }
 
 /**
- * Sub-categories in a panel that overlaps the bottom edge of the listing
- * banner, so banner and navigation read as one block. Each entry is a round
- * photo with the name and product count; the first stands for the whole
- * parent category, and the one being viewed carries the accent ring.
+ * The sub-categories of the listing being viewed, as a row of cards that
+ * scrolls once there are more than fit. It works at every level of the tree:
+ * on a category it lists that category's children; on a leaf it lists the
+ * leaf's siblings, so the shopper can move sideways. Each card says what the
+ * sub-category is, how many products it holds and whether it branches further.
  */
-export function SubcategoryNav({ root, currentId }: SubcategoryNavProps) {
-  const { t, pick, number } = useI18n();
-  const entries = [{ category: root, label: t('category.all') }, ...(root.children ?? []).map((child) => ({ category: child, label: pick(child.name) }))];
-  if (entries.length < 2) return null;
+export function SubcategoryNav({ root, parent, currentId }: SubcategoryNavProps) {
+  const { t, pick, number, dir } = useI18n();
+  const children = root.children ?? [];
+  if (children.length === 0) return null;
+  const Back = dir === 'rtl' ? LuArrowRight : LuArrowLeft;
+
+  const entries = [{ category: root, name: t('category.allOf', { name: pick(root.name) }), hint: root.description ?? root.tagline }, ...children.map((child) => ({ category: child, name: pick(child.name), hint: child.tagline }))];
 
   return (
-    <nav className="category-subnav" aria-label={t('nav.subcategories')}>
-      <p className="category-subnav__title">
-        <span className="eyebrow">{t('nav.subcategories')}</span>
-        <strong>{pick(root.name)}</strong>
-      </p>
-      <ul className="subcategory-row">
-        {entries.map(({ category, label }) => {
+    <section className="container subcategories" aria-label={t('nav.subcategories')}>
+      <div className="section__head !mb-5">
+        <div>
+          <p className="eyebrow">{t('nav.subcategories')}</p>
+          <h2 className="font-display text-2xl font-bold leading-[var(--lh-display)] md:text-3xl">{t('category.browse', { name: pick(root.name) })}</h2>
+        </div>
+        {parent && (
+          <Link className="link inline-flex items-center gap-2" to={`/category/${parent.slug}`}>
+            <Back aria-hidden /> {t('category.backTo', { name: pick(parent.name) })}
+          </Link>
+        )}
+      </div>
+
+      <Carousel label={t('nav.subcategories')} variant="tiles">
+        {entries.map(({ category, name, hint }) => {
           const active = category.id === currentId;
+          const branches = category.id === root.id ? 0 : (category.children?.length ?? 0);
           return (
-            <li key={category.id}>
-              <Link className="category-subnav__item" aria-current={active ? 'page' : undefined} to={`/category/${category.slug}`}>
-                <span className="category-subnav__photo">
-                  <Picture photo={category.photo} alt="" sizes="88px" />
+            <Link key={category.id} className="subcategory" aria-current={active ? 'page' : undefined} to={`/category/${category.slug}`}>
+              {active && <span className="subcategory__current">{t('category.viewing')}</span>}
+              <span className="subcategory__media media-zoom">
+                <Picture photo={category.photo} alt="" sizes="(min-width: 1200px) 18vw, (min-width: 560px) 31vw, 46vw" />
+              </span>
+              <span className="subcategory__body">
+                <strong className="subcategory__name">{name}</strong>
+                <span className="subcategory__hint">{hint ? pick(hint) : ''}</span>
+                <span className="subcategory__meta">
+                  <span>{t('category.count', { count: number(productsInCategory(category.id).length) })}</span>
+                  {branches > 0 && <span data-kind="children">{t('category.branches', { count: number(branches) })}</span>}
                 </span>
-                <strong>{label}</strong>
-                <small>{t('category.count', { count: number(productsInCategory(category.id).length) })}</small>
-              </Link>
-            </li>
+              </span>
+            </Link>
           );
         })}
-      </ul>
-    </nav>
+      </Carousel>
+    </section>
   );
 }
