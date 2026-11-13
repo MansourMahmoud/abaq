@@ -29,7 +29,7 @@ export function ClipPlayer({ clip, autoPlay = false, className }: ClipPlayerProp
     else element.pause();
   };
 
-  const button = 'grid h-10 w-10 shrink-0 place-items-center rounded-pill bg-transparent text-lg text-white transition-colors duration-200 hover:bg-white hover:text-black';
+  const button = 'grid h-10 w-10 shrink-0 place-items-center rounded-pill bg-transparent text-lg text-white transition-colors duration-300 hover:bg-white hover:text-black';
 
   return (
     <div className={`scope-dark group relative h-full w-full overflow-hidden bg-black ${className ?? ''}`}>
@@ -48,7 +48,7 @@ export function ClipPlayer({ clip, autoPlay = false, className }: ClipPlayerProp
         onTimeUpdate={(event) => setTime(event.currentTarget.currentTime)}
       />
       {!playing && (
-        <button type="button" aria-label={`${t('video.play')}: ${pick(clip.title)}`} onClick={toggle} className="absolute inset-0 m-auto grid h-16 w-16 place-items-center rounded-pill bg-accent text-2xl text-on-accent transition-transform duration-300 ease-theme hover:scale-110">
+        <button type="button" aria-label={`${t('video.play')}: ${pick(clip.title)}`} onClick={toggle} className="absolute inset-0 m-auto grid h-16 w-16 place-items-center rounded-pill bg-accent text-2xl text-on-accent transition-transform duration-500 ease-theme hover:scale-110">
           <LuPlay aria-hidden />
         </button>
       )}

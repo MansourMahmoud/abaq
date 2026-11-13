@@ -50,12 +50,43 @@ export const story = {
   link: { label: l('اقرأ حكايتنا', 'Read our story'), to: '/page/about' },
 };
 
-export const gallery = {
-  eyebrow: l('من عملائنا', 'From our customers'),
+/**
+ * Social sections. Counts and captions are what the merchant types in; the
+ * Salla theme does not read them from the networks.
+ */
+export const instagram = {
+  eyebrow: l('تابعنا على إنستغرام', 'Follow us on Instagram'),
   title: l('عبق في بيوتكم', 'Abaq at home'),
   handle: '@abaq',
   href: 'https://instagram.com',
-  photos: ['goldBottle', 'burnerCarpet', 'amberTrio', 'oudOil', 'pinkBottle', 'bottlesRow'] as PhotoKey[],
+  bio: l('عطور ودهن عود وبخور · صور من عملائنا كل أسبوع', 'Perfume, oud and bakhoor · customer photos every week'),
+  stats: [
+    { value: l('٤٨ ألف', '48K'), label: l('متابع', 'followers') },
+    { value: l('٣١٢', '312'), label: l('منشور', 'posts') },
+  ],
+  posts: [
+    { photo: 'goldBottle', likes: 1240, comments: 86 },
+    { photo: 'burnerCarpet', likes: 980, comments: 41 },
+    { photo: 'amberTrio', likes: 1530, comments: 112 },
+    { photo: 'oudOil', likes: 870, comments: 37 },
+    { photo: 'pinkBottle', likes: 1105, comments: 64 },
+    { photo: 'bottlesRow', likes: 760, comments: 29 },
+  ] as { photo: PhotoKey; likes: number; comments: number }[],
+};
+
+export const tiktok = {
+  eyebrow: l('الأكثر مشاهدة على تيك توك', 'Most watched on TikTok'),
+  title: l('شاهد عبق على تيك توك', 'Watch Abaq on TikTok'),
+  handle: '@abaq',
+  href: 'https://tiktok.com',
+  /** `file` names a clip in `data/videos.ts`. */
+  videos: [
+    { file: 'touching-bottle', caption: l('فتح علبة طقم الإرث', 'Unboxing the Heritage Set'), views: l('٢١٤ ألف', '214K') },
+    { file: 'spray-wrist', caption: l('أين ترشّ العطر ليثبت؟', 'Where to spray so it lasts'), views: l('١٨٠ ألف', '180K') },
+    { file: 'bottle-reflective', caption: l('جديدنا: مسك الصباح', 'New in: Morning Musk'), views: l('٩٦ ألف', '96K') },
+    { file: 'atomizer', caption: l('رشّة واحدة تكفي', 'One spray is enough'), views: l('٧٣ ألف', '73K') },
+    { file: 'making-perfume', caption: l('من داخل المعمل', 'Inside the lab'), views: l('٥٨ ألف', '58K') },
+  ],
 };
 
 /** Promotional card that overlaps the top edge of the footer. */

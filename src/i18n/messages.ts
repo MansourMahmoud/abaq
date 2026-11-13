@@ -233,6 +233,11 @@ export const ar = {
   'sort.priceDesc': 'السعر: من الأعلى',
   'sort.rating': 'الأعلى تقييماً',
   'sort.discount': 'الأكثر خصماً',
+  'nav.mainCategory': 'القسم الرئيسي',
+  'nav.subcategories': 'الأقسام الفرعية',
+  'chat.online': 'متصل الآن',
+  'social.follow': 'تابعنا',
+  'social.views': 'مشاهدة',
 } as const;
 
 export type MessageKey = keyof typeof ar;
@@ -469,4 +474,9 @@ export const en: Messages = {
   'sort.priceDesc': 'Price: high to low',
   'sort.rating': 'Top rated',
   'sort.discount': 'Biggest discount',
+  'nav.mainCategory': 'Main category',
+  'nav.subcategories': 'Sub-categories',
+  'chat.online': 'Online now',
+  'social.follow': 'Follow',
+  'social.views': 'views',
 };

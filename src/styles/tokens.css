@@ -20,7 +20,7 @@
   --c-text-soft: #4a433c;
   --c-text-muted: #6f675e;
   --c-success: #1c7c45;
-  --c-sale: #b3261e;
+  --c-sale: #c62828;
   /* Tinted band used to separate sections on the light background. */
   --c-paper: #f1ebe1;
   --c-paper-raise: #ffffff;
@@ -56,11 +56,11 @@
   --container: 1360px;
   --section-gap: clamp(48px, 6vw, 88px);
 
-  /* Motion: one duration and easing so hover states feel like one system */
-  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --t-fast: 160ms;
-  --t-med: 320ms;
-  --t-slow: 700ms;
+  /* Motion: slow, soft transitions everywhere; nothing snaps or jumps */
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --t-fast: 260ms;
+  --t-med: 480ms;
+  --t-slow: 1100ms;
 
   --header-h: 84px;
 }
@@ -97,7 +97,7 @@
   --c-text-soft: #cdbfaa;
   --c-text-muted: #b8ab98;
   --c-success: #5fd08a;
-  --c-sale: #ff8a80;
+  --c-sale: #e5484d;
   color: var(--c-text);
 }
 

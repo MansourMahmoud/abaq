@@ -27,7 +27,7 @@ export function SocialLinks({ variant = 'buttons', className }: SocialLinksProps
         return (
           <li key={network}>
             <a
-              className={variant === 'buttons' ? 'icon-button' : 'grid h-8 w-8 place-items-center rounded-pill text-[0.95rem] transition-colors duration-200 hover:bg-accent hover:text-on-accent'}
+              className={variant === 'buttons' ? 'icon-button' : 'grid h-8 w-8 place-items-center rounded-pill text-[0.95rem] transition-colors duration-300 hover:bg-accent hover:text-on-accent'}
               href={href}
               target="_blank"
               rel="noopener noreferrer"

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { LuBadgeCheck, LuStar, LuThumbsUp } from 'react-icons/lu';
 import type { Product } from '../../data/catalog';
 import type { Review } from '../../data/content';
@@ -28,24 +29,40 @@ export function ReviewAvatar({ review }: { review: Review }) {
 
 interface ReviewCardProps {
   review: Review;
-  /** When given, the card names the product the review is about. */
+  /**
+   * compact: every card has the same parts in the same places (author, stars,
+   * a fixed number of text lines, the product reviewed), so a row of cards
+   * lines up whether or not a review has photos.
+   * full: the whole text, the customer's photos and the "helpful" count.
+   */
+  variant?: 'compact' | 'full';
+  /** The product the review is about; shown at the foot of a compact card. */
   product?: Product;
-  /** Show the photos the customer attached and the "helpful" count. */
-  detailed?: boolean;
 }
 
-export function ReviewCard({ review, product, detailed = false }: ReviewCardProps) {
-  const { t, pick, number, locale } = useI18n();
+export function ReviewCard({ review, variant = 'full', product }: ReviewCardProps) {
+  const { t, pick, number, money, locale } = useI18n();
   const date = new Intl.DateTimeFormat(locale === 'ar' ? 'ar-SA-u-ca-gregory' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(review.date));
 
   return (
-    <figure className="review">
-      <div className="review__top">
-        <Stars rating={review.rating} />
-        <time dateTime={review.date}>{date}</time>
-      </div>
+    <figure className="review" data-variant={variant}>
+      <figcaption>
+        <ReviewAvatar review={review} />
+        <span className="review__who">
+          <strong>{pick(review.author)}</strong>
+          <time dateTime={review.date}>{date}</time>
+        </span>
+        {review.verified && (
+          <span className="review__verified">
+            <LuBadgeCheck aria-hidden /> {t('reviews.verified')}
+          </span>
+        )}
+      </figcaption>
+
+      <Stars rating={review.rating} />
       <blockquote>{pick(review.text)}</blockquote>
-      {detailed && review.photos && (
+
+      {variant === 'full' && review.photos && (
         <ul className="review__photos" aria-label={t('reviews.photos')}>
           {review.photos.map((photo) => (
             <li key={photo}>
@@ -54,23 +71,24 @@ export function ReviewCard({ review, product, detailed = false }: ReviewCardProp
           ))}
         </ul>
       )}
-      <figcaption>
-        <ReviewAvatar review={review} />
-        <span className="review__who">
-          <strong>{pick(review.author)}</strong>
-          {product && <span>{pick(product.name)}</span>}
-          {detailed && (
-            <span className="review__helpful">
-              <LuThumbsUp aria-hidden /> {t('reviews.helpful', { count: number(review.helpful) })}
-            </span>
-          )}
-        </span>
-        {review.verified && (
-          <span className="review__verified">
-            <LuBadgeCheck aria-hidden /> {t('reviews.verified')}
+
+      {variant === 'full' && (
+        <p className="review__helpful">
+          <LuThumbsUp aria-hidden /> {t('reviews.helpful', { count: number(review.helpful) })}
+        </p>
+      )}
+
+      {variant === 'compact' && product && (
+        <Link className="review__product" to={`/product/${product.slug}`}>
+          <span className="review__product-thumb">
+            <Picture photo={product.photos[0]} alt="" sizes="44px" />
           </span>
-        )}
-      </figcaption>
+          <span className="review__who">
+            <strong>{pick(product.name)}</strong>
+            <span>{money(product.price)}</span>
+          </span>
+        </Link>
+      )}
     </figure>
   );
 }

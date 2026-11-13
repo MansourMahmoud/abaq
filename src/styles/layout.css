@@ -80,7 +80,7 @@
 }
 
 .media-zoom:hover img {
-  transform: scale(1.06);
+  transform: scale(1.035);
 }
 
 /* ---------- Announcement bar ---------- */
@@ -184,6 +184,11 @@
   z-index: 20;
   border-block-end: 1px solid var(--c-line);
   background: var(--c-bg);
+  transition:
+    transform var(--t-med) var(--ease),
+    background-color var(--t-med) var(--ease),
+    border-color var(--t-med) var(--ease),
+    box-shadow var(--t-med) var(--ease);
 }
 
 .header[data-sticky='true'] {
@@ -191,10 +196,32 @@
   inset-block-start: 0;
 }
 
-/* Floating: laid over the hero, no background of its own. */
-.header[data-floating='true'] {
+.header[data-sticky='true'][data-scrolled='true'] {
+  box-shadow: 0 6px 24px rgb(29 26 23 / 0.08);
+}
+
+/* Slides out while the shopper scrolls down; back on the first scroll up. */
+.header[data-hidden='true'] {
+  transform: translateY(-101%);
+  box-shadow: none;
+}
+
+/*
+ * Over the hero: the header takes no room of its own (the negative margin
+ * pulls the hero up underneath it), so it can stay sticky and simply change
+ * from transparent to solid once the page scrolls.
+ */
+.header[data-over-hero='true'] {
+  margin-block-end: calc(-1 * var(--header-h) - 1px);
+}
+
+.header[data-over-hero='true']:not([data-sticky='true']) {
   position: absolute;
   inset-inline: 0;
+  margin-block-end: 0;
+}
+
+.header[data-floating='true'] {
   border-block-end-color: transparent;
   background: linear-gradient(rgb(21 17 14 / 0.75), transparent);
 }

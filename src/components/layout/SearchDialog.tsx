@@ -68,7 +68,7 @@ export function SearchDialog({ open, onClose }: SearchDialogProps) {
           <ul className="grid gap-1">
             {results.map((product) => (
               <li key={product.id}>
-                <Link to={`/product/${product.slug}`} onClick={close} className="flex items-center gap-3 rounded-sm p-2 transition-colors duration-200 hover:bg-raise">
+                <Link to={`/product/${product.slug}`} onClick={close} className="flex items-center gap-3 rounded-sm p-2 transition-colors duration-300 hover:bg-raise">
                   <span className="h-14 w-12 shrink-0 overflow-hidden rounded-[8px] bg-raise">
                     <Picture photo={product.photos[0]} alt="" sizes="48px" />
                   </span>

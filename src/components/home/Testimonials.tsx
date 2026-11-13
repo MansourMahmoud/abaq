@@ -41,7 +41,7 @@ export function Testimonials() {
         </div>
         <Carousel label={t('reviews.home')} variant="cards">
           {reviews.map((review) => (
-            <ReviewCard key={review.id} review={review} product={products.find((product) => product.id === review.productId)} detailed />
+            <ReviewCard key={review.id} review={review} variant="compact" product={products.find((product) => product.id === review.productId)} />
           ))}
         </Carousel>
       </Reveal>

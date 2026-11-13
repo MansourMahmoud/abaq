@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { LuChevronDown, LuGlobe, LuHeart, LuMenu, LuSearch, LuShoppingBag, LuUser } from 'react-icons/lu';
 import { categories } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
+import { useScrollState } from '../../lib/useScrollState';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 import { Logo } from '../ui/Logo';
 import { CategoryDrawer } from './CategoryDrawer';
@@ -20,7 +21,8 @@ interface HeaderProps {
 /**
  * Site header. One markup tree serves the three merchant-selectable variants;
  * the variant is exposed as a `data-variant` attribute and the stylesheet
- * shows, hides and re-orders the parts. Below the tablet breakpoint every
+ * shows, hides and re-orders the parts. When sticky, the header slides out of
+ * view on the way down the page and returns on the first scroll up. Below the tablet breakpoint every
  * variant collapses to the drawer layout, because a category row cannot fit.
  */
 export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
@@ -29,13 +31,22 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
-  const floats = overHero && header.variant !== 'classic';
+  const { scrolled, goingDown } = useScrollState();
+
+  // Over the hero the header is transparent until the page scrolls, then it turns solid.
+  const overlaysHero = overHero && header.variant !== 'classic';
+  const floats = overlaysHero && !scrolled;
+  // A sticky header slides away while scrolling down, unless one of its panels is open.
+  const hidden = header.sticky && goingDown && !drawerOpen && !searchOpen;
 
   return (
     <header
       className="header"
       data-variant={header.variant}
       data-floating={floats}
+      data-over-hero={overlaysHero}
+      data-scrolled={scrolled}
+      data-hidden={hidden}
       data-sticky={header.sticky}
       data-logo={header.logoPosition}
       data-labels={header.showActionLabels}

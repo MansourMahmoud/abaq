@@ -13,7 +13,7 @@ interface CarouselProps {
    * Names the item-width preset in `components.css`. Widths are chosen so the
    * next item always peeks in, which is what tells the shopper the row moves.
    */
-  variant: 'products' | 'categories' | 'reels' | 'cards';
+  variant: 'products' | 'categories' | 'reels' | 'cards' | 'deals';
   children: ReactNode[];
 }
 
@@ -25,7 +25,7 @@ interface CarouselProps {
 export function Carousel({ label, variant, children }: CarouselProps) {
   const { t, dir } = useI18n();
   const indicator = useThemeSettings().settings.home.carouselIndicator;
-  const [viewport, embla] = useEmblaCarousel({ direction: dir, align: 'start', containScroll: 'trimSnaps', slidesToScroll: 'auto' });
+  const [viewport, embla] = useEmblaCarousel({ direction: dir, align: 'start', containScroll: 'trimSnaps', slidesToScroll: 'auto', duration: 38 });
   const [snaps, setSnaps] = useState<number[]>([]);
   const [selected, setSelected] = useState(0);
   const [progress, setProgress] = useState(0);

@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 import { AnimatePresence, m } from 'motion/react';
 import { FaWhatsapp } from 'react-icons/fa6';
 import { LuArrowUp, LuX } from 'react-icons/lu';
-import { chatPrompts, whatsappUrl } from '../../data/content';
+import { STORE, chatPrompts, whatsappUrl } from '../../data/content';
 import { useI18n } from '../../i18n/I18nProvider';
 import { useThemeSettings } from '../../settings/ThemeSettings';
+import { LogoMark } from '../ui/Logo';
 
 /** Timing of the prompt bubble: wait, show, hide, then move to the next prompt. */
 const FIRST_PROMPT_MS = 4000;
@@ -42,8 +43,8 @@ function usePromptCycle(count: number, enabled: boolean): [number | null, () => 
 
 /**
  * WhatsApp shortcut with rotating prompt bubbles, and a back-to-top button
- * that appears after one screen of scroll. The bubble opens toward the middle
- * of the screen, is small enough to stay clear of the content, and never
+ * that appears after one screen of scroll. The bubble always opens toward the
+ * middle of the screen (to the left of a button on the right edge), is small enough to stay clear of the content, and never
  * takes focus.
  */
 export function FloatingActions() {
@@ -68,9 +69,10 @@ export function FloatingActions() {
             className="icon-button floating-actions__top"
             type="button"
             aria-label={t('action.backToTop')}
-            initial={{ opacity: 0, scale: 0.6 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.6 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
             <LuArrowUp aria-hidden />
@@ -86,13 +88,19 @@ export function FloatingActions() {
                 key={prompt}
                 className="floating-actions__prompt"
                 role="status"
-                initial={{ opacity: 0, scale: 0.85, x: floating.side === 'right' ? 16 : -16 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.9, x: floating.side === 'right' ? 10 : -10 }}
-                transition={{ type: 'spring', stiffness: 380, damping: 26 }}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 6 }}
+                transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
               >
+                <span className="floating-actions__avatar" aria-hidden>
+                  <LogoMark />
+                </span>
                 <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                  {pick(chatPrompts[prompt])}
+                  <span className="floating-actions__who">
+                    {pick(STORE.name)} <i /> {t('chat.online')}
+                  </span>
+                  <span>{pick(chatPrompts[prompt])}</span>
                 </a>
                 <button type="button" aria-label={t('action.close')} onClick={dismissPrompt}>
                   <LuX aria-hidden />

@@ -22,6 +22,11 @@
   height: 10px;
 }
 
+/* No arrow buttons at the ends of the bar. */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
 ::-webkit-scrollbar-track,
 ::-webkit-scrollbar-corner {
   background: transparent;

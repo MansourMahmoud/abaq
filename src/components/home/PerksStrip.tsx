@@ -20,7 +20,7 @@ export function PerksStrip() {
           const Icon = ICONS[perk.icon];
           return (
             <li key={perk.icon} className="group flex flex-col items-center gap-2 bg-surface px-3 py-5 text-center sm:flex-row sm:gap-4 sm:px-5 sm:text-start">
-              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-pill bg-raise text-xl text-accent transition-all duration-300 ease-theme group-hover:bg-accent group-hover:text-on-accent">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-pill bg-raise text-xl text-accent transition-all duration-500 ease-theme group-hover:bg-accent group-hover:text-on-accent">
                 <Icon aria-hidden />
               </span>
               <span className="grid min-w-0 leading-snug">

@@ -4,7 +4,7 @@ import { Bestsellers } from '../components/home/Bestsellers';
 import { BudgetPicker } from '../components/home/BudgetPicker';
 import { CategoryShowcase } from '../components/home/CategoryShowcase';
 import { FaqHelp } from '../components/home/FaqHelp';
-import { Gallery } from '../components/home/Gallery';
+import { InstagramFeed } from '../components/home/InstagramFeed';
 import { HeroSlider } from '../components/home/HeroSlider';
 import { OfferCountdown } from '../components/home/OfferCountdown';
 import { PerksStrip } from '../components/home/PerksStrip';
@@ -12,6 +12,7 @@ import { Reels } from '../components/home/Reels';
 import { ScentFinder } from '../components/home/ScentFinder';
 import { Story } from '../components/home/Story';
 import { Testimonials } from '../components/home/Testimonials';
+import { TikTokFeed } from '../components/home/TikTokFeed';
 import { VideoShowcase } from '../components/home/VideoShowcase';
 import { Picture } from '../components/ui/Picture';
 import { Reveal } from '../components/ui/Reveal';
@@ -54,7 +55,8 @@ export function HomePage() {
 
       <Story />
       <Testimonials />
-      <Gallery />
+      <InstagramFeed />
+      <TikTokFeed />
       <FaqHelp />
 
       <section className="section section--flush-top">

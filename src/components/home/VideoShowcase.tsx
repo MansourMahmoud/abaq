@@ -60,7 +60,7 @@ export function VideoShowcase() {
     setTime(seconds);
   };
 
-  const controlButton = 'grid h-11 w-11 shrink-0 place-items-center rounded-pill bg-transparent text-lg text-text transition-colors duration-200 hover:bg-accent hover:text-on-accent';
+  const controlButton = 'grid h-11 w-11 shrink-0 place-items-center rounded-pill bg-transparent text-lg text-text transition-colors duration-300 hover:bg-accent hover:text-on-accent';
 
   return (
     <section className="section">
@@ -101,7 +101,7 @@ export function VideoShowcase() {
                 type="button"
                 aria-label={`${t('video.play')}: ${pick(clip.title)}`}
                 onClick={toggle}
-                className="absolute inset-0 m-auto grid h-20 w-20 place-items-center rounded-pill bg-accent text-3xl text-on-accent shadow-[0_0_0_10px_rgb(212_175_114/0.25)] transition-transform duration-300 ease-theme hover:scale-110 md:h-24 md:w-24"
+                className="absolute inset-0 m-auto grid h-20 w-20 place-items-center rounded-pill bg-accent text-3xl text-on-accent shadow-[0_0_0_10px_rgb(212_175_114/0.25)] transition-transform duration-500 ease-theme hover:scale-110 md:h-24 md:w-24"
               >
                 <LuPlay aria-hidden className="translate-x-0.5 rtl:-translate-x-0.5" />
               </button>
@@ -119,7 +119,7 @@ export function VideoShowcase() {
                 </Link>
                 <span className="text-sm">{money(product.price)}</span>
               </p>
-              <button type="button" aria-label={`${t('action.addToCart')}: ${pick(product.name)}`} onClick={() => add(product)} className="grid h-11 w-11 shrink-0 place-items-center rounded-pill bg-accent text-lg text-on-accent transition-colors duration-200 hover:bg-text hover:text-bg">
+              <button type="button" aria-label={`${t('action.addToCart')}: ${pick(product.name)}`} onClick={() => add(product)} className="grid h-11 w-11 shrink-0 place-items-center rounded-pill bg-accent text-lg text-on-accent transition-colors duration-300 hover:bg-text hover:text-bg">
                 <LuPlus aria-hidden />
               </button>
             </div>
@@ -159,7 +159,8 @@ export function VideoShowcase() {
               </span>
             </p>
             {/* A row that scrolls sideways on phones, a column beside the stage on desktop. */}
-            <ul className="flex gap-2 overflow-x-auto pb-1 lg:max-h-[26rem] lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden lg:pe-1">
+            <div className="relative min-h-0 lg:flex-1">
+              <ul className="cinema__list flex gap-2 overflow-x-auto lg:absolute lg:inset-0 lg:flex-col lg:overflow-y-auto lg:overflow-x-hidden">
               {playlist.map((entry, entryIndex) => {
                 const active = entryIndex === index;
                 const entryProduct = products.find((candidate) => candidate.id === entry.productId)!;
@@ -169,7 +170,7 @@ export function VideoShowcase() {
                       type="button"
                       aria-pressed={active}
                       onClick={() => select(entryIndex)}
-                      className={`flex w-full items-center gap-3 rounded-sm border p-2 text-start transition-colors duration-200 hover:border-accent ${active ? 'border-accent bg-raise' : 'border-transparent bg-surface'}`}
+                      className={`flex w-full items-center gap-3 rounded-sm border p-2 text-start transition-colors duration-300 hover:border-accent ${active ? 'border-accent bg-raise' : 'border-transparent bg-surface'}`}
                     >
                       <span className="relative h-14 w-24 shrink-0 overflow-hidden rounded-[8px] bg-black">
                         <img src={clipPoster(entry)} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
@@ -193,7 +194,8 @@ export function VideoShowcase() {
                   </li>
                 );
               })}
-            </ul>
+              </ul>
+            </div>
           </aside>
         </div>
 

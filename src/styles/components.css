@@ -92,12 +92,14 @@
 .carousel[data-variant='categories'] { --carousel-item: 42%; }
 .carousel[data-variant='reels'] { --carousel-item: 64%; }
 .carousel[data-variant='cards'] { --carousel-item: 86%; }
+.carousel[data-variant='deals'] { --carousel-item: 68%; }
 
 @media (min-width: 560px) {
   .carousel[data-variant='products'] { --carousel-item: 44%; }
   .carousel[data-variant='categories'] { --carousel-item: 29%; }
   .carousel[data-variant='reels'] { --carousel-item: 38%; }
   .carousel[data-variant='cards'] { --carousel-item: 58%; }
+  .carousel[data-variant='deals'] { --carousel-item: 46%; }
 }
 
 @media (min-width: 900px) {
@@ -105,6 +107,7 @@
   .carousel[data-variant='categories'] { --carousel-item: 21%; }
   .carousel[data-variant='reels'] { --carousel-item: 27%; }
   .carousel[data-variant='cards'] { --carousel-item: 40%; }
+  .carousel[data-variant='deals'] { --carousel-item: calc((100% - 2 * var(--carousel-gap)) / 3); }
 }
 
 @media (min-width: 1200px) {
@@ -401,9 +404,10 @@
   position: fixed;
   inset-block-end: 20px;
   z-index: 15;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
-  justify-items: end;
+  direction: ltr; /* physical layout; the bubble sets its own text direction */
   /* The stack itself is not a target; only the buttons inside it are. */
   pointer-events: none;
 }
@@ -413,15 +417,19 @@
   pointer-events: auto;
 }
 
-/* Sides are physical: the merchant picks a screen edge, whatever the language. */
+/*
+ * Sides are physical: the merchant picks a screen edge, whatever the language.
+ * The layout below is written left-to-right on purpose, so the chat button
+ * always hugs its edge and the bubble opens toward the middle of the screen.
+ */
 .floating-actions[data-side='right'] {
   right: 20px;
-  direction: ltr;
+  align-items: flex-end;
 }
 
 .floating-actions[data-side='left'] {
   left: 20px;
-  direction: rtl;
+  align-items: flex-start;
 }
 
 .floating-actions__top:not(:hover) {
@@ -429,16 +437,25 @@
   box-shadow: var(--shadow-card);
 }
 
+/* Centred over the chat button, whichever side it is on. */
 .floating-actions__top {
-  justify-self: center;
+  margin-inline: 4px;
 }
 
 .floating-actions__chat {
   display: flex;
-  flex-direction: row-reverse;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-end;
+  gap: 12px;
+  direction: ltr;
   pointer-events: none;
+}
+
+.floating-actions[data-side='right'] .floating-actions__chat {
+  flex-direction: row;
+}
+
+.floating-actions[data-side='left'] .floating-actions__chat {
+  flex-direction: row-reverse;
 }
 
 .floating-actions__whatsapp {
@@ -467,7 +484,7 @@
 }
 
 .floating-actions__whatsapp:hover {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 @keyframes chat-pulse {
@@ -480,27 +497,89 @@
 .floating-actions__prompt {
   position: relative;
   display: flex;
-  align-items: center;
-  gap: 6px;
-  max-width: min(250px, calc(100vw - 110px));
-  padding: 9px 8px 9px 14px;
+  align-items: flex-start;
+  gap: 10px;
+  width: min(280px, calc(100vw - 110px));
+  margin-block-end: 6px;
+  padding: 12px;
   border: 1px solid var(--c-line);
-  border-radius: 16px;
+  border-radius: 18px;
   background: var(--c-surface);
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 12px 32px rgb(29 26 23 / 0.14);
   color: var(--c-text);
   font-size: var(--fs-sm);
-  line-height: 1.5;
-  direction: inherit;
+  line-height: 1.6;
+  direction: rtl;
 }
 
-[dir='rtl'] .floating-actions__prompt {
-  direction: rtl;
-  padding: 9px 14px 9px 8px;
+html[dir='ltr'] .floating-actions__prompt {
+  direction: ltr;
+}
+
+/* Tail pointing at the chat button. */
+.floating-actions__prompt::after {
+  content: '';
+  position: absolute;
+  inset-block-end: 16px;
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--c-line);
+  border-block-end: 0;
+  background: var(--c-surface);
+}
+
+.floating-actions[data-side='right'] .floating-actions__prompt::after {
+  right: -7px;
+  border-left: 0;
+  transform: rotate(45deg);
+}
+
+.floating-actions[data-side='left'] .floating-actions__prompt::after {
+  left: -7px;
+  border-right: 0;
+  transform: rotate(-45deg);
+}
+
+.floating-actions__avatar {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #15110e;
+  color: #d4af72;
+}
+
+.floating-actions__avatar svg {
+  width: 22px;
+  height: 22px;
+}
+
+.floating-actions__prompt a {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  transition: color var(--t-fast) var(--ease);
 }
 
 .floating-actions__prompt a:hover {
   color: var(--c-accent);
+}
+
+.floating-actions__who {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--c-text-muted);
+  font-size: var(--fs-xs);
+}
+
+.floating-actions__who i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #25d366;
 }
 
 .floating-actions__prompt button {
@@ -772,17 +851,22 @@
   }
 }
 
-/* ---------- Review card additions ---------- */
+/* ---------- Review card layout ---------- */
 
 .review {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   border: 1px solid var(--c-line);
 }
 
-.review__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+/* Author row comes first, so it loses the divider it had as a footer. */
+.review figcaption {
+  padding-block-start: 0;
+  border-block-start: 0;
+}
+
+.review__who time {
   color: var(--c-text-muted);
   font-size: var(--fs-xs);
 }
@@ -795,6 +879,40 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* Compact cards: the same number of text lines in every card. */
+.review[data-variant='compact'] blockquote {
+  display: -webkit-box;
+  min-height: calc(3 * 1.8em);
+  overflow: hidden;
+  font-size: var(--fs-md);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+.review__product {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-block-start: auto;
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  background: var(--c-raise);
+  transition: background-color var(--t-fast) var(--ease);
+}
+
+.review__product:hover {
+  background: var(--c-paper);
+}
+
+.review__product-thumb {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 .review__photos {
@@ -812,7 +930,9 @@
 .review__helpful {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
 }
 
 /* Phones: keep the floating buttons above the product page's fixed buy bar. */

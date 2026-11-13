@@ -55,7 +55,7 @@ export function ProductCard({ product, sizes = '(min-width: 1024px) 25vw, 50vw' 
         </h3>
         <p className="product-card__notes">{pick(product.notes)}</p>
         <div className="product-card__foot">
-          <p className="product-card__price">
+          <p className="product-card__price" data-sale={discount !== null}>
             <span>
               {money(product.price)}
               {product.compareAt && <s>{money(product.compareAt)}</s>}

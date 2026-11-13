@@ -23,7 +23,7 @@ export function BudgetPicker() {
             if (budget.max) query.set('max', String(budget.max));
             return (
               <li key={budget.title.en}>
-                <Link to={`/category/all?${query}`} className="group flex items-center gap-4 rounded-lg border border-line bg-surface p-3 transition-all duration-300 ease-theme hover:-translate-y-1 hover:border-accent hover:shadow-[var(--shadow-card)]">
+                <Link to={`/category/all?${query}`} className="group flex items-center gap-4 rounded-lg border border-line bg-surface p-3 transition-all duration-500 ease-theme hover:-translate-y-1 hover:border-accent hover:shadow-[var(--shadow-card)]">
                   <span className="media-zoom h-24 w-24 shrink-0 rounded-md">
                     <Picture photo={budget.photo} alt="" sizes="96px" />
                   </span>
@@ -31,7 +31,7 @@ export function BudgetPicker() {
                     <strong className="font-display text-2xl">{pick(budget.title)}</strong>
                     <span className="text-sm text-muted">{pick(budget.text)}</span>
                   </span>
-                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-pill border border-line text-lg transition-colors duration-200 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center rounded-pill border border-line text-lg transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent">
                     <Arrow aria-hidden />
                   </span>
                 </Link>

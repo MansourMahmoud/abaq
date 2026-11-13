@@ -21,13 +21,13 @@ export function ScentFinder() {
           {scentNotes.map((note) => (
             <li key={note.name.en}>
               <Link to={note.to} className="group grid justify-items-center gap-3 text-center">
-                <span className="relative block aspect-square w-full max-w-[150px] rounded-pill p-1.5 ring-1 ring-line transition-all duration-300 ease-theme group-hover:ring-2 group-hover:ring-accent">
+                <span className="relative block aspect-square w-full max-w-[150px] rounded-pill p-1.5 ring-1 ring-line transition-all duration-500 ease-theme group-hover:ring-2 group-hover:ring-accent">
                   <span className="media-zoom block h-full w-full rounded-pill">
                     <Picture photo={note.photo} alt="" sizes="(min-width: 768px) 150px, 30vw" />
                   </span>
                 </span>
                 <span className="grid leading-snug">
-                  <strong className="font-display text-xl transition-colors duration-200 group-hover:text-accent">{pick(note.name)}</strong>
+                  <strong className="font-display text-xl transition-colors duration-300 group-hover:text-accent">{pick(note.name)}</strong>
                   <span className="text-xs text-muted">{pick(note.hint)}</span>
                 </span>
               </Link>

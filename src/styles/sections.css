@@ -126,22 +126,23 @@
 }
 
 .offer__deals {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
-  gap: 16px;
+  min-width: 0;
 }
 
 .deal {
   display: grid;
   gap: 8px;
+  height: 100%;
+  align-content: start;
   padding: 12px;
+  border: 1px solid var(--c-line);
   border-radius: var(--radius-lg);
   background: var(--c-bg);
-  transition: transform var(--t-med) var(--ease);
+  transition: border-color var(--t-med) var(--ease);
 }
 
 .deal:hover {
-  transform: translateY(-4px);
+  border-color: var(--c-accent);
 }
 
 .deal__media {
@@ -150,11 +151,55 @@
   border-radius: var(--radius-md);
 }
 
+.deal__badge {
+  position: absolute;
+  inset-block-start: 10px;
+  inset-inline-start: 10px;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--c-sale);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+}
+
+/* One line, so a long name never pushes the prices out of line with its neighbours. */
 .deal__name {
+  overflow: hidden;
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   font-weight: 700;
   line-height: var(--lh-display);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.deal__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.deal__price strong {
+  color: var(--c-accent);
+  font-size: 1.25rem;
+}
+
+.deal__price s {
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+}
+
+.deal__save {
+  justify-self: start;
+  padding: 1px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--c-sale);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: 600;
 }
 
 .deal__sold {

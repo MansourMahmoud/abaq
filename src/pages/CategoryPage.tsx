@@ -171,7 +171,7 @@ export function CategoryPage() {
               <ul className="mb-5 flex flex-wrap gap-2" aria-label={t('filters.active')}>
                 {active.map((entry) => (
                   <li key={entry.label}>
-                    <button type="button" onClick={entry.remove} className="inline-flex items-center gap-2 rounded-pill border border-accent bg-surface px-3 py-1.5 text-sm text-accent transition-colors duration-200 hover:bg-accent hover:text-on-accent">
+                    <button type="button" onClick={entry.remove} className="inline-flex items-center gap-2 rounded-pill border border-accent bg-surface px-3 py-1.5 text-sm text-accent transition-colors duration-300 hover:bg-accent hover:text-on-accent">
                       {entry.label} <LuX aria-hidden />
                     </button>
                   </li>

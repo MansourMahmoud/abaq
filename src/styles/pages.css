@@ -698,3 +698,18 @@
   min-width: 0;
   overflow: hidden;
 }
+
+/* Playlist: scrolls without a visible bar and fades out at its far edge. */
+.cinema__list {
+  scrollbar-width: none;
+}
+
+.cinema__list::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .cinema__list {
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+  }
+}

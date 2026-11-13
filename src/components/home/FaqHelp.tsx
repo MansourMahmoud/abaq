@@ -53,12 +53,12 @@ export function FaqHelp() {
               const expanded = open === index;
               const panelId = `faq-${topic}-${index}`;
               return (
-                <li key={entry.question.en} className={`rounded-md border bg-surface transition-colors duration-300 ${expanded ? 'border-accent shadow-[var(--shadow-card)]' : 'border-line hover:border-accent/60'}`}>
+                <li key={entry.question.en} className={`rounded-md border bg-surface transition-colors duration-500 ${expanded ? 'border-accent shadow-[var(--shadow-card)]' : 'border-line hover:border-accent/60'}`}>
                   <h3 className="font-body text-base">
                     <button type="button" aria-expanded={expanded} aria-controls={panelId} onClick={() => setOpen(expanded ? null : index)} className="flex w-full items-center gap-4 bg-transparent px-5 py-4 text-start font-semibold">
                       <span className="w-7 shrink-0 font-display text-xl text-accent tabular-nums">{String(index + 1).padStart(2, '0')}</span>
                       <span className="flex-1">{pick(entry.question)}</span>
-                      <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-pill border transition-all duration-300 ease-theme ${expanded ? 'rotate-45 border-accent bg-accent text-on-accent' : 'border-line text-text'}`}>
+                      <span className={`grid h-9 w-9 shrink-0 place-items-center rounded-pill border transition-all duration-500 ease-theme ${expanded ? 'rotate-45 border-accent bg-accent text-on-accent' : 'border-line text-text'}`}>
                         <LuPlus aria-hidden />
                       </span>
                     </button>
@@ -69,7 +69,7 @@ export function FaqHelp() {
                         <div className="grid gap-3 px-5 pb-5 ps-16">
                           <p className="leading-loose text-soft">{pick(entry.answer)}</p>
                           {entry.action && (
-                            <Link to={entry.action.to} className="inline-flex items-center gap-2 justify-self-start rounded-pill border border-accent px-4 py-2 text-sm font-semibold text-accent transition-colors duration-200 hover:bg-accent hover:text-on-accent">
+                            <Link to={entry.action.to} className="inline-flex items-center gap-2 justify-self-start rounded-pill border border-accent px-4 py-2 text-sm font-semibold text-accent transition-colors duration-300 hover:bg-accent hover:text-on-accent">
                               {pick(entry.action.label)} <Arrow aria-hidden />
                             </Link>
                           )}
@@ -100,7 +100,7 @@ export function FaqHelp() {
           <ul className="grid gap-1 border-t border-line pt-4 text-sm">
             {helpCard.links.map((link) => (
               <li key={link.to}>
-                <Link to={link.to} className="flex items-center justify-between py-1.5 text-soft transition-colors duration-200 hover:text-accent">
+                <Link to={link.to} className="flex items-center justify-between py-1.5 text-soft transition-colors duration-300 hover:text-accent">
                   {pick(link.label)} <Arrow aria-hidden />
                 </Link>
               </li>

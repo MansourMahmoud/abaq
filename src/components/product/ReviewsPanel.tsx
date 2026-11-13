@@ -60,7 +60,7 @@ export function ReviewsPanel({ reviews }: ReviewsPanelProps) {
   };
 
   const chip = (pressed: boolean) =>
-    `inline-flex min-h-[40px] items-center gap-2 rounded-pill border px-4 text-sm transition-colors duration-200 ${pressed ? 'border-accent bg-accent text-on-accent' : 'border-line bg-surface hover:border-accent hover:text-accent'}`;
+    `inline-flex min-h-[40px] items-center gap-2 rounded-pill border px-4 text-sm transition-colors duration-300 ${pressed ? 'border-accent bg-accent text-on-accent' : 'border-line bg-surface hover:border-accent hover:text-accent'}`;
 
   return (
     <div className="grid gap-8 lg:grid-cols-[340px_minmax(0,1fr)] lg:gap-12">
@@ -87,7 +87,7 @@ export function ReviewsPanel({ reviews }: ReviewsPanelProps) {
                   aria-pressed={pressed}
                   disabled={count === 0}
                   onClick={() => refine(() => setStars(pressed ? null : value))}
-                  className={`flex w-full items-center gap-3 rounded-sm bg-transparent px-2 py-1 text-sm transition-colors duration-200 enabled:hover:bg-raise disabled:cursor-default disabled:opacity-50 ${pressed ? '!bg-raise font-semibold text-accent' : ''}`}
+                  className={`flex w-full items-center gap-3 rounded-sm bg-transparent px-2 py-1 text-sm transition-colors duration-300 enabled:hover:bg-raise disabled:cursor-default disabled:opacity-50 ${pressed ? '!bg-raise font-semibold text-accent' : ''}`}
                 >
                   <span className="inline-flex w-8 items-center gap-1 tabular-nums">
                     {number(value)} <LuStar className="fill-accent text-accent" aria-hidden />
@@ -148,7 +148,7 @@ export function ReviewsPanel({ reviews }: ReviewsPanelProps) {
           </button>
           <label className="ms-auto">
             <span className="visually-hidden">{t('sort.label')}</span>
-            <select value={order} onChange={(event) => refine(() => setOrder(event.target.value as Order))} className="h-10 cursor-pointer rounded-pill border border-line bg-surface px-4 text-sm transition-colors duration-200 hover:border-accent">
+            <select value={order} onChange={(event) => refine(() => setOrder(event.target.value as Order))} className="h-10 cursor-pointer rounded-pill border border-line bg-surface px-4 text-sm transition-colors duration-300 hover:border-accent">
               {ORDERS.map((entry) => (
                 <option key={entry.id} value={entry.id}>
                   {t(entry.label)}
@@ -164,7 +164,7 @@ export function ReviewsPanel({ reviews }: ReviewsPanelProps) {
           <ul className="grid gap-4">
             {shown.slice(0, limit).map((review) => (
               <li key={review.id}>
-                <ReviewCard review={review} detailed />
+                <ReviewCard review={review} />
               </li>
             ))}
           </ul>

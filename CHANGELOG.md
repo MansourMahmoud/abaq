@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.4.0
+
+- Header slides away on scroll down and returns on scroll up; solid once the page scrolls
+- Sub-category panel shows the main category, sub-category cards and their children
+- WhatsApp bubble redesigned and anchored to the button
+- Timed offer is a scrolling row for any number of products, with clear prices
+- Review cards share one layout; Instagram and TikTok sections
+- Slower, softer transitions throughout
+
 ## 0.3.0
 
 - Hero slider: drag with mouse or touch, fade transition, slow zoom, progress dots

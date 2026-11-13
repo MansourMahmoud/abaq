@@ -19,7 +19,7 @@ export function TopBar({ onLocale }: TopBarProps) {
   const { header } = useThemeSettings().settings;
   if (!header.topBar) return null;
 
-  const link = 'inline-flex items-center gap-1.5 transition-colors duration-200 hover:text-accent';
+  const link = 'inline-flex items-center gap-1.5 transition-colors duration-300 hover:text-accent';
 
   return (
     <div className="scope-dark hidden bg-bg text-[0.8rem] text-soft md:block">
