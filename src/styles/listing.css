@@ -297,3 +297,31 @@
     transform: translateY(100%);
   }
 }
+
+/* Toggle chips (rating): pressing the active one clears it. */
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding-inline: 12px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-pill);
+  background: var(--c-surface);
+  font-size: var(--fs-sm);
+  clear: both;
+  transition:
+    border-color var(--t-fast) var(--ease),
+    background-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease);
+}
+
+.filter-chip:hover {
+  border-color: var(--c-accent);
+}
+
+.filter-chip[aria-pressed='true'] {
+  border-color: var(--c-accent);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.5.0
+
+- Cart: discount per line, amount saved, working coupon, full breakdown with VAT
+- Scent finder quiz and perfume guide on the home page
+- Instagram section laid out as a profile with highlights
+- Sub-categories as arch photos; rating filter as toggle chips
+
 ## 0.4.3
 
 - Sub-categories in their own section under the banner: a carousel of cards with a short description, product count and branch count

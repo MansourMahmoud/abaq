@@ -15,10 +15,10 @@ interface SubcategoryNavProps {
 }
 
 /**
- * The sub-categories of the listing being viewed, as a row of cards that
+ * The sub-categories of the listing being viewed, as a row of arch-shaped photos that
  * scrolls once there are more than fit. It works at every level of the tree:
  * on a category it lists that category's children; on a leaf it lists the
- * leaf's siblings, so the shopper can move sideways. Each card says what the
+ * leaf's siblings, so the shopper can move sideways. Each entry says what the
  * sub-category is, how many products it holds and whether it branches further.
  */
 export function SubcategoryNav({ root, parent, currentId }: SubcategoryNavProps) {
@@ -27,7 +27,7 @@ export function SubcategoryNav({ root, parent, currentId }: SubcategoryNavProps)
   if (children.length === 0) return null;
   const Back = dir === 'rtl' ? LuArrowRight : LuArrowLeft;
 
-  const entries = [{ category: root, name: t('category.allOf', { name: pick(root.name) }), hint: root.description ?? root.tagline }, ...children.map((child) => ({ category: child, name: pick(child.name), hint: child.tagline }))];
+  const entries = [{ category: root, name: t('category.allOf', { name: pick(root.name) }), hint: root.tagline }, ...children.map((child) => ({ category: child, name: pick(child.name), hint: child.tagline }))];
 
   return (
     <section className="container subcategories" aria-label={t('nav.subcategories')}>
@@ -49,17 +49,22 @@ export function SubcategoryNav({ root, parent, currentId }: SubcategoryNavProps)
           const branches = category.id === root.id ? 0 : (category.children?.length ?? 0);
           return (
             <Link key={category.id} className="subcategory" aria-current={active ? 'page' : undefined} to={`/category/${category.slug}`}>
-              {active && <span className="subcategory__current">{t('category.viewing')}</span>}
-              <span className="subcategory__media media-zoom">
-                <Picture photo={category.photo} alt="" sizes="(min-width: 1200px) 18vw, (min-width: 560px) 31vw, 46vw" />
-              </span>
-              <span className="subcategory__body">
-                <strong className="subcategory__name">{name}</strong>
-                <span className="subcategory__hint">{hint ? pick(hint) : ''}</span>
-                <span className="subcategory__meta">
-                  <span>{t('category.count', { count: number(productsInCategory(category.id).length) })}</span>
-                  {branches > 0 && <span data-kind="children">{t('category.branches', { count: number(branches) })}</span>}
+              <span className="subcategory__media">
+                <span>
+                  <Picture photo={category.photo} alt="" sizes="190px" />
                 </span>
+                {active && <span className="subcategory__current">{t('category.viewing')}</span>}
+              </span>
+              <strong className="subcategory__name">{name}</strong>
+              {hint && <span className="subcategory__hint">{pick(hint)}</span>}
+              <span className="subcategory__meta">
+                {t('category.count', { count: number(productsInCategory(category.id).length) })}
+                {branches > 0 && (
+                  <>
+                    {' · '}
+                    <b>{t('category.branches', { count: number(branches) })}</b>
+                  </>
+                )}
               </span>
             </Link>
           );

@@ -73,6 +73,14 @@ export const instagram = {
     { value: l('٤٨ ألف', '48K'), label: l('متابع', 'followers') },
     { value: l('٣١٢', '312'), label: l('منشور', 'posts') },
   ],
+  /** Story highlights shown as rings under the profile. */
+  highlights: [
+    { label: l('جديدنا', 'New in'), photo: 'pinkBottle' },
+    { label: l('آراء العملاء', 'Reviews'), photo: 'handsHolding' },
+    { label: l('من المعمل', 'The lab'), photo: 'rollOns' },
+    { label: l('هدايا', 'Gifts'), photo: 'bottlesRow' },
+    { label: l('البخور', 'Bakhoor'), photo: 'burnerMajlis' },
+  ] as { label: Localized; photo: PhotoKey }[],
   posts: [
     { photo: 'goldBottle', likes: 1240, comments: 86 },
     { photo: 'burnerCarpet', likes: 980, comments: 41 },
@@ -121,4 +129,62 @@ export const helpCard = {
     { label: l('تتبّع طلبك', 'Track your order'), to: '/page/shipping' },
     { label: l('زُر أقرب فرع', 'Visit a branch'), to: '/branches' },
   ],
+};
+
+/* ---------- Scent finder ---------- */
+
+export interface QuizOption {
+  label: Localized;
+  /** Category ids this answer points to; a product matching any of them fits the answer. */
+  categories: string[];
+}
+
+/** Three questions; each answer narrows the catalogue by category. */
+export const quiz: { question: Localized; options: QuizOption[] }[] = [
+  {
+    question: l('لمن العطر؟', 'Who is it for?'),
+    options: [
+      { label: l('له', 'For him'), categories: ['men', 'oud'] },
+      { label: l('لها', 'For her'), categories: ['women', 'oud'] },
+      { label: l('للبيت والمجلس', 'For home'), categories: ['bakhoor'] },
+      { label: l('هدية', 'A gift'), categories: ['gifts', 'samples'] },
+    ],
+  },
+  {
+    question: l('ما الطابع الذي تميل إليه؟', 'Which character do you lean to?'),
+    options: [
+      { label: l('منعش وخفيف', 'Fresh and light'), categories: ['men-fresh', 'women-floral', 'samples'] },
+      { label: l('دافئ وحلو', 'Warm and sweet'), categories: ['women-amber', 'men-oriental', 'bakhoor', 'gifts'] },
+      { label: l('خشبي وعميق', 'Woody and deep'), categories: ['men-woody', 'oud', 'bakhoor'] },
+      { label: l('زهري ناعم', 'Soft floral'), categories: ['women-floral', 'oud-blends', 'gifts'] },
+    ],
+  },
+  {
+    question: l('ما ميزانيتك؟', 'What is your budget?'),
+    options: [
+      { label: l('أقل من ٣٠٠ ر.س', 'Under SAR 300'), categories: ['max:300'] },
+      { label: l('من ٣٠٠ إلى ٥٠٠ ر.س', 'SAR 300 to 500'), categories: ['min:300', 'max:500'] },
+      { label: l('أكثر من ٥٠٠ ر.س', 'Over SAR 500'), categories: ['min:500'] },
+      { label: l('لا يهم', 'No limit'), categories: [] },
+    ],
+  },
+];
+
+/* ---------- Perfume guide ---------- */
+
+export const guide = {
+  /** Concentrations from lightest to strongest; `hours` is typical lasting time and `strength` a 0–100 bar. */
+  concentrations: [
+    { name: l('أو دو تواليت', 'Eau de toilette'), share: l('٥–١٥٪ زيت عطري', '5–15% perfume oil'), hours: l('٣–٥', '3–5'), strength: 35 },
+    { name: l('أو دو بارفان', 'Eau de parfum'), share: l('١٥–٢٠٪ زيت عطري', '15–20% perfume oil'), hours: l('٦–٨', '6–8'), strength: 60 },
+    { name: l('بارفان', 'Parfum'), share: l('٢٠–٣٠٪ زيت عطري', '20–30% perfume oil'), hours: l('٨–١٠', '8–10'), strength: 80 },
+    { name: l('دهن العود', 'Oud oil'), share: l('زيت صافٍ بلا كحول', 'Pure oil, no alcohol'), hours: l('+١٢', '12+'), strength: 100 },
+  ],
+  tips: [
+    { title: l('على بشرة مرطّبة', 'On moisturised skin'), text: l('رشّ بعد الاستحمام أو بعد كريم بلا رائحة؛ البشرة الجافة لا تمسك العطر.', 'Spray after a shower or an unscented lotion; dry skin does not hold scent.') },
+    { title: l('على نقاط النبض', 'On pulse points'), text: l('المعصم، خلف الأذن وأسفل العنق: حرارة الجسم تنشر العطر.', 'Wrists, behind the ears and the base of the neck: body heat carries the scent.') },
+    { title: l('لا تفرك المعصمين', 'Do not rub your wrists'), text: l('الفرك يكسر النوتات العليا ويقصّر عمر العطر.', 'Rubbing breaks the top notes and shortens the life of the scent.') },
+    { title: l('احفظه بعيداً عن الضوء', 'Store away from light'), text: l('مكان مظلم ومعتدل الحرارة يحفظ الزجاجة سنوات.', 'A dark, temperate place keeps a bottle good for years.') },
+  ],
+  link: { label: l('اقرأ الدليل كاملاً', 'Read the full guide'), to: '/blog' },
 };

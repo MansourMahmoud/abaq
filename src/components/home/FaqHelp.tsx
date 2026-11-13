@@ -34,7 +34,7 @@ export function FaqHelp() {
   };
 
   return (
-    <section className="section section--flush-top">
+    <section className="section">
       <Reveal className="container grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-12">
         <div className="min-w-0">
           <p className="eyebrow">{t('faq.eyebrow')}</p>

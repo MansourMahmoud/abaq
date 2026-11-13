@@ -9,7 +9,9 @@ import { HeroSlider } from '../components/home/HeroSlider';
 import { OfferCountdown } from '../components/home/OfferCountdown';
 import { PerksStrip } from '../components/home/PerksStrip';
 import { Reels } from '../components/home/Reels';
+import { PerfumeGuide } from '../components/home/PerfumeGuide';
 import { ScentFinder } from '../components/home/ScentFinder';
+import { ScentQuiz } from '../components/home/ScentQuiz';
 import { Story } from '../components/home/Story';
 import { Testimonials } from '../components/home/Testimonials';
 import { TikTokFeed } from '../components/home/TikTokFeed';
@@ -33,6 +35,7 @@ export function HomePage() {
       <CategoryShowcase />
       <Bestsellers />
       <ScentFinder />
+      <ScentQuiz />
       <VideoShowcase />
       <OfferCountdown />
       <div className="home-gap" />
@@ -53,6 +56,7 @@ export function HomePage() {
         </Reveal>
       </section>
 
+      <PerfumeGuide />
       <Story />
       <Testimonials />
       <InstagramFeed />

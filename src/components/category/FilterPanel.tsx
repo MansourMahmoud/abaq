@@ -73,14 +73,16 @@ export function FilterPanel({ filters, onChange, products, subcategories }: Filt
       )}
 
       <Group title={t('filters.rating')}>
-        {RATINGS.map((rating) => (
-          <label key={rating} className="filter-option">
-            <input type="radio" name="rating" checked={filters.rating === rating} onChange={() => onChange({ rating })} onClick={() => filters.rating === rating && onChange({ rating: undefined })} />
-            <span className="inline-flex items-center gap-1">
-              <LuStar className="fill-accent text-accent" aria-hidden /> {t('filters.ratingFrom', { rating: number(rating) })}
-            </span>
-          </label>
-        ))}
+        <div className="flex flex-wrap gap-2">
+          {RATINGS.map((rating) => {
+            const pressed = filters.rating === rating;
+            return (
+              <button key={rating} type="button" className="filter-chip" aria-pressed={pressed} onClick={() => onChange({ rating: pressed ? undefined : rating })}>
+                <LuStar className={pressed ? 'fill-current' : 'fill-accent text-accent'} aria-hidden /> {t('filters.ratingFrom', { rating: number(rating) })}
+              </button>
+            );
+          })}
+        </div>
       </Group>
 
       <Group title={t('filters.more')}>
