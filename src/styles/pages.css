@@ -811,3 +811,21 @@
 .hero__track {
   height: 100%;
 }
+
+/* Names and descriptions of any length stay within two lines, so a row keeps one height. */
+.subcategory__name,
+.subcategory__hint {
+  display: -webkit-box;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.breadcrumb [aria-current='page'] {
+  max-width: min(46ch, 100%);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

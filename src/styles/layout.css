@@ -783,3 +783,21 @@
 .mega__leaf:hover::before {
   width: 12px;
 }
+
+/* However many sub-categories there are, the panel never grows past the screen. */
+.mega__body {
+  max-height: min(560px, calc(100vh - 260px));
+  overflow-y: auto;
+}
+
+/* One line per link; the full name is in its tooltip. */
+.mega__leaf {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header__nav-more {
+  background: transparent;
+  cursor: pointer;
+}

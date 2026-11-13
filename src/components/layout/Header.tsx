@@ -10,6 +10,9 @@ import { CategoryDrawer } from './CategoryDrawer';
 import { MegaMenu } from './MegaMenu';
 import { SearchDialog } from './SearchDialog';
 
+/** Top-level categories shown in the navigation row; the rest open from the drawer. */
+const NAV_ITEMS = 5;
+
 interface HeaderProps {
   /** True on pages that open with a full-bleed hero the header may sit on. */
   overHero: boolean;
@@ -70,7 +73,7 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
           <NavLink className="header__nav-link" to="/" end>
             {t('nav.home')}
           </NavLink>
-          {categories.slice(0, 5).map((category) => (
+          {categories.slice(0, NAV_ITEMS).map((category) => (
             <div key={category.id} className="header__nav-item">
               <NavLink className="header__nav-link" to={`/category/${category.slug}`} aria-haspopup={header.megaMenu && category.children ? 'true' : undefined}>
                 {pick(category.name)}
@@ -79,6 +82,12 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
               {header.megaMenu && category.children && <MegaMenu category={category} />}
             </div>
           ))}
+          {/* Categories beyond the first few live in the drawer. */}
+          {categories.length > NAV_ITEMS && (
+            <button type="button" className="header__nav-link header__nav-more" onClick={() => setDrawerOpen(true)}>
+              {t('nav.more')} <LuChevronDown className="header__nav-caret" aria-hidden />
+            </button>
+          )}
         </nav>
 
         <div className="header__actions">

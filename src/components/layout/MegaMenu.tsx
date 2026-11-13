@@ -21,6 +21,8 @@ import { Picture } from '../ui/Picture';
  */
 const MAX_COLUMNS = 8;
 const MAX_LEAVES = 4;
+/** With many columns, each lists fewer children so the panel stays short. */
+const MAX_LEAVES_DENSE = 3;
 
 export function MegaMenu({ category }: { category: Category }) {
   const { t, pick, number, dir } = useI18n();
@@ -31,7 +33,7 @@ export function MegaMenu({ category }: { category: Category }) {
   return (
     <div className="mega">
       <div className="scope-light mega__panel overflow-hidden rounded-lg border border-line bg-surface shadow-[0_24px_60px_rgb(29_26_23/0.16)]">
-        <div className="grid gap-8 p-6 lg:grid-cols-[minmax(0,1fr)_250px]">
+        <div className="mega__body grid gap-8 p-6 lg:grid-cols-[minmax(0,1fr)_230px]">
           <ul className={`grid content-start gap-x-6 gap-y-6 ${children.length > 6 ? 'sm:grid-cols-4' : 'sm:grid-cols-3'}`}>
             {children.map((child) => (
               <li key={child.id} className="min-w-0">
@@ -40,29 +42,33 @@ export function MegaMenu({ category }: { category: Category }) {
                     <Picture photo={child.photo} alt="" sizes="48px" />
                   </span>
                   <span className="grid min-w-0 leading-snug">
-                    <strong className="truncate font-display text-lg transition-colors duration-300 group-hover/head:text-accent">{pick(child.name)}</strong>
+                    <strong className="line-clamp-2 font-display text-lg leading-snug transition-colors duration-300 group-hover/head:text-accent" title={pick(child.name)}>
+                      {pick(child.name)}
+                    </strong>
                     <span className="text-xs text-muted">{t('category.count', { count: number(productsInCategory(child.id).length) })}</span>
                   </span>
                 </Link>
                 <ul className="mt-2 grid gap-0.5 text-[0.92rem]">
-                  {(child.children ?? []).slice(0, MAX_LEAVES).map((leaf) => (
+                  {(child.children ?? []).slice(0, children.length > 6 ? MAX_LEAVES_DENSE : MAX_LEAVES).map((leaf) => (
                     <li key={leaf.id}>
-                      <Link to={`/category/${leaf.slug}`} className="mega__leaf">
+                      <Link to={`/category/${leaf.slug}`} className="mega__leaf" title={pick(leaf.name)}>
                         {pick(leaf.name)}
                       </Link>
                     </li>
                   ))}
-                  <li>
-                    <Link to={`/category/${child.slug}`} className="mega__leaf text-muted">
-                      {t('category.allOf', { name: pick(child.name) })}
-                    </Link>
-                  </li>
+                  {(child.children?.length ?? 0) > 0 && (
+                    <li>
+                      <Link to={`/category/${child.slug}`} className="mega__leaf text-muted">
+                        {t('category.all')}
+                      </Link>
+                    </li>
+                  )}
                 </ul>
               </li>
             ))}
           </ul>
 
-          <Link to={`/category/${category.slug}`} className="scope-dark media-zoom relative hidden min-h-[210px] min-w-0 rounded-md lg:block">
+          <Link to={`/category/${category.slug}`} className="scope-dark media-zoom relative hidden aspect-[4/5] min-w-0 self-start rounded-md lg:block">
             <span className="absolute inset-0">
               <Picture photo={category.banner?.photo ?? category.photo} alt="" sizes="250px" />
             </span>
@@ -74,7 +80,7 @@ export function MegaMenu({ category }: { category: Category }) {
         </div>
 
         <div className="flex items-center justify-between gap-4 border-t border-line bg-raise px-6 py-3 text-sm">
-          <span className="text-muted">{category.description ? pick(category.description) : ''}</span>
+          <span className="min-w-0 truncate text-muted">{category.description ? pick(category.description) : ''}</span>
           <Link to={`/category/${category.slug}`} className="inline-flex shrink-0 items-center gap-2 font-semibold text-accent transition-opacity duration-300 hover:opacity-70">
             {all.length > children.length ? t('nav.moreCategories', { count: number(all.length - children.length) }) : t('nav.viewAllIn', { name: pick(category.name) })} <Arrow aria-hidden />
           </Link>

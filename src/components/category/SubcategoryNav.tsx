@@ -46,6 +46,7 @@ export function SubcategoryNav({ root, parent, currentId }: SubcategoryNavProps)
       <Carousel label={t('nav.subcategories')} variant="tiles">
         {entries.map(({ category, name, hint }) => {
           const active = category.id === currentId;
+          const count = productsInCategory(category.id).length;
           const branches = category.id === root.id ? 0 : (category.children?.length ?? 0);
           return (
             <Link key={category.id} className="subcategory" aria-current={active ? 'page' : undefined} to={`/category/${category.slug}`}>
@@ -58,7 +59,7 @@ export function SubcategoryNav({ root, parent, currentId }: SubcategoryNavProps)
               <strong className="subcategory__name">{name}</strong>
               {hint && <span className="subcategory__hint">{pick(hint)}</span>}
               <span className="subcategory__meta">
-                {t('category.count', { count: number(productsInCategory(category.id).length) })}
+                {count > 0 ? t('category.count', { count: number(count) }) : t('category.none')}
                 {branches > 0 && (
                   <>
                     {' · '}

@@ -107,7 +107,8 @@
 }
 
 .product__title {
-  font-size: clamp(2.2rem, 1.4rem + 3vw, 3.8rem);
+  font-size: clamp(1.9rem, 1.3rem + 2.2vw, 3.1rem);
+  overflow-wrap: anywhere;
 }
 
 .stock {

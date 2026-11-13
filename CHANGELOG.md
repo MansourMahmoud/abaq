@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.6.1
+
+- Tested with 20 sub-categories, nested levels, very long names and six-figure prices
+- Cart survives a reload; quantities are capped; sold-out products cannot be added
+- Menu panel scrolls inside a fixed height; "All categories" entry when there are more than five
+- Long names, badges and descriptions are clamped instead of breaking the layout
+
 ## 0.6.0
 
 - Loyalty programme page (balance, ways to earn, rewards by kind, history, terms) and a home teaser linking to it

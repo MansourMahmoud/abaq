@@ -258,3 +258,41 @@
     flex: 1 1 100%;
   }
 }
+
+/* ---------- Content of any length ---------- */
+
+/* Long names take two lines at most; long badges and labels end in an ellipsis. */
+.product-card__name {
+  display: -webkit-box;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.product-card__notes,
+.product-card__meta span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-card__meta span:last-child {
+  flex: none;
+}
+
+.product-card__badges {
+  max-width: calc(100% - 68px);
+}
+
+.product-card__badge {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-card__price > span:first-child {
+  overflow-wrap: anywhere;
+}

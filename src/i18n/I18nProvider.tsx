@@ -88,8 +88,8 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     const active = CURRENCIES.find((entry) => entry.code === currency)!;
     const tag = locale === 'ar' ? 'ar-SA' : 'en-US';
     const plain = new Intl.NumberFormat(tag);
-    // Small-unit currencies (KWD) need decimals; riyal prices read better without.
-    const price = new Intl.NumberFormat(tag, { maximumFractionDigits: active.rate < 0.5 ? 2 : 0 });
+    // Whole amounts print without decimals; fractions (converted currencies, odd prices) keep up to two.
+    const price = new Intl.NumberFormat(tag, { maximumFractionDigits: 2 });
     return {
       locale,
       dir,

@@ -294,6 +294,8 @@ export const ar = {
   'guide.shop': 'تسوّق {name}',
   'guide.starter': 'ابدأ بالتجربة',
   'nav.moreCategories': '+{count} أقسام أخرى',
+  'nav.more': 'كل الأقسام',
+  'category.none': 'لا منتجات بعد',
 } as const;
 
 export type MessageKey = keyof typeof ar;
@@ -591,4 +593,6 @@ export const en: Messages = {
   'guide.shop': 'Shop {name}',
   'guide.starter': 'Start by trying',
   'nav.moreCategories': '+{count} more categories',
+  'nav.more': 'All categories',
+  'category.none': 'No products yet',
 };
