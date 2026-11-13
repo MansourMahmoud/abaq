@@ -4,6 +4,9 @@ import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { useI18n } from '../../i18n/I18nProvider';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 
+/** Beyond this many pages the dots give way to the progress bar, which fits any count. */
+const MAX_DOTS = 7;
+
 interface CarouselProps {
   label: string;
   /**
@@ -64,7 +67,7 @@ export function Carousel({ label, variant, children }: CarouselProps) {
           <button className="icon-button" type="button" aria-label={t('action.previous')} disabled={selected === 0} onClick={() => embla?.scrollPrev()}>
             <Previous aria-hidden />
           </button>
-          {indicator === 'dots' ? (
+          {indicator === 'dots' && pages <= MAX_DOTS ? (
             <div className="carousel__dots">
               {snaps.map((_, index) => (
                 <button key={index} type="button" aria-label={t('carousel.page', { n: index + 1 })} aria-current={index === selected} onClick={() => embla?.scrollTo(index)} />

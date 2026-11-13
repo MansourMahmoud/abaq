@@ -1,0 +1,299 @@
+/* Category listing: filter sidebar, toolbar, product grid, mobile filter sheet. */
+
+.listing {
+  display: grid;
+  gap: clamp(20px, 3vw, 36px);
+}
+
+/* The sidebar comes first in the markup, so it sits at the start edge: the right in Arabic. */
+@media (min-width: 1024px) {
+  .listing[data-filters='true'] {
+    grid-template-columns: 270px minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.listing__sidebar {
+  display: none;
+  padding: 20px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-md);
+  background: var(--c-surface);
+}
+
+@media (min-width: 1024px) {
+  .listing__sidebar {
+    position: sticky;
+    inset-block-start: calc(var(--header-h) + 16px);
+    display: block;
+    max-height: calc(100vh - var(--header-h) - 32px);
+    overflow-y: auto;
+  }
+}
+
+/* ---------- Filter groups ---------- */
+
+.filter-group {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  margin: 0;
+  padding: 16px 0;
+  border-block-start: 1px solid var(--c-line);
+}
+
+.filter-group legend {
+  float: inline-start;
+  width: 100%;
+  margin-block-end: 8px;
+  padding: 0;
+  font-weight: 600;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 36px;
+  clear: both;
+  color: var(--c-text-soft);
+  cursor: pointer;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.filter-option:hover {
+  color: var(--c-accent);
+}
+
+.filter-option span {
+  flex: 1;
+}
+
+.filter-option small {
+  color: var(--c-text-muted);
+  font-size: var(--fs-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+.filter-option input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--c-accent);
+}
+
+/* ---------- Two-thumb price slider ---------- */
+
+.price-range {
+  display: grid;
+  gap: 10px;
+  clear: both;
+}
+
+.price-range__track {
+  position: relative;
+  height: 24px;
+  direction: ltr; /* the track always runs low to high from the left */
+}
+
+/* The rail, with the selected span drawn in the accent colour. */
+.price-range__track::before {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 10px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(to right, var(--c-line) var(--from), var(--c-accent) var(--from), var(--c-accent) var(--to), var(--c-line) var(--to));
+}
+
+/* Both inputs cover the rail; only their thumbs take the pointer. */
+.price-range__track input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  margin: 0;
+  background: none;
+  pointer-events: none;
+  appearance: none;
+}
+
+.price-range__track input::-webkit-slider-thumb {
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--c-surface);
+  border-radius: 50%;
+  background: var(--c-accent);
+  box-shadow: 0 0 0 1px var(--c-accent);
+  cursor: grab;
+  pointer-events: auto;
+  appearance: none;
+}
+
+.price-range__track input::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: 3px solid var(--c-surface);
+  border-radius: 50%;
+  background: var(--c-accent);
+  box-shadow: 0 0 0 1px var(--c-accent);
+  cursor: grab;
+  pointer-events: auto;
+}
+
+.price-range__track input::-moz-range-track {
+  background: none;
+}
+
+/* ---------- Toolbar ---------- */
+
+.listing-bar {
+  flex-wrap: wrap;
+}
+
+.listing-bar__filters,
+.listing-bar__sort select {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  padding-inline: 16px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-pill);
+  background: var(--c-surface);
+  font-size: var(--fs-sm);
+  transition: border-color var(--t-fast) var(--ease);
+}
+
+.listing-bar__filters:hover,
+.listing-bar__sort select:hover {
+  border-color: var(--c-accent);
+}
+
+.listing-bar__sort select {
+  cursor: pointer;
+}
+
+@media (min-width: 1024px) {
+  .listing-bar__filters {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .listing-bar__layout {
+    display: none;
+  }
+}
+
+/* ---------- Grid ---------- */
+
+.listing-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+  .listing-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .listing-grid[data-density='compact'] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/*
+ * Listing cards use a square photo whatever the card setting says, so a row
+ * of cards fits the screen without tall, narrow tiles. `!important` is needed
+ * to win over the inline ratio the card sets from the merchant's setting.
+ */
+.listing-grid .product-card__media {
+  aspect-ratio: 1 !important;
+}
+
+.listing-grid .product-card__name {
+  font-size: 1.3rem;
+}
+
+.listing-grid[data-density='compact'] .product-card__notes {
+  display: none;
+}
+
+.listing-grid[data-density='compact'] .product-card__add {
+  flex: 1 1 100%;
+}
+
+/* Promotional card: two cells wide, as tall as the row it lands in. */
+.listing-grid__banner {
+  grid-column: span 2;
+  min-height: 220px;
+}
+
+.listing-grid__banner .banner {
+  height: 100%;
+  aspect-ratio: auto;
+}
+
+/* ---------- Bottom sheet (phone filters) ---------- */
+
+.sheet {
+  inset-block: auto 0;
+  width: 100%;
+  max-width: 560px;
+  max-height: 86vh;
+  margin: auto auto 0;
+  padding: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--c-surface);
+  color: var(--c-text);
+}
+
+.sheet[open] {
+  display: flex;
+  flex-direction: column;
+  animation: sheet-in var(--t-med) var(--ease);
+}
+
+.sheet::backdrop {
+  background: rgb(15 12 10 / 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.sheet__head,
+.sheet__foot {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+}
+
+.sheet__head {
+  border-block-end: 1px solid var(--c-line);
+}
+
+.sheet__foot {
+  border-block-start: 1px solid var(--c-line);
+}
+
+.sheet__foot .button {
+  flex: 1;
+}
+
+.sheet__body {
+  flex: 1;
+  overflow-y: auto;
+  padding-inline: 20px;
+}
+
+.sheet__body .filter-group:first-child {
+  border-block-start: 0;
+}
+
+@keyframes sheet-in {
+  from {
+    transform: translateY(100%);
+  }
+}

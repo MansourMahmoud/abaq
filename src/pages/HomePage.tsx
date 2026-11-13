@@ -1,11 +1,16 @@
 import { Link } from 'react-router-dom';
 import { PostCard } from '../components/blog/PostCard';
 import { Bestsellers } from '../components/home/Bestsellers';
+import { BudgetPicker } from '../components/home/BudgetPicker';
 import { CategoryShowcase } from '../components/home/CategoryShowcase';
 import { FaqHelp } from '../components/home/FaqHelp';
+import { Gallery } from '../components/home/Gallery';
 import { HeroSlider } from '../components/home/HeroSlider';
 import { OfferCountdown } from '../components/home/OfferCountdown';
+import { PerksStrip } from '../components/home/PerksStrip';
 import { Reels } from '../components/home/Reels';
+import { ScentFinder } from '../components/home/ScentFinder';
+import { Story } from '../components/home/Story';
 import { Testimonials } from '../components/home/Testimonials';
 import { VideoShowcase } from '../components/home/VideoShowcase';
 import { Picture } from '../components/ui/Picture';
@@ -23,11 +28,14 @@ export function HomePage() {
   return (
     <>
       <HeroSlider />
+      <PerksStrip />
       <CategoryShowcase />
       <Bestsellers />
+      <ScentFinder />
       <VideoShowcase />
       <OfferCountdown />
       <div className="home-gap" />
+      <BudgetPicker />
       <Reels />
 
       <section className="section section--flush-top">
@@ -44,7 +52,9 @@ export function HomePage() {
         </Reveal>
       </section>
 
+      <Story />
       <Testimonials />
+      <Gallery />
       <FaqHelp />
 
       <section className="section section--flush-top">

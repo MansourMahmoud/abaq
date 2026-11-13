@@ -31,6 +31,10 @@ export interface Product {
   compareAt?: number;
   rating: number;
   badge?: Localized;
+  /** Id of an entry in `brands`. */
+  brand: string;
+  /** Set when the product cannot be ordered right now. */
+  soldOut?: boolean;
   photos: PhotoKey[];
   /** Ids of every category (at any depth) the product belongs to. */
   categoryIds: string[];
@@ -117,61 +121,151 @@ export const categories: Category[] = [
   },
 ];
 
+export interface Brand {
+  id: string;
+  name: Localized;
+}
+
+export const brands: Brand[] = [
+  { id: 'abaq', name: l('عبق', 'Abaq') },
+  { id: 'nafha', name: l('نفحة', 'Nafha') },
+  { id: 'sidra', name: l('سدرة', 'Sidra') },
+  { id: 'wateen', name: l('وتين', 'Wateen') },
+];
+
+/**
+ * Pseudo-category behind the "all products" page. It is not part of the tree,
+ * but it has the same shape, so the listing page treats it like any other.
+ */
+export const ALL_PRODUCTS: Category = {
+  id: 'all',
+  slug: 'all',
+  name: l('كل المنتجات', 'All products'),
+  description: l('كل ما في المتجر في صفحة واحدة. استخدم الفلاتر للوصول إلى ما تبحث عنه.', 'Everything in the store on one page. Use the filters to narrow it down.'),
+  photo: 'souk',
+  banner: { title: l('كل المنتجات', 'All products'), photo: 'souk' },
+};
+
 export const products: Product[] = [
   {
-    id: 'p1', slug: 'royal-oud', name: l('عود ملكي', 'Royal Oud'), family: l('شرقي خشبي', 'Woody oriental'),
+    id: 'p1', brand: 'abaq', slug: 'royal-oud', name: l('عود ملكي', 'Royal Oud'), family: l('شرقي خشبي', 'Woody oriental'),
     notes: l('عود · زعفران · ورد طائفي', 'Oud · saffron · Taif rose'), price: 420, rating: 4.8,
     badge: l('الأكثر مبيعاً', 'Bestseller'), photos: ['goldBottle', 'spraying', 'handsHolding'], categoryIds: ['men', 'men-oriental'],
   },
   {
-    id: 'p2', slug: 'morning-musk', name: l('مسك الصباح', 'Morning Musk'), family: l('منعش', 'Fresh'),
-    notes: l('برغموت · مسك أبيض', 'Bergamot · white musk'), price: 285, rating: 4.6,
+    id: 'p2', brand: 'nafha', slug: 'morning-musk', name: l('مسك الصباح', 'Morning Musk'), family: l('منعش', 'Fresh'),
+    notes: l('برغموت · مسك أبيض', 'Bergamot · white musk'), price: 285, compareAt: 335, rating: 4.6,
     photos: ['clearOnFur', 'monoBottle'], categoryIds: ['men', 'men-fresh'],
   },
   {
-    id: 'p3', slug: 'night-amber', name: l('عنبر الليل', 'Night Amber'), family: l('عنبري', 'Amber'),
+    id: 'p3', brand: 'abaq', slug: 'night-amber', name: l('عنبر الليل', 'Night Amber'), family: l('عنبري', 'Amber'),
     notes: l('عنبر · فانيلا · باتشولي', 'Amber · vanilla · patchouli'), price: 306, compareAt: 360, rating: 4.7,
     badge: l('خصم ١٥٪', '15% off'), photos: ['amberTrio', 'goldBottle'], categoryIds: ['women', 'women-amber', 'men', 'men-oriental'],
   },
   {
-    id: 'p4', slug: 'taif-rose', name: l('ورد الطائف', 'Taif Rose'), family: l('زهري', 'Floral'),
+    id: 'p4', brand: 'sidra', slug: 'taif-rose', name: l('ورد الطائف', 'Taif Rose'), family: l('زهري', 'Floral'),
     notes: l('ورد طائفي · صندل', 'Taif rose · sandalwood'), price: 340, rating: 4.9,
     badge: l('جديد', 'New'), photos: ['daisyShadows', 'pinkBottle'], categoryIds: ['women', 'women-floral'],
   },
   {
-    id: 'p5', slug: 'indian-oud-oil', name: l('دهن عود هندي', 'Indian Oud Oil'), family: l('تعتيق ٥ سنوات', 'Aged 5 years'),
+    id: 'p5', brand: 'wateen', slug: 'indian-oud-oil', name: l('دهن عود هندي', 'Indian Oud Oil'), family: l('تعتيق ٥ سنوات', 'Aged 5 years'),
     notes: l('ربع تولة · نصف تولة · تولة', 'Quarter · half · full tola'), price: 850, rating: 4.9,
     badge: l('الأكثر مبيعاً', 'Bestseller'), photos: ['oudOil', 'rollOns'], categoryIds: ['oud', 'oud-indian', 'oud-indian-aged'],
   },
   {
-    id: 'p6', slug: 'cambodian-oud', name: l('عود كمبودي', 'Cambodian Oud'), family: l('تعتيق ٣ سنوات', 'Aged 3 years'),
+    id: 'p6', brand: 'wateen', slug: 'cambodian-oud', name: l('عود كمبودي', 'Cambodian Oud'), family: l('تعتيق ٣ سنوات', 'Aged 3 years'),
     notes: l('ربع تولة · نصف تولة', 'Quarter · half tola'), price: 580, rating: 4.7,
     photos: ['handsHolding', 'oudOil'], categoryIds: ['oud', 'oud-cambodian'],
   },
   {
-    id: 'p7', slug: 'young-indian-oud', name: l('عود هندي حديث', 'Young Indian Oud'), family: l('تعتيق سنة', 'Aged 1 year'),
+    id: 'p7', brand: 'wateen', slug: 'young-indian-oud', name: l('عود هندي حديث', 'Young Indian Oud'), family: l('تعتيق سنة', 'Aged 1 year'),
     notes: l('ربع تولة · نصف تولة', 'Quarter · half tola'), price: 390, rating: 4.5,
     photos: ['rollOns', 'oudOil'], categoryIds: ['oud', 'oud-indian', 'oud-indian-young'],
   },
   {
-    id: 'p8', slug: 'royal-blend', name: l('مخلط ملكي', 'Royal Blend'), family: l('عود · ورد · مسك', 'Oud · rose · musk'),
+    id: 'p8', brand: 'abaq', slug: 'royal-blend', name: l('مخلط ملكي', 'Royal Blend'), family: l('عود · ورد · مسك', 'Oud · rose · musk'),
     notes: l('نصف تولة · تولة', 'Half · full tola'), price: 440, rating: 4.6,
     photos: ['blueBottle', 'amberTrio'], categoryIds: ['oud', 'oud-blends'],
   },
   {
-    id: 'p9', slug: 'royal-maamoul', name: l('معمول ملكي', 'Royal Maamoul'), family: l('بخور', 'Bakhoor'),
+    id: 'p9', brand: 'sidra', slug: 'royal-maamoul', name: l('معمول ملكي', 'Royal Maamoul'), family: l('بخور', 'Bakhoor'),
     notes: l('عود · مسك · عنبر', 'Oud · musk · amber'), price: 180, rating: 4.5,
     photos: ['burnerCarpet', 'burnerMajlis'], categoryIds: ['bakhoor'],
   },
   {
-    id: 'p10', slug: 'heritage-set', name: l('طقم الإرث', 'Heritage Set'), family: l('هدية', 'Gift'),
-    notes: l('ثلاثة عطور ٣٠ مل', 'Three 30 ml perfumes'), price: 690, rating: 4.8,
+    id: 'p10', brand: 'abaq', slug: 'heritage-set', name: l('طقم الإرث', 'Heritage Set'), family: l('هدية', 'Gift'),
+    notes: l('ثلاثة عطور ٣٠ مل', 'Three 30 ml perfumes'), price: 690, compareAt: 790, rating: 4.8,
     badge: l('هدية', 'Gift'), photos: ['bottlesRow', 'amberTrio'], categoryIds: ['gifts'],
   },
   {
-    id: 'p11', slug: 'discovery-set', name: l('طقم العيّنات', 'Discovery Set'), family: l('خمس عيّنات', 'Five samples'),
+    id: 'p11', brand: 'abaq', slug: 'discovery-set', name: l('طقم العيّنات', 'Discovery Set'), family: l('خمس عيّنات', 'Five samples'),
     notes: l('٥ × ٢ مل', '5 × 2 ml'), price: 75, rating: 4.7,
     photos: ['rollOns', 'bottlesRow'], categoryIds: ['samples', 'gifts'],
+  },
+  {
+    id: 'p12', brand: 'nafha', slug: 'cedar-leather', name: l('أرز وجلد', 'Cedar & Leather'), family: l('خشبي', 'Woody'),
+    notes: l('أرز · جلد · فلفل أسود', 'Cedar · leather · black pepper'), price: 365, rating: 4.6,
+    photos: ['monoBottle', 'goldBottle'], categoryIds: ['men', 'men-woody'],
+  },
+  {
+    id: 'p13', brand: 'nafha', slug: 'sea-breeze', name: l('نسيم البحر', 'Sea Breeze'), family: l('منعش', 'Fresh'),
+    notes: l('ليمون · نعناع · ملح البحر', 'Lemon · mint · sea salt'), price: 240, compareAt: 300, rating: 4.4,
+    photos: ['blueBottle', 'clearOnFur'], categoryIds: ['men', 'men-fresh'],
+  },
+  {
+    id: 'p14', brand: 'abaq', slug: 'black-saffron', name: l('زعفران أسود', 'Black Saffron'), family: l('شرقي', 'Oriental'),
+    notes: l('زعفران · عود · عنبر', 'Saffron · oud · amber'), price: 510, rating: 4.9,
+    badge: l('جديد', 'New'), photos: ['spraying', 'goldBottle'], categoryIds: ['men', 'men-oriental'],
+  },
+  {
+    id: 'p15', brand: 'sidra', slug: 'smoked-vetiver', name: l('فيتيفر مدخّن', 'Smoked Vetiver'), family: l('خشبي', 'Woody'),
+    notes: l('فيتيفر · دخان · صندل', 'Vetiver · smoke · sandalwood'), price: 330, rating: 4.3, soldOut: true,
+    photos: ['goldBottle', 'monoBottle'], categoryIds: ['men', 'men-woody'],
+  },
+  {
+    id: 'p16', brand: 'sidra', slug: 'white-jasmine', name: l('ياسمين أبيض', 'White Jasmine'), family: l('زهري', 'Floral'),
+    notes: l('ياسمين · زهر البرتقال', 'Jasmine · orange blossom'), price: 295, rating: 4.7,
+    photos: ['clearOnFur', 'daisyShadows'], categoryIds: ['women', 'women-floral'],
+  },
+  {
+    id: 'p17', brand: 'abaq', slug: 'vanilla-silk', name: l('حرير الفانيلا', 'Vanilla Silk'), family: l('عنبري', 'Amber'),
+    notes: l('فانيلا · تونكا · مسك', 'Vanilla · tonka · musk'), price: 320, compareAt: 400, rating: 4.8,
+    photos: ['pinkBottle', 'amberTrio'], categoryIds: ['women', 'women-amber'],
+  },
+  {
+    id: 'p18', brand: 'nafha', slug: 'peony-dew', name: l('ندى الفاوانيا', 'Peony Dew'), family: l('زهري', 'Floral'),
+    notes: l('فاوانيا · كمثرى · مسك', 'Peony · pear · musk'), price: 275, rating: 4.5,
+    photos: ['pinkBottle', 'daisyShadows'], categoryIds: ['women', 'women-floral'],
+  },
+  {
+    id: 'p19', brand: 'wateen', slug: 'maroki-oud', name: l('عود مروكي', 'Maroki Oud'), family: l('تعتيق ٤ سنوات', 'Aged 4 years'),
+    notes: l('ربع تولة · نصف تولة · تولة', 'Quarter · half · full tola'), price: 720, rating: 4.8,
+    photos: ['oudOil', 'handsHolding'], categoryIds: ['oud', 'oud-cambodian'],
+  },
+  {
+    id: 'p20', brand: 'wateen', slug: 'sandal-attar', name: l('عطر الصندل', 'Sandal Attar'), family: l('صندل · ورد', 'Sandalwood · rose'),
+    notes: l('ربع تولة · نصف تولة', 'Quarter · half tola'), price: 260, compareAt: 310, rating: 4.4,
+    photos: ['rollOns', 'blueBottle'], categoryIds: ['oud', 'oud-blends'],
+  },
+  {
+    id: 'p21', brand: 'wateen', slug: 'oud-chips', name: l('كسر عود طبيعي', 'Natural Oud Chips'), family: l('بخور', 'Bakhoor'),
+    notes: l('٢٥ غ · ٥٠ غ', '25 g · 50 g'), price: 450, rating: 4.9,
+    badge: l('الأكثر مبيعاً', 'Bestseller'), photos: ['burnerMajlis', 'burnerCarpet'], categoryIds: ['bakhoor'],
+  },
+  {
+    id: 'p22', brand: 'sidra', slug: 'majlis-bakhoor', name: l('بخور المجالس', 'Majlis Bakhoor'), family: l('بخور', 'Bakhoor'),
+    notes: l('عود · ورد · صندل', 'Oud · rose · sandalwood'), price: 120, rating: 4.6,
+    photos: ['burnerCarpet', 'souk'], categoryIds: ['bakhoor'],
+  },
+  {
+    id: 'p23', brand: 'abaq', slug: 'amber-maamoul', name: l('معمول العنبر', 'Amber Maamoul'), family: l('بخور', 'Bakhoor'),
+    notes: l('عنبر · مسك · زعفران', 'Amber · musk · saffron'), price: 140, compareAt: 175, rating: 4.5,
+    photos: ['burnerMajlis', 'amberTrio'], categoryIds: ['bakhoor'],
+  },
+  {
+    id: 'p24', brand: 'abaq', slug: 'duo-set', name: l('طقم الثنائي', 'The Duo Set'), family: l('هدية', 'Gift'),
+    notes: l('عطران ٥٠ مل', 'Two 50 ml perfumes'), price: 520, compareAt: 600, rating: 4.7,
+    photos: ['amberTrio', 'bottlesRow'], categoryIds: ['gifts'],
   },
 ];
 
@@ -246,6 +340,14 @@ export function findCategoryPath(slug: string, tree: Category[] = categories, tr
   return null;
 }
 
+/** Discount on a product, or null when it sells at full price. */
+export function discountOf(product: Product): { percent: number; saved: number } | null {
+  if (!product.compareAt || product.compareAt <= product.price) return null;
+  const saved = product.compareAt - product.price;
+  return { percent: Math.round((saved / product.compareAt) * 100), saved };
+}
+
 export function productsInCategory(categoryId: string): Product[] {
+  if (categoryId === ALL_PRODUCTS.id) return products;
   return products.filter((product) => product.categoryIds.includes(categoryId));
 }

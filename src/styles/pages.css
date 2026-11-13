@@ -8,26 +8,42 @@
   /* Sized by content with a floor, never 100vh: the next section stays in view. */
   min-height: clamp(540px, 80vh, 820px);
   overflow: hidden;
+  isolation: isolate;
   background: var(--c-raise);
 }
 
-/* Slides share one grid cell so the tallest sets the height and they cross-fade. */
-.hero__slide {
-  position: relative;
-  grid-area: 1 / 1;
-  display: flex;
-  align-items: flex-end;
-  opacity: 0;
-  visibility: hidden;
-  transition:
-    opacity var(--t-slow) var(--ease),
-    visibility 0s linear var(--t-slow);
+.hero__viewport {
+  cursor: grab;
 }
 
-.hero__slide[data-active='true'] {
-  opacity: 1;
-  visibility: visible;
-  transition-delay: 0s;
+.hero__viewport:active {
+  cursor: grabbing;
+}
+
+.hero__track {
+  display: flex;
+  min-height: inherit;
+  touch-action: pan-y pinch-zoom;
+}
+
+.hero__slide {
+  position: relative;
+  display: flex;
+  flex: 0 0 100%;
+  align-items: flex-end;
+  min-width: 0;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Ken Burns: the active slide's picture drifts in slowly for as long as it shows. */
+.hero__slide .hero__media {
+  transform: scale(1.12);
+  transition: transform calc(var(--hero-delay, 7s) + 1.5s) linear;
+}
+
+.hero__slide[data-active='true'] .hero__media {
+  transform: scale(1);
 }
 
 .hero__media {
@@ -53,7 +69,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 28px;
-  padding-block: calc(var(--header-h) + 56px) 104px;
+  padding-block: calc(var(--header-h) + 56px) 150px;
 }
 
 .hero__copy {
@@ -129,7 +145,8 @@
 .hero__controls {
   position: absolute;
   inset-inline: 0;
-  inset-block-end: 28px;
+  /* Clear of the perks card that overlaps the hero's bottom edge. */
+  inset-block-end: 76px;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -415,6 +432,13 @@
   background: none;
 }
 
+.reel__media video {
+  width: 100%;
+  height: 100%;
+  /* Clips of any shape fill the tall frame; the centre of the picture is kept. */
+  object-fit: cover;
+}
+
 .reel__tag {
   position: absolute;
   inset-block-start: 12px;
@@ -571,4 +595,106 @@
     opacity: 0;
     transform: translateY(24px);
   }
+}
+
+/* ---------- Hero dots and counter ---------- */
+
+.hero__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero__dots button {
+  position: relative;
+  width: 10px;
+  height: 4px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: rgb(255 255 255 / 0.35);
+  transition: width var(--t-med) var(--ease);
+}
+
+.hero__dots button::after {
+  content: '';
+  position: absolute;
+  inset: -12px -4px;
+}
+
+.hero__dots button[aria-current='true'] {
+  width: 56px;
+}
+
+.hero__dots span {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--c-accent);
+}
+
+/* The active dot fills over one autoplay interval. */
+.hero__dots button[aria-current='true'] span {
+  animation: hero-dot var(--hero-delay, 7s) linear forwards;
+}
+
+.hero:hover .hero__dots button[aria-current='true'] span {
+  animation-play-state: paused;
+}
+
+@keyframes hero-dot {
+  to {
+    width: 100%;
+  }
+}
+
+.hero__counter {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-inline-start: auto;
+  color: var(--c-text-soft);
+  font-size: var(--fs-sm);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+
+.hero__counter i {
+  width: 36px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+@media (min-width: 900px) {
+  .hero__counter {
+    display: inline-flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__slide .hero__media {
+    transform: none;
+    transition: none;
+  }
+
+  .hero__dots button[aria-current='true'] span {
+    width: 100%;
+    animation: none;
+  }
+}
+
+/* The strip itself lets drags through; only its buttons take the pointer. */
+.hero__controls {
+  pointer-events: none;
+}
+
+.hero__controls > * {
+  pointer-events: auto;
+}
+
+/* A grid item grows to fit its content unless told otherwise; the slider must not. */
+.hero__viewport {
+  min-width: 0;
+  overflow: hidden;
 }

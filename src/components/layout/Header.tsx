@@ -1,17 +1,20 @@
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { LuGlobe, LuHeart, LuMenu, LuSearch, LuShoppingBag, LuUser } from 'react-icons/lu';
+import { LuChevronDown, LuGlobe, LuHeart, LuMenu, LuSearch, LuShoppingBag, LuUser } from 'react-icons/lu';
 import { categories } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
 import { useThemeSettings } from '../../settings/ThemeSettings';
-import { LocaleDialog } from '../ui/LocaleDialog';
 import { Logo } from '../ui/Logo';
 import { CategoryDrawer } from './CategoryDrawer';
+import { MegaMenu } from './MegaMenu';
+import { SearchDialog } from './SearchDialog';
 
 interface HeaderProps {
   /** True on pages that open with a full-bleed hero the header may sit on. */
   overHero: boolean;
   cartCount: number;
+  /** Opens the language and currency picker, which the layout owns. */
+  onLocale: () => void;
 }
 
 /**
@@ -20,11 +23,11 @@ interface HeaderProps {
  * shows, hides and re-orders the parts. Below the tablet breakpoint every
  * variant collapses to the drawer layout, because a category row cannot fit.
  */
-export function Header({ overHero, cartCount }: HeaderProps) {
-  const { t, pick, currency } = useI18n();
+export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
+  const { t, pick } = useI18n();
   const { header } = useThemeSettings().settings;
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [localeOpen, setLocaleOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const floats = overHero && header.variant !== 'classic';
 
@@ -37,16 +40,6 @@ export function Header({ overHero, cartCount }: HeaderProps) {
       data-logo={header.logoPosition}
       data-labels={header.showActionLabels}
     >
-      <div className="header__utility container">
-        <span className="header__utility-links">
-          <Link to="/branches">{t('nav.branches')}</Link>
-          <Link to="/blog">{t('nav.blog')}</Link>
-        </span>
-        <button type="button" className="header__language" onClick={() => setLocaleOpen(true)}>
-          <LuGlobe aria-hidden /> {t('locale.title')} · {currency}
-        </button>
-      </div>
-
       <div className="header__main container">
         <button className="header__menu" type="button" aria-label={t('nav.open')} aria-expanded={drawerOpen} onClick={() => setDrawerOpen(true)}>
           <LuMenu aria-hidden />
@@ -59,25 +52,29 @@ export function Header({ overHero, cartCount }: HeaderProps) {
 
         <form className="header__search" role="search" onSubmit={(event) => event.preventDefault()}>
           <LuSearch aria-hidden />
-          <input type="search" aria-label={t('action.search')} placeholder={t('search.placeholder')} />
+          <input type="search" aria-label={t('action.search')} placeholder={t('search.placeholder')} readOnly onFocus={() => setSearchOpen(true)} />
         </form>
 
         <nav className="header__nav" aria-label={t('nav.main')}>
-          <NavLink to="/" end>
+          <NavLink className="header__nav-link" to="/" end>
             {t('nav.home')}
           </NavLink>
           {categories.slice(0, 5).map((category) => (
-            <NavLink key={category.id} to={`/category/${category.slug}`}>
-              {pick(category.name)}
-            </NavLink>
+            <div key={category.id} className="header__nav-item">
+              <NavLink className="header__nav-link" to={`/category/${category.slug}`} aria-haspopup={header.megaMenu && category.children ? 'true' : undefined}>
+                {pick(category.name)}
+                {header.megaMenu && category.children && <LuChevronDown className="header__nav-caret" aria-hidden />}
+              </NavLink>
+              {header.megaMenu && category.children && <MegaMenu category={category} />}
+            </div>
           ))}
         </nav>
 
         <div className="header__actions">
-          <button className="icon-button header__search-toggle" type="button" aria-label={t('action.search')}>
+          <button className="icon-button header__search-toggle" type="button" aria-label={t('action.search')} onClick={() => setSearchOpen(true)}>
             <LuSearch aria-hidden />
           </button>
-          <button className="icon-button header__action--secondary header__locale" type="button" aria-label={t('locale.title')} onClick={() => setLocaleOpen(true)}>
+          <button className="icon-button header__action--secondary header__locale" type="button" aria-label={t('locale.title')} onClick={onLocale}>
             <LuGlobe aria-hidden />
           </button>
           <button className="icon-button header__action--secondary" type="button" aria-label={t('action.account')}>
@@ -96,8 +93,8 @@ export function Header({ overHero, cartCount }: HeaderProps) {
         </div>
       </div>
 
-      <CategoryDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} onLocale={() => setLocaleOpen(true)} />
-      <LocaleDialog open={localeOpen} onClose={() => setLocaleOpen(false)} />
+      <CategoryDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} onLocale={onLocale} />
+      <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />
     </header>
   );
 }

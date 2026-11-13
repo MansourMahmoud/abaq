@@ -16,6 +16,10 @@ export interface ThemeSettings {
     logoPosition: 'start' | 'center';
     /** Show a text label next to the account, wishlist and cart icons. */
     showActionLabels: boolean;
+    /** Slim strip above the header with social accounts, phone and email. */
+    topBar: boolean;
+    /** Open a panel of sub-categories (with the category banner) under the navigation. */
+    megaMenu: boolean;
   };
   announcement: {
     enabled: boolean;
@@ -24,6 +28,8 @@ export interface ThemeSettings {
     dismissible: boolean;
     /** Keep the bar attached to a sticky header instead of scrolling away. */
     stickWithHeader: boolean;
+    /** Show each message's icon. */
+    showIcons: boolean;
   };
   productCard: {
     hover: 'zoom' | 'lift' | 'none';
@@ -41,7 +47,36 @@ export interface ThemeSettings {
     /** dots: one dot per page under the carousel · bar: a thin scrollbar */
     carouselIndicator: 'dots' | 'bar';
   };
+  hero: {
+    /** How one slide gives way to the next. */
+    effect: 'fade' | 'slide';
+    autoplaySeconds: number;
+  };
+  category: {
+    /** Products fetched per page of the listing. */
+    perPage: number;
+    /** infinite: the next page loads as the shopper nears the end · button: a "show more" button */
+    pagination: 'infinite' | 'button';
+    filters: boolean;
+    /** Promotional card placed inside the product grid. */
+    inlineBanner: boolean;
+  };
+  cart: {
+    banner: boolean;
+    bannerHeight: 'short' | 'medium' | 'tall';
+    /** contained: aligned with the page content · full: edge to edge */
+    bannerWidth: 'contained' | 'full';
+  };
+  floating: {
+    whatsapp: boolean;
+    /** Physical side of the screen the chat button sits on. */
+    side: 'right' | 'left';
+    /** Rotate short prompts beside the chat button. */
+    prompts: boolean;
+  };
   footer: {
+    /** Promotional card that overlaps the top edge of the footer. */
+    showPromo: boolean;
     showSocial: boolean;
     showPayments: boolean;
     showCompliance: boolean;
@@ -50,12 +85,16 @@ export interface ThemeSettings {
 }
 
 export const defaultSettings: ThemeSettings = {
-  header: { variant: 'overlay', sticky: true, logoPosition: 'start', showActionLabels: false },
-  announcement: { enabled: true, mode: 'marquee', dismissible: true, stickWithHeader: false },
+  header: { variant: 'overlay', sticky: true, logoPosition: 'start', showActionLabels: false, topBar: true, megaMenu: true },
+  announcement: { enabled: true, mode: 'marquee', dismissible: true, stickWithHeader: false, showIcons: true },
   productCard: { hover: 'zoom', imageRatio: '4/5' },
   preloader: { enabled: true, background: 'blur' },
   home: { categoriesLayout: 'carousel', productsLayout: 'carousel', carouselIndicator: 'dots' },
-  footer: { showSocial: true, showPayments: true, showCompliance: true, contactStyle: 'icons' },
+  hero: { effect: 'fade', autoplaySeconds: 7 },
+  category: { perPage: 8, pagination: 'infinite', filters: true, inlineBanner: true },
+  cart: { banner: true, bannerHeight: 'medium', bannerWidth: 'contained' },
+  floating: { whatsapp: true, side: 'right', prompts: true },
+  footer: { showPromo: true, showSocial: true, showPayments: true, showCompliance: true, contactStyle: 'icons' },
 };
 
 interface SettingsValue {

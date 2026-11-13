@@ -19,6 +19,8 @@ export default {
         soft: 'var(--c-text-soft)',
         muted: 'var(--c-text-muted)',
         success: 'var(--c-success)',
+        sale: 'var(--c-sale)',
+        paper: 'var(--c-paper)',
       },
       fontFamily: {
         display: 'var(--font-display)',

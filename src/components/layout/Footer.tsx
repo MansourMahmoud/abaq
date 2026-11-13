@@ -1,23 +1,18 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FaInstagram, FaSnapchat, FaTiktok, FaWhatsapp, FaXTwitter, FaYoutube } from 'react-icons/fa6';
-import { LuBadgeCheck, LuFileBadge, LuMail, LuPhone, LuReceiptText, LuScrollText } from 'react-icons/lu';
+import { FaWhatsapp } from 'react-icons/fa6';
+import { LuBadgeCheck, LuMail, LuPhone, LuReceiptText, LuScrollText } from 'react-icons/lu';
 import type { IconType } from 'react-icons';
-import { categories } from '../../data/catalog';
+import { ALL_PRODUCTS, categories } from '../../data/catalog';
 import { STORE, pages, whatsappUrl } from '../../data/content';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/messages';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 import { Logo } from '../ui/Logo';
 import { PaymentBadges } from '../ui/PaymentBadges';
+import { SocialLinks } from '../ui/SocialLinks';
 
-const SOCIAL: { label: string; href: string; Icon: IconType }[] = [
-  { label: 'Instagram', href: 'https://instagram.com', Icon: FaInstagram },
-  { label: 'X', href: 'https://x.com', Icon: FaXTwitter },
-  { label: 'TikTok', href: 'https://tiktok.com', Icon: FaTiktok },
-  { label: 'Snapchat', href: 'https://snapchat.com', Icon: FaSnapchat },
-  { label: 'YouTube', href: 'https://youtube.com', Icon: FaYoutube },
-];
+const YEAR = new Date().getFullYear();
 
 /**
  * Registration and verification details. The Business Center and VAT marks
@@ -27,10 +22,27 @@ const SOCIAL: { label: string; href: string; Icon: IconType }[] = [
  */
 const COMPLIANCE: { key: MessageKey; value: string; Icon: IconType; image?: string }[] = [
   { key: 'footer.businessCenter', value: '0000000000', Icon: LuBadgeCheck, image: 'https://cdn.salla.network/images/sbc.png?v=2.0.5' },
-  { key: 'footer.commercialRecord', value: '1010000000', Icon: LuFileBadge },
+  { key: 'footer.commercialRecord', value: '1010000000', Icon: CommercialRecordIcon },
   { key: 'footer.taxNumber', value: '300000000000003', Icon: LuReceiptText, image: 'https://cdn.salla.network/images/tax.png?v=2.0.5' },
   { key: 'footer.freelance', value: '', Icon: LuScrollText },
 ];
+
+/**
+ * Commercial registration mark: a certificate with a seal. Drawn in-house
+ * because the platform does not supply an image for it.
+ */
+function CommercialRecordIcon() {
+  return (
+    <svg className="footer__cr" viewBox="0 0 44 44" aria-hidden>
+      <rect width="44" height="44" rx="8" fill="#fff" />
+      <path d="M12 9h15l6 6v20H12z" fill="#eef4ef" stroke="#1c6b3c" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M27 9v6h6" fill="none" stroke="#1c6b3c" strokeWidth="1.6" strokeLinejoin="round" />
+      <path d="M16 19h10M16 23h7" stroke="#1c6b3c" strokeWidth="1.6" strokeLinecap="round" />
+      <circle cx="27.5" cy="29.5" r="4.5" fill="#c9a24a" />
+      <path d="m25.4 29.6 1.5 1.5 2.7-3" fill="none" stroke="#fff" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
 /** A badge's official platform image when it has one, falling back to an icon if it fails to load. */
 function ComplianceMark({ image, Icon }: { image?: string; Icon: IconType }) {
@@ -53,17 +65,7 @@ export function Footer() {
               <Logo />
             </Link>
             <p className="text-muted">{pick(STORE.description)}</p>
-            {footer.showSocial && (
-              <ul className="footer__social">
-                {SOCIAL.map(({ label, href, Icon }) => (
-                  <li key={label}>
-                    <a className="icon-button" href={href} target="_blank" rel="noopener noreferrer" aria-label={label}>
-                      <Icon aria-hidden />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
+            {footer.showSocial && <SocialLinks className="footer__social" />}
           </div>
 
           <nav aria-label={t('footer.shop')}>
@@ -74,6 +76,9 @@ export function Footer() {
                   <Link to={`/category/${category.slug}`}>{pick(category.name)}</Link>
                 </li>
               ))}
+              <li>
+                <Link to={`/category/${ALL_PRODUCTS.slug}`}>{pick(ALL_PRODUCTS.name)}</Link>
+              </li>
             </ul>
           </nav>
 
@@ -126,7 +131,7 @@ export function Footer() {
 
         <div className="footer__bottom">
           <p>
-            {t('footer.rights')} · {pick(STORE.name)} {new Date().getFullYear()}
+            {t('footer.rights')} · {pick(STORE.name)} {YEAR}
           </p>
           {footer.showPayments && <PaymentBadges />}
         </div>

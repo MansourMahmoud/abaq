@@ -10,6 +10,7 @@ import './styles/pages.css';
 import './styles/sections.css';
 import './styles/commerce.css';
 import './styles/content.css';
+import './styles/listing.css';
 import './styles/tailwind.css';
 
 createRoot(document.getElementById('root')!).render(

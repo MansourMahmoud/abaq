@@ -3,12 +3,14 @@ import { Link, useParams } from 'react-router-dom';
 import { LuBadgeCheck, LuGift, LuHeart, LuMinus, LuPlay, LuPlus, LuRefreshCw, LuTestTubeDiagonal, LuTruck } from 'react-icons/lu';
 import type { IconType } from 'react-icons';
 import { ProductRail } from '../components/product/ProductRail';
-import { ReviewCard, Stars } from '../components/product/ReviewCard';
+import { Stars } from '../components/product/ReviewCard';
+import { ReviewsPanel } from '../components/product/ReviewsPanel';
+import { ClipPlayer } from '../components/ui/ClipPlayer';
 import { PaymentBadges } from '../components/ui/PaymentBadges';
 import { Picture } from '../components/ui/Picture';
-import { categories, findProduct, hasVariants, productDetails, relatedProducts } from '../data/catalog';
+import { brands, categories, discountOf, findProduct, hasVariants, productDetails, relatedProducts } from '../data/catalog';
 import { reviews } from '../data/content';
-import { clipPoster, clipSrc, clips } from '../data/videos';
+import { clipPoster, clips } from '../data/videos';
 import { useI18n, type Localized } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/messages';
 import { useCart } from '../lib/cart';
@@ -34,9 +36,6 @@ const PERKS: { key: MessageKey; Icon: IconType }[] = [
   { key: 'product.perk.gift', Icon: LuGift },
 ];
 
-/** Share of reviews per star, five stars first. Demo figures. */
-const RATING_SPREAD = [82, 12, 4, 1, 1];
-const REVIEW_COUNT = 128;
 const MAX_QUANTITY = 9;
 
 export function ProductPage() {
@@ -55,17 +54,21 @@ export function ProductPage() {
   if (!product) return <NotFoundPage title={t('product.notFound')} />;
 
   const details = productDetails(product.id);
+  const discount = discountOf(product);
   const variants = hasVariants(product);
   const clip = clips.find((entry) => entry.productId === product.id);
   const category = categories.find((entry) => product.categoryIds.includes(entry.id));
-  const productReviews = reviews.filter((review) => review.productId === product.id);
-  const shownReviews = productReviews.length > 0 ? productReviews : reviews.slice(0, 2);
+  // Demo data has only a few reviews per product, so the page shows this product's first, then the rest.
+  const productReviews = [...reviews].sort((a, b) => Number(b.productId === product.id) - Number(a.productId === product.id));
+  const brand = brands.find((entry) => entry.id === product.brand);
   const name = pick(product.name);
 
   // Gallery entries: every photo, then the product's clip when it has one.
   const showingClip = clip !== undefined && media === product.photos.length;
   const priceFor = (sizeIndex: number) => Math.round((product.price * CONCENTRATIONS[concentration].factor * SIZES[sizeIndex].factor) / 5) * 5;
   const unitPrice = variants ? priceFor(size) : product.price;
+  // The discount applies to every option, so the "before" price scales with the chosen one.
+  const compareAt = discount ? Math.round((unitPrice / (1 - discount.percent / 100)) / 5) * 5 : unitPrice;
 
   // Zoom follows the pointer by moving the transform origin under it.
   const trackPointer = (event: MouseEvent<HTMLDivElement>) => {
@@ -91,7 +94,7 @@ export function ProductPage() {
           <div className="gallery">
             <div className="gallery__stage" onMouseMove={showingClip ? undefined : trackPointer} onMouseLeave={() => setZoom({})} title={showingClip ? undefined : t('product.zoom')}>
               {showingClip && clip ? (
-                <video src={clipSrc(clip)} poster={clipPoster(clip)} controls muted loop playsInline autoPlay />
+                <ClipPlayer clip={clip} autoPlay />
               ) : (
                 <img
                   src={`/media/img/${product.photos[media]}-1600.webp`}
@@ -125,7 +128,7 @@ export function ProductPage() {
 
           <div className="product__info">
             <div className="product__flags">
-              <span className="flag flag--brand">{pick({ ar: 'عبق', en: 'Abaq' })}</span>
+              {brand && <span className="flag flag--brand">{pick(brand.name)}</span>}
               <span className="flag flag--accent">
                 <LuBadgeCheck aria-hidden /> {t('product.authentic')}
               </span>
@@ -137,16 +140,27 @@ export function ProductPage() {
             <div className="product__meta">
               <Stars rating={product.rating} />
               <span className="text-muted">
-                {number(product.rating)} · {t('reviews.count', { count: number(REVIEW_COUNT) })}
+                {number(product.rating)} · {t('reviews.count', { count: number(productReviews.length) })}
               </span>
-              <span className="stock">
-                <span className="stock__dot" /> {t('product.inStock')} · {t('product.left', { count: number(details.stock) })}
-              </span>
+              {product.soldOut ? (
+                <span className="text-muted">{t('product.soldOut')}</span>
+              ) : (
+                <span className="stock">
+                  <span className="stock__dot" /> {t('product.inStock')} · {t('product.left', { count: number(details.stock) })}
+                </span>
+              )}
             </div>
 
             <p className="product__price">
               {money(unitPrice)}
-              {product.compareAt && !variants && <s>{money(product.compareAt)}</s>}
+              {discount && (
+                <>
+                  <s>{money(compareAt)}</s>
+                  <span className="product__save">
+                    {t('product.off', { percent: number(discount.percent) })} · {t('product.save', { amount: money(compareAt - unitPrice) })}
+                  </span>
+                </>
+              )}
               <span className="text-muted">{t('product.vat')}</span>
             </p>
 
@@ -183,8 +197,8 @@ export function ProductPage() {
                   <LuPlus aria-hidden />
                 </button>
               </div>
-              <button className="button buy-bar__add" type="button" onClick={addToCart}>
-                {t('action.addToCart')} · {money(unitPrice * quantity)}
+              <button className="button buy-bar__add" type="button" disabled={product.soldOut} onClick={addToCart}>
+                {product.soldOut ? t('product.notify') : `${t('action.addToCart')} · ${money(unitPrice * quantity)}`}
               </button>
               <button className="icon-button" type="button" aria-label={`${t('action.addToWishlist')}: ${name}`}>
                 <LuHeart aria-hidden />
@@ -250,7 +264,7 @@ export function ProductPage() {
             {t('product.tab.description')}
           </button>
           <button role="tab" type="button" aria-selected={tab === 'reviews'} onClick={() => setTab('reviews')}>
-            {t('product.tab.reviews')} ({number(REVIEW_COUNT)})
+            {t('product.tab.reviews')} ({number(productReviews.length)})
           </button>
         </div>
 
@@ -260,31 +274,7 @@ export function ProductPage() {
             <p className="text-muted">{pick(product.notes)}</p>
           </div>
         ) : (
-          <div className="reviews">
-            <div className="reviews__summary">
-              <strong className="reviews__score">{number(product.rating)}</strong>
-              <Stars rating={product.rating} />
-              <span className="text-muted">{t('reviews.count', { count: number(REVIEW_COUNT) })}</span>
-              <ul className="reviews__bars">
-                {RATING_SPREAD.map((percent, index) => (
-                  <li key={index}>
-                    <span>{number(5 - index)}</span>
-                    <span className="progress"><span style={{ inlineSize: `${percent}%` }} /></span>
-                    <span>{number(percent)}٪</span>
-                  </li>
-                ))}
-              </ul>
-              <button className="button button--outline" type="button">{t('reviews.add')}</button>
-            </div>
-            <div className="reviews__list">
-              {shownReviews.map((review, index) => (
-                <div key={review.id} className={index === 0 ? 'reviews__featured' : undefined}>
-                  {index === 0 && <p className="eyebrow">{t('reviews.featured')}</p>}
-                  <ReviewCard review={review} />
-                </div>
-              ))}
-            </div>
-          </div>
+          <ReviewsPanel reviews={productReviews} />
         )}
       </section>
 
@@ -303,8 +293,8 @@ export function ProductPage() {
           <strong>{name}</strong>
           <span>{money(unitPrice * quantity)}</span>
         </span>
-        <button className="button" type="button" onClick={addToCart}>
-          {t('action.addToCart')}
+        <button className="button" type="button" disabled={product.soldOut} onClick={addToCart}>
+          {product.soldOut ? t('product.notify') : t('action.addToCart')}
         </button>
       </div>
     </>

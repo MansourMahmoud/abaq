@@ -7,7 +7,8 @@
  * at runtime, so components must never hard-code a colour.
  */
 
-:root {
+:root,
+.scope-light {
   /* Palette (default: warm white, ink text, bronze accent) */
   --c-bg: #faf8f5;
   --c-surface: #ffffff;
@@ -19,6 +20,7 @@
   --c-text-soft: #4a433c;
   --c-text-muted: #6f675e;
   --c-success: #1c7c45;
+  --c-sale: #b3261e;
   /* Tinted band used to separate sections on the light background. */
   --c-paper: #f1ebe1;
   --c-paper-raise: #ffffff;
@@ -63,6 +65,11 @@
   --header-h: 84px;
 }
 
+/* A light island inside a dark scope (the header's dropdown menu, for example). */
+.scope-light {
+  color: var(--c-text);
+}
+
 /*
  * Dark scope. Anything that sits on a photo, a video or an ink-coloured band
  * re-declares the palette locally, so the components inside it (buttons,
@@ -76,6 +83,8 @@
 .cinema,
 .offer,
 .footer,
+.prefooter,
+.scope-dark,
 .preloader,
 .header[data-floating='true'] {
   --c-bg: #15110e;
@@ -88,6 +97,7 @@
   --c-text-soft: #cdbfaa;
   --c-text-muted: #b8ab98;
   --c-success: #5fd08a;
+  --c-sale: #ff8a80;
   color: var(--c-text);
 }
 

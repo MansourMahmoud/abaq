@@ -661,3 +661,79 @@
 .summary .payments {
   justify-content: center;
 }
+
+/* ---------- Product: discount line ---------- */
+
+.product__save {
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--c-sale) 10%, transparent);
+  color: var(--c-sale);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+
+.buy-bar__add:disabled {
+  border-color: var(--c-line);
+  background: var(--c-raise);
+  color: var(--c-text-muted);
+  cursor: not-allowed;
+}
+
+/* ---------- Cart: banner sizes and the promotional slot ---------- */
+
+.cart__banner[data-height='short'] {
+  min-height: 110px;
+}
+
+.cart__banner[data-height='medium'] {
+  min-height: 170px;
+}
+
+.cart__banner[data-height='tall'] {
+  min-height: clamp(220px, 26vw, 340px);
+}
+
+/* Edge to edge: no rounded corners, and the text lines up with the page content. */
+.cart__banner[data-width='full'] {
+  display: block;
+  border-radius: 0;
+}
+
+.cart__banner[data-width='full'] .banner__text {
+  padding-inline: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+}
+
+.cart-ad {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  border: 1px dashed var(--c-accent);
+  border-radius: var(--radius-md);
+  background: var(--c-raise);
+  transition: background-color var(--t-fast) var(--ease);
+}
+
+.cart-ad:hover {
+  background: var(--c-paper);
+}
+
+.cart-ad__media {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.cart-ad__text {
+  display: grid;
+  min-width: 0;
+  line-height: 1.5;
+}
+
+.cart-ad__text span {
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
+}

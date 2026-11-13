@@ -1,28 +1,41 @@
-import { useEffect, type ReactNode } from 'react';
+import { Suspense, lazy, useEffect, useState, type ReactNode } from 'react';
 import { LazyMotion, MotionConfig, domAnimation } from 'motion/react';
+import { ErrorBoundary } from 'react-error-boundary';
 import { BrowserRouter, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { AnnouncementBar } from './components/layout/AnnouncementBar';
 import { FloatingActions } from './components/layout/FloatingActions';
 import { Footer } from './components/layout/Footer';
+import { FooterPromo } from './components/layout/FooterPromo';
 import { Header } from './components/layout/Header';
+import { TopBar } from './components/layout/TopBar';
+import { ErrorState } from './components/ui/ErrorState';
+import { LocaleDialog } from './components/ui/LocaleDialog';
+import { PageSkeleton } from './components/ui/PageSkeleton';
 import { Preloader } from './components/ui/Preloader';
 import { I18nProvider } from './i18n/I18nProvider';
 import { CartProvider, useCart } from './lib/cart';
-import { ArticlePage } from './pages/ArticlePage';
-import { BlogPage } from './pages/BlogPage';
-import { BranchesPage } from './pages/BranchesPage';
-import { CartPage } from './pages/CartPage';
-import { CategoryPage } from './pages/CategoryPage';
 import { HomePage } from './pages/HomePage';
-import { NotFoundPage } from './pages/NotFoundPage';
-import { ProductPage } from './pages/ProductPage';
-import { StaticPage } from './pages/StaticPage';
 import { ThemeSettingsProvider } from './settings/ThemeSettings';
 
-/** Shared frame for every page: announcement, header, content, footer. */
+/*
+ * The home page ships in the main bundle because it is the usual entry point.
+ * Every other page is fetched the first time it is visited.
+ */
+const ArticlePage = lazy(() => import('./pages/ArticlePage').then((module) => ({ default: module.ArticlePage })));
+const BlogPage = lazy(() => import('./pages/BlogPage').then((module) => ({ default: module.BlogPage })));
+const BranchesPage = lazy(() => import('./pages/BranchesPage').then((module) => ({ default: module.BranchesPage })));
+const CartPage = lazy(() => import('./pages/CartPage').then((module) => ({ default: module.CartPage })));
+const CategoryPage = lazy(() => import('./pages/CategoryPage').then((module) => ({ default: module.CategoryPage })));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage').then((module) => ({ default: module.NotFoundPage })));
+const ProductPage = lazy(() => import('./pages/ProductPage').then((module) => ({ default: module.ProductPage })));
+const StaticPage = lazy(() => import('./pages/StaticPage').then((module) => ({ default: module.StaticPage })));
+
+/** Shared frame for every page: announcement, top bar, header, content, footer. */
 function Layout() {
   const { pathname } = useLocation();
   const { count } = useCart();
+  const [localeOpen, setLocaleOpen] = useState(false);
+  const openLocale = () => setLocaleOpen(true);
 
   // A new page starts at the top; the browser only does this on full loads.
   useEffect(() => {
@@ -32,15 +45,22 @@ function Layout() {
   return (
     <>
       <AnnouncementBar />
+      <TopBar onLocale={openLocale} />
       <div className="page-frame">
-        <Header overHero={pathname === '/'} cartCount={count} />
-        {/* Keyed by path so each page fades in on navigation. */}
+        <Header overHero={pathname === '/'} cartCount={count} onLocale={openLocale} />
+        {/* Keyed by path so each page fades in, and an error on one page clears on the next. */}
         <main key={pathname} className="page-enter">
-          <Outlet />
+          <ErrorBoundary FallbackComponent={ErrorState}>
+            <Suspense fallback={<PageSkeleton />}>
+              <Outlet />
+            </Suspense>
+          </ErrorBoundary>
         </main>
       </div>
+      <FooterPromo />
       <Footer />
       <FloatingActions />
+      <LocaleDialog open={localeOpen} onClose={() => setLocaleOpen(false)} />
       <Preloader />
     </>
   );

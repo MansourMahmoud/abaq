@@ -8,17 +8,20 @@ import { products } from '../data/catalog';
 import { STORE } from '../data/content';
 import { useI18n } from '../i18n/I18nProvider';
 import { useCart } from '../lib/cart';
+import { useThemeSettings } from '../settings/ThemeSettings';
 
 export function CartPage() {
   const { t, pick, money, number } = useI18n();
   const { lines, subtotal, setQuantity, remove } = useCart();
+  const { cart } = useThemeSettings().settings;
   const [gift, setGift] = useState(false);
 
   const untilFreeShipping = Math.max(0, STORE.freeShippingFrom - subtotal);
   const suggestions = products.filter((product) => !lines.some((line) => line.product.id === product.id));
 
-  const banner = (
-    <Link className="banner banner--strip media-zoom" to="/category/bakhoor">
+  // The merchant sets the banner's height and whether it runs edge to edge.
+  const banner = cart.banner && (
+    <Link className="banner banner--strip cart__banner media-zoom" data-height={cart.bannerHeight} data-width={cart.bannerWidth} to="/category/bakhoor">
       <Picture photo="burnerMajlis" alt="" sizes="100vw" />
       <span className="banner__text">
         <span className="eyebrow">{pick({ ar: 'عرض السلة', en: 'Cart offer' })}</span>
@@ -29,8 +32,9 @@ export function CartPage() {
 
   return (
     <>
+      {cart.bannerWidth === 'full' && banner}
       <section className="container cart">
-        {banner}
+        {cart.bannerWidth === 'contained' && banner}
         <h1 className="cart__title">{t('cart.title')}</h1>
 
         {lines.length === 0 ? (
@@ -97,9 +101,38 @@ export function CartPage() {
               <p className="text-muted">{t('product.vat')}</p>
               <button className="button" type="button">{t('cart.checkout')}</button>
               <PaymentBadges />
+              {/* A second promotional slot, beside the totals where the eye rests before checkout. */}
+              <Link className="cart-ad" to="/product/discovery-set">
+                <span className="cart-ad__media">
+                  <Picture photo="rollOns" alt="" sizes="72px" />
+                </span>
+                <span className="cart-ad__text">
+                  <strong>{pick({ ar: 'أضف طقم العيّنات بـ ٧٥ ر.س', en: 'Add the discovery set for SAR 75' })}</strong>
+                  <span>{pick({ ar: 'خمسة عطور تجرّبها قبل الزجاجة الكاملة', en: 'Five scents to try before a full bottle' })}</span>
+                </span>
+              </Link>
             </aside>
           </div>
         )}
+      </section>
+
+      <section className="section section--flush-top container">
+        <div className="grid gap-4 md:grid-cols-2">
+          <Link className="banner banner--strip media-zoom" to="/category/gifts">
+            <Picture photo="amberTrio" alt="" sizes="(min-width: 768px) 50vw, 100vw" />
+            <span className="banner__text">
+              <span className="eyebrow">{pick({ ar: 'للهدايا', en: 'For gifting' })}</span>
+              <span className="banner__title">{pick({ ar: 'تغليف هدية وبطاقة مجاناً مع كل طلب', en: 'Free gift wrap and card with every order' })}</span>
+            </span>
+          </Link>
+          <Link className="banner banner--strip media-zoom" to="/category/oud">
+            <Picture photo="oudOil" alt="" sizes="(min-width: 768px) 50vw, 100vw" />
+            <span className="banner__text">
+              <span className="eyebrow">{pick({ ar: 'دهن العود', en: 'Oud oil' })}</span>
+              <span className="banner__title">{pick({ ar: 'قسّط طلبك على ٤ دفعات بلا فوائد', en: 'Split your order into 4 interest-free payments' })}</span>
+            </span>
+          </Link>
+        </div>
       </section>
 
       <section className="section section--surface">

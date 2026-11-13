@@ -15,6 +15,13 @@ export const STORE = {
   description: l('عطور ودهن عود وبخور مختارة بعناية، بنوتات واضحة تساعدك على الاختيار.', 'Carefully chosen perfumes, oud oils and bakhoor, with clear notes to help you choose.'),
   phone: '+201021786873',
   email: 'get.digimarket@gmail.com',
+  social: [
+    { network: 'instagram', href: 'https://instagram.com' },
+    { network: 'x', href: 'https://x.com' },
+    { network: 'tiktok', href: 'https://tiktok.com' },
+    { network: 'snapchat', href: 'https://snapchat.com' },
+    { network: 'youtube', href: 'https://youtube.com' },
+  ],
   /** Order total (SAR) from which shipping is free. */
   freeShippingFrom: 300,
 };
@@ -229,23 +236,75 @@ export const branches: Branch[] = [
 export interface Review {
   id: string;
   author: Localized;
+  /** Customer photo from their store account; reviews without one show an initial. */
+  avatar?: string;
   rating: number;
   text: Localized;
   productId: string;
   verified: boolean;
+  /** ISO date the review was posted. */
+  date: string;
+  /** Photos the customer attached to the review. */
+  photos?: PhotoKey[];
+  /** How many shoppers marked the review as helpful. */
+  helpful: number;
 }
+
+const avatar = (name: string) => `/media/avatars/${name}.webp`;
 
 /** Sample reviews for the demo store; the Salla theme shows the store's real ones. */
 export const reviews: Review[] = [
-  { id: 'r1', author: l('سارة م.', 'Sara M.'), rating: 5, productId: 'p1', verified: true, text: l('ثباته ممتاز، بقي معي من الصباح حتى المساء. التغليف أنيق والعيّنة المرفقة لفتة جميلة.', 'Excellent longevity: it stayed from morning to evening. Elegant packaging, and the sample was a nice touch.') },
-  { id: 'r2', author: l('عبدالله ر.', 'Abdullah R.'), rating: 5, productId: 'p5', verified: true, text: l('دهن عود نظيف وواضح، والوصف مطابق تماماً لما وصلني.', 'Clean, clear oud oil, and it matched the description exactly.') },
-  { id: 'r3', author: l('نورة ع.', 'Noura A.'), rating: 4, productId: 'p4', verified: true, text: l('رائحة الورد طبيعية وليست حادة. تمنيت لو كان الحجم الكبير متوفراً.', 'The rose smells natural, not sharp. I wish the large size had been in stock.') },
-  { id: 'r4', author: l('فهد س.', 'Fahad S.'), rating: 5, productId: 'p9', verified: false, text: l('البخور يملأ المجلس برائحة هادئة، والتوصيل كان خلال يومين.', 'The bakhoor fills the majlis with a calm scent, and delivery took two days.') },
+  { id: 'r1', author: l('سارة م.', 'Sara M.'), avatar: avatar('f1'), rating: 5, productId: 'p1', verified: true, date: '2026-11-02', helpful: 24, photos: ['goldBottle', 'spraying'], text: l('ثباته ممتاز، بقي معي من الصباح حتى المساء. التغليف أنيق والعيّنة المرفقة لفتة جميلة.', 'Lasting power is excellent, it stayed with me from morning to evening. Lovely wrapping, and the sample was a nice touch.') },
+  { id: 'r2', author: l('عبدالله ر.', 'Abdullah R.'), avatar: avatar('m1'), rating: 5, productId: 'p5', verified: true, date: '2026-10-28', helpful: 18, photos: ['oudOil'], text: l('دهن عود نظيف وواضح، والوصف مطابق تماماً لما وصلني.', 'A clean, clear oud oil, and it matched the description exactly.') },
+  { id: 'r3', author: l('نورة ع.', 'Noura A.'), rating: 4, productId: 'p4', verified: true, date: '2026-10-21', helpful: 9, text: l('رائحة الورد طبيعية وليست حادة. تمنيت لو كان الحجم الكبير متوفراً.', 'The rose smells natural, not sharp. I only wish the large size were available.') },
+  { id: 'r4', author: l('فهد س.', 'Fahad S.'), avatar: avatar('m2'), rating: 5, productId: 'p9', verified: true, date: '2026-10-17', helpful: 12, photos: ['burnerCarpet'], text: l('البخور يملأ المجلس برائحة هادئة، والتوصيل كان خلال يومين.', 'The bakhoor fills the majlis with a calm scent, and delivery took two days.') },
+  { id: 'r5', author: l('ريم ك.', 'Reem K.'), avatar: avatar('f2'), rating: 5, productId: 'p3', verified: true, date: '2026-10-11', helpful: 31, photos: ['amberTrio'], text: l('عنبر الليل صار عطري اليومي. دافئ من غير ما يكون ثقيل، وكل من حولي يسأل عنه.', 'Night Amber became my daily scent. Warm without being heavy, and everyone asks about it.') },
+  { id: 'r6', author: l('ماجد ح.', 'Majed H.'), rating: 4, productId: 'p1', verified: true, date: '2026-10-05', helpful: 6, text: l('عطر فخم ويناسب المناسبات. الفوحان قوي أول ساعة ثم يهدأ.', 'A rich scent that suits occasions. Projection is strong for the first hour, then it settles.') },
+  { id: 'r7', author: l('خالد ب.', 'Khaled B.'), avatar: avatar('m3'), rating: 5, productId: 'p10', verified: true, date: '2026-09-29', helpful: 15, photos: ['bottlesRow'], text: l('اشتريت طقم الإرث هدية لوالدي، والعلبة وحدها تستحق. وصل مع بطاقة إهداء مكتوبة بخط جميل.', 'I bought the Heritage Set for my father, and the box alone is worth it. It came with a beautifully written card.') },
+  { id: 'r8', author: l('لمى ف.', 'Lama F.'), rating: 5, productId: 'p4', verified: false, date: '2026-09-22', helpful: 4, text: l('ورد الطائف أنعم ورد جربته. طلبته مرتين.', 'Taif Rose is the softest rose I have tried. I have ordered it twice.') },
+  { id: 'r9', author: l('تركي ن.', 'Turki N.'), rating: 3, productId: 'p3', verified: true, date: '2026-09-14', helpful: 2, text: l('الرائحة جميلة لكن الثبات على بشرتي متوسط. خدمة العملاء اقترحت عليّ تركيز البارفان.', 'A lovely scent, but lasting power on my skin is average. Support suggested the parfum concentration.') },
+  { id: 'r10', author: l('هند ص.', 'Hind S.'), rating: 5, productId: 'p5', verified: true, date: '2026-09-03', helpful: 20, photos: ['rollOns'], text: l('ثالث مرة أطلب دهن العود الهندي. نفس الجودة في كل مرة، وهذا أهم شيء عندي.', 'My third order of the Indian oud oil. Same quality every time, which matters most to me.') },
 ];
 
-export const faqs: { question: Localized; answer: Localized }[] = [
-  { question: l('هل العطور أصلية؟', 'Are the perfumes authentic?'), answer: l('نعم. نشتري من المصدر مباشرة، ومع كل طلب فاتورة ضريبية.', 'Yes. We buy directly from the source, and every order comes with a tax invoice.') },
-  { question: l('كم يستغرق التوصيل؟', 'How long does delivery take?'), answer: l('من يوم إلى ثلاثة أيام عمل داخل المملكة.', 'One to three working days within the Kingdom.') },
-  { question: l('هل يمكن استبدال العطر بعد فتحه؟', 'Can I exchange an opened perfume?'), answer: l('لا يُستبدل المنتج المفتوح، ولهذا نرسل عيّنة مع كل طلب لتجرّب قبل فتح الزجاجة.', 'Opened products cannot be exchanged, which is why every order includes a sample to try before opening the bottle.') },
-  { question: l('كيف أختار عطراً هدية؟', 'How do I choose a gift?'), answer: l('أطقم الهدايا تجمع عطوراً متنوعة، وطقم العيّنات خيار آمن إن لم تعرف الذوق.', 'Gift sets combine varied scents, and the discovery set is a safe choice when you do not know their taste.') },
+export interface Faq {
+  topic: 'orders' | 'products' | 'returns';
+  question: Localized;
+  answer: Localized;
+  /** Optional button under the answer; the merchant sets its label and link. */
+  action?: { label: Localized; to: string };
+}
+
+export const faqs: Faq[] = [
+  { topic: 'products', question: l('هل العطور أصلية؟', 'Are the perfumes authentic?'), answer: l('نعم. نشتري من المصدر مباشرة، ومع كل طلب فاتورة ضريبية.', 'Yes. We buy directly from the source, and every order comes with a tax invoice.'), action: { label: l('تعرّف علينا', 'About us'), to: '/page/about' } },
+  { topic: 'products', question: l('كيف أختار عطراً هدية؟', 'How do I choose a gift?'), answer: l('أطقم الهدايا تجمع عطوراً متنوعة، وطقم العيّنات خيار آمن إن لم تعرف الذوق.', 'Gift sets combine different scents, and the discovery set is a safe choice when you are unsure of their taste.'), action: { label: l('تصفّح أطقم الهدايا', 'Browse gift sets'), to: '/category/gifts' } },
+  { topic: 'products', question: l('ما الفرق بين تراكيز العطر؟', 'What is the difference between concentrations?'), answer: l('كلما زاد التركيز زاد الثبات: أو دو بارفان ٦–٨ ساعات، بارفان ٨–١٠، إكستريه أكثر من ١٢ ساعة.', 'Higher concentration lasts longer: eau de parfum 6–8 hours, parfum 8–10, extrait more than 12.'), action: { label: l('اقرأ الدليل', 'Read the guide'), to: '/blog' } },
+  { topic: 'orders', question: l('كم يستغرق التوصيل؟', 'How long does delivery take?'), answer: l('من يوم إلى ثلاثة أيام عمل داخل المملكة.', 'One to three working days within the Kingdom.'), action: { label: l('سياسة الشحن', 'Shipping policy'), to: '/page/shipping' } },
+  { topic: 'orders', question: l('ما طرق الدفع المتاحة؟', 'Which payment methods do you accept?'), answer: l('مدى، فيزا وماستركارد، Apple Pay، STC Pay، والتقسيط عبر تابي وتمارا.', 'mada, Visa and Mastercard, Apple Pay, STC Pay, and instalments with Tabby and Tamara.') },
+  { topic: 'orders', question: l('هل أستطيع الاستلام من الفرع؟', 'Can I collect from a branch?'), answer: l('نعم، اختر «الاستلام من الفرع» عند إتمام الطلب ويجهز طلبك خلال ساعتين.', 'Yes. Choose "collect from branch" at checkout and your order is ready within two hours.'), action: { label: l('مواقع الفروع', 'Find a branch'), to: '/branches' } },
+  { topic: 'returns', question: l('هل يمكن استبدال العطر بعد فتحه؟', 'Can I exchange an opened perfume?'), answer: l('لا يُستبدل المنتج المفتوح، ولهذا نرسل عيّنة مع كل طلب لتجرّب قبل فتح الزجاجة.', 'Opened products cannot be exchanged, which is why every order includes a sample to try first.'), action: { label: l('سياسة الاستبدال', 'Returns policy'), to: '/page/returns' } },
+  { topic: 'returns', question: l('وصلني المنتج تالفاً، ماذا أفعل؟', 'My order arrived damaged. What now?'), answer: l('راسلنا خلال ٤٨ ساعة مع صورة للمنتج، ونرسل بديلاً على حسابنا.', 'Message us within 48 hours with a photo and we send a replacement at our cost.') },
+];
+
+/* ---------- Announcement bar ---------- */
+
+export interface Announcement {
+  /** Icon name from the announcement icon set (see AnnouncementBar). */
+  icon: 'truck' | 'gift' | 'sample' | 'tag' | 'star';
+  text: Localized;
+  /** A coupon to copy, or a link to follow, shown as a small button after the text. */
+  action?: { kind: 'copy'; code: string } | { kind: 'link'; label: Localized; to: string };
+}
+
+export const announcements: Announcement[] = [
+  { icon: 'truck', text: l('شحن مجاني للطلبات فوق ٣٠٠ ر.س', 'Free shipping on orders over SAR 300') },
+  { icon: 'tag', text: l('خصم ١٠٪ على أول طلب', '10% off your first order'), action: { kind: 'copy', code: 'ABAQ10' } },
+  { icon: 'sample', text: l('عيّنة مجانية مع كل طلب', 'A free sample with every order') },
+  { icon: 'gift', text: l('أطقم هدايا جاهزة بالتغليف', 'Gift sets, wrapped and ready'), action: { kind: 'link', label: l('تسوّق الهدايا', 'Shop gifts'), to: '/category/gifts' } },
+];
+
+/** Short prompts that pop up beside the WhatsApp button, one at a time. */
+export const chatPrompts: Localized[] = [
+  l('محتار بين عطرين؟ نساعدك تختار', 'Torn between two scents? We can help'),
+  l('اسألنا عن أفضل عطر للهدية', 'Ask us for the best gift pick'),
+  l('نرد خلال دقائق من ٩ ص إلى ١١ م', 'We reply within minutes, 9am to 11pm'),
 ];

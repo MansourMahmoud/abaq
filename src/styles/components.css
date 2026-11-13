@@ -16,10 +16,8 @@
 }
 
 .logo__word {
-  font-family: var(--font-display);
-  font-size: 2.1rem;
-  font-weight: 700;
-  line-height: 1.4;
+  width: auto;
+  height: 30px;
 }
 
 /* ---------- Buttons and links ---------- */
@@ -374,23 +372,26 @@
 
 .payments li {
   display: grid;
+  flex: none;
   place-items: center;
-  min-width: 54px;
-  height: 34px;
-  padding: 3px 6px;
+  width: 58px;
+  height: 36px;
+  overflow: hidden;
   border: 1px solid var(--c-line);
   border-radius: 8px;
   background: #fff;
   color: #1d1a17;
-  font-size: 0.68rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  white-space: nowrap;
+  line-height: 1.1;
+  text-align: center;
 }
 
+/* Icons come in mixed shapes (wide wordmarks, square app icons): all fit one tile. */
 .payments img {
-  width: auto;
+  width: 100%;
   height: 100%;
-  max-width: 48px;
+  padding: 5px 7px;
   object-fit: contain;
 }
 
@@ -399,11 +400,28 @@
 .floating-actions {
   position: fixed;
   inset-block-end: 20px;
-  inset-inline-end: 20px;
   z-index: 15;
   display: grid;
   gap: 10px;
-  justify-items: center;
+  justify-items: end;
+  /* The stack itself is not a target; only the buttons inside it are. */
+  pointer-events: none;
+}
+
+.floating-actions > *,
+.floating-actions__chat > * {
+  pointer-events: auto;
+}
+
+/* Sides are physical: the merchant picks a screen edge, whatever the language. */
+.floating-actions[data-side='right'] {
+  right: 20px;
+  direction: ltr;
+}
+
+.floating-actions[data-side='left'] {
+  left: 20px;
+  direction: rtl;
 }
 
 .floating-actions__top:not(:hover) {
@@ -411,8 +429,22 @@
   box-shadow: var(--shadow-card);
 }
 
+.floating-actions__top {
+  justify-self: center;
+}
+
+.floating-actions__chat {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+
 .floating-actions__whatsapp {
+  position: relative;
   display: grid;
+  flex: none;
   place-items: center;
   width: 54px;
   height: 54px;
@@ -420,12 +452,78 @@
   background: #25d366;
   color: #fff;
   font-size: 1.7rem;
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.35);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
   transition: transform var(--t-fast) var(--ease);
+}
+
+/* Soft pulse ring that draws the eye without moving the button. */
+.floating-actions__whatsapp::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 rgb(37 211 102 / 0.5);
+  animation: chat-pulse 2.6s var(--ease) infinite;
 }
 
 .floating-actions__whatsapp:hover {
   transform: scale(1.08);
+}
+
+@keyframes chat-pulse {
+  70%,
+  100% {
+    box-shadow: 0 0 0 14px rgb(37 211 102 / 0);
+  }
+}
+
+.floating-actions__prompt {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: min(250px, calc(100vw - 110px));
+  padding: 9px 8px 9px 14px;
+  border: 1px solid var(--c-line);
+  border-radius: 16px;
+  background: var(--c-surface);
+  box-shadow: var(--shadow-card);
+  color: var(--c-text);
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  direction: inherit;
+}
+
+[dir='rtl'] .floating-actions__prompt {
+  direction: rtl;
+  padding: 9px 14px 9px 8px;
+}
+
+.floating-actions__prompt a:hover {
+  color: var(--c-accent);
+}
+
+.floating-actions__prompt button {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--c-text-muted);
+  transition: background-color var(--t-fast) var(--ease);
+}
+
+.floating-actions__prompt button:hover {
+  background: var(--c-raise);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-actions__whatsapp::before {
+    animation: none;
+  }
 }
 
 /* ---------- Flags, progress, stars ---------- */
@@ -631,4 +729,95 @@
   gap: 6px;
   padding-inline-start: 22px;
   list-style: disc;
+}
+
+/* ---------- Images: loading shimmer and failure placeholder ---------- */
+
+.picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.picture[data-state='loading'],
+.skeleton {
+  background: linear-gradient(100deg, var(--c-raise) 30%, var(--c-surface) 50%, var(--c-raise) 70%) 0 0 / 300% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.skeleton {
+  border-radius: var(--radius-sm);
+}
+
+.picture-fallback {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  background: var(--c-raise);
+  color: var(--c-text-muted);
+  font-size: 1.6rem;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -150% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .picture[data-state='loading'],
+  .skeleton {
+    animation: none;
+  }
+}
+
+/* ---------- Review card additions ---------- */
+
+.review {
+  border: 1px solid var(--c-line);
+}
+
+.review__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--c-text-muted);
+  font-size: var(--fs-xs);
+}
+
+.review__avatar {
+  overflow: hidden;
+}
+
+.review__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.review__photos {
+  display: flex;
+  gap: 8px;
+}
+
+.review__photos li {
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.review__helpful {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Phones: keep the floating buttons above the product page's fixed buy bar. */
+@media (max-width: 959px) {
+  body:has(.sticky-buy) .floating-actions {
+    inset-block-end: 88px;
+  }
 }

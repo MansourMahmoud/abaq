@@ -199,35 +199,6 @@
   background: linear-gradient(rgb(21 17 14 / 0.75), transparent);
 }
 
-.header__utility {
-  display: none;
-  justify-content: space-between;
-  padding-block: 8px;
-  border-block-end: 1px solid var(--c-line);
-  color: var(--c-text-muted);
-  font-size: var(--fs-sm);
-}
-
-.header__utility a:hover,
-.header__language:hover {
-  color: var(--c-accent);
-}
-
-.header__utility-links {
-  display: flex;
-  gap: 20px;
-}
-
-.header__language {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0;
-  border: 0;
-  background: none;
-  transition: color var(--t-fast) var(--ease);
-}
-
 .header__main {
   display: flex;
   align-items: center;
@@ -248,7 +219,10 @@
   font-size: 0.95rem;
 }
 
-.header__nav a {
+.header__nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   padding: 8px 16px;
   border-radius: var(--radius-pill);
   white-space: nowrap;
@@ -257,11 +231,12 @@
     background-color var(--t-fast) var(--ease);
 }
 
-.header__nav a:hover {
+.header__nav-link:hover,
+.header__nav-item:hover > .header__nav-link:not(.active) {
   color: var(--c-accent);
 }
 
-.header__nav a.active {
+.header__nav-link.active {
   background: var(--c-accent);
   color: var(--c-on-accent);
   font-weight: 600;
@@ -410,13 +385,7 @@
     background: rgb(21 17 14 / 0.55);
   }
 
-  /* The classic variant already offers the picker in its utility row. */
-  .header[data-variant='classic'] .header__locale {
-    display: none;
-  }
-
   /* Classic: utility row, search field, then a full-width category row. */
-  .header[data-variant='classic'] .header__utility,
   .header[data-variant='classic'] .header__search {
     display: flex;
   }
@@ -628,6 +597,75 @@
   }
 }
 
+/* ---------- Sub-category panel under the navigation ---------- */
+
+.header__nav-item {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+}
+
+.header__nav-caret {
+  font-size: 0.85em;
+  opacity: 0.7;
+  transition: transform var(--t-fast) var(--ease);
+}
+
+.header__nav-item:hover .header__nav-caret,
+.header__nav-item:focus-within .header__nav-caret {
+  transform: rotate(180deg);
+}
+
+/*
+ * Centred under the navigation, which is itself centred in the header. Its
+ * top padding bridges the gap to the link so the pointer can cross it.
+ */
+.header__nav {
+  position: relative;
+}
+
+.mega {
+  position: absolute;
+  inset-block-start: 100%;
+  left: 50%;
+  z-index: 5;
+  width: min(940px, calc(100vw - 2 * var(--gutter) - 200px));
+  padding-block-start: 10px;
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(-50%, 8px);
+  transition:
+    opacity var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease),
+    visibility 0s linear var(--t-fast);
+}
+
+.header__nav-item:hover .mega,
+.header__nav-item:focus-within .mega {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+}
+
+.search-dialog {
+  width: min(640px, calc(100vw - 24px));
+  margin-block-start: 10vh;
+  padding: 0;
+}
+
+/* ---------- Promo card overlapping the footer ---------- */
+
+/* The lower half of the band is the footer's colour, so the card bridges page and footer. */
+.prefooter {
+  padding-block-start: var(--section-gap);
+  background: linear-gradient(to bottom, transparent 50%, #0f0c0a 50%);
+}
+
+.prefooter + .footer {
+  border-block-start: 0;
+}
+
 /* ---------- Footer ---------- */
 
 .footer {
@@ -714,6 +752,11 @@
   object-fit: contain;
 }
 
+.footer__compliance .footer__cr {
+  width: 44px;
+  height: 44px;
+}
+
 .footer__compliance svg {
   grid-row: span 2;
   color: var(--c-accent);
@@ -745,4 +788,50 @@
 
 .page-frame {
   position: relative; /* anchor for the floating header */
+}
+
+/* ---------- Announcement: icons and the coupon / link button ---------- */
+
+.announcement__group li,
+.announcement__single {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.announcement__single {
+  justify-content: center;
+  width: 100%;
+}
+
+.announcement__group li::after {
+  margin-inline-start: 46px;
+}
+
+.announcement__icon {
+  flex: none;
+  font-size: 1.05rem;
+}
+
+.announcement__action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 12px;
+  border: 1px dashed currentColor;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: inherit;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition:
+    background-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease);
+}
+
+.announcement__action:hover {
+  border-style: solid;
+  background: var(--c-on-accent);
+  color: var(--c-accent);
 }
