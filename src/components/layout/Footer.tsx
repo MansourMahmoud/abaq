@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaInstagram, FaSnapchat, FaTiktok, FaWhatsapp, FaXTwitter, FaYoutube } from 'react-icons/fa6';
 import { LuBadgeCheck, LuFileBadge, LuMail, LuPhone, LuReceiptText, LuScrollText } from 'react-icons/lu';
@@ -19,16 +20,24 @@ const SOCIAL: { label: string; href: string; Icon: IconType }[] = [
 ];
 
 /**
- * Registration and verification details. Values are demo placeholders; only
+ * Registration and verification details. The Business Center and VAT marks
+ * are Salla platform assets served from its CDN. Values are demo placeholders; only
  * entries with a value render, so a store without a freelance licence simply
  * shows no badge for it.
  */
-const COMPLIANCE: { key: MessageKey; value: string; Icon: IconType }[] = [
-  { key: 'footer.businessCenter', value: '0000000000', Icon: LuBadgeCheck },
+const COMPLIANCE: { key: MessageKey; value: string; Icon: IconType; image?: string }[] = [
+  { key: 'footer.businessCenter', value: '0000000000', Icon: LuBadgeCheck, image: 'https://cdn.salla.network/images/sbc.png?v=2.0.5' },
   { key: 'footer.commercialRecord', value: '1010000000', Icon: LuFileBadge },
-  { key: 'footer.taxNumber', value: '300000000000003', Icon: LuReceiptText },
+  { key: 'footer.taxNumber', value: '300000000000003', Icon: LuReceiptText, image: 'https://cdn.salla.network/images/tax.png?v=2.0.5' },
   { key: 'footer.freelance', value: '', Icon: LuScrollText },
 ];
+
+/** A badge's official platform image when it has one, falling back to an icon if it fails to load. */
+function ComplianceMark({ image, Icon }: { image?: string; Icon: IconType }) {
+  const [failed, setFailed] = useState(false);
+  if (!image || failed) return <Icon aria-hidden />;
+  return <img src={image} alt="" width={44} height={44} loading="lazy" decoding="async" onError={() => setFailed(true)} />;
+}
 
 export function Footer() {
   const { t, pick } = useI18n();
@@ -105,9 +114,9 @@ export function Footer() {
 
         {footer.showCompliance && compliance.length > 0 && (
           <dl className="footer__compliance">
-            {compliance.map(({ key, value, Icon }) => (
+            {compliance.map(({ key, value, Icon, image }) => (
               <div key={key}>
-                <Icon aria-hidden />
+                <ComplianceMark image={image} Icon={Icon} />
                 <dt>{t(key)}</dt>
                 <dd>{value}</dd>
               </div>

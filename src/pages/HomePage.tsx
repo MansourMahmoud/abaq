@@ -9,6 +9,7 @@ import { Reels } from '../components/home/Reels';
 import { Testimonials } from '../components/home/Testimonials';
 import { VideoShowcase } from '../components/home/VideoShowcase';
 import { Picture } from '../components/ui/Picture';
+import { Reveal } from '../components/ui/Reveal';
 import { categories } from '../data/catalog';
 import { posts } from '../data/content';
 import { useI18n } from '../i18n/I18nProvider';
@@ -24,14 +25,13 @@ export function HomePage() {
       <HeroSlider />
       <CategoryShowcase />
       <Bestsellers />
-      <div className="home-gap" />
       <VideoShowcase />
       <OfferCountdown />
       <div className="home-gap" />
       <Reels />
 
       <section className="section section--flush-top">
-        <div className="container banner-trio">
+        <Reveal className="container banner-trio">
           {BANNER_CATEGORIES.map((category, index) => (
             <Link key={category.id} className="banner media-zoom" data-size={index === 0 ? 'tall' : undefined} to={`/category/${category.slug}`}>
               <Picture photo={category.banner?.photo ?? category.photo} alt="" sizes="(min-width: 900px) 50vw, 100vw" />
@@ -41,14 +41,14 @@ export function HomePage() {
               </span>
             </Link>
           ))}
-        </div>
+        </Reveal>
       </section>
 
       <Testimonials />
       <FaqHelp />
 
       <section className="section section--flush-top">
-        <div className="container">
+        <Reveal className="container">
           <div className="section__head">
             <h2 className="section__title">{t('blog.home')}</h2>
             <Link className="link" to="/blog">{t('nav.viewAll')}</Link>
@@ -58,7 +58,7 @@ export function HomePage() {
               <PostCard key={post.slug} post={post} />
             ))}
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

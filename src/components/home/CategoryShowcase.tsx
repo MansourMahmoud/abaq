@@ -4,6 +4,7 @@ import { useI18n } from '../../i18n/I18nProvider';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 import { Carousel } from '../ui/Carousel';
 import { Picture } from '../ui/Picture';
+import { Reveal } from '../ui/Reveal';
 
 function CategoryArch({ category }: { category: Category }) {
   const { pick } = useI18n();
@@ -26,7 +27,7 @@ export function CategoryShowcase() {
 
   return (
     <section className="section">
-      <div className="container">
+      <Reveal className="container">
         <div className="section__head">
           <div>
             <h2 className="section__title">{t('home.shopByCategory')}</h2>
@@ -40,7 +41,7 @@ export function CategoryShowcase() {
         ) : (
           <div className="category-grid">{cards}</div>
         )}
-      </div>
+      </Reveal>
     </section>
   );
 }

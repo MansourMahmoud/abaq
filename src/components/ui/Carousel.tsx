@@ -1,4 +1,5 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { useI18n } from '../../i18n/I18nProvider';
 import { useThemeSettings } from '../../settings/ThemeSettings';
@@ -6,83 +7,75 @@ import { useThemeSettings } from '../../settings/ThemeSettings';
 interface CarouselProps {
   label: string;
   /**
-   * Names the item-width preset in `carousel.css` (products, categories,
-   * reels, clips). Widths are percentages chosen so the next item always
-   * peeks in, which is what tells a touch user the row scrolls.
+   * Names the item-width preset in `components.css`. Widths are chosen so the
+   * next item always peeks in, which is what tells the shopper the row moves.
    */
-  variant: 'products' | 'categories' | 'reels' | 'clips' | 'cards';
+  variant: 'products' | 'categories' | 'reels' | 'cards';
   children: ReactNode[];
 }
 
 /**
- * Horizontal carousel built on a native scroll container: touch, trackpad and
- * keyboard scrolling work without script. The component only adds arrows and a
- * page indicator, both derived from the scroll position.
+ * Carousel with mouse and touch dragging, arrows, and a page indicator (dots
+ * or a thin progress bar, per the merchant's setting). Built on Embla, which
+ * handles drag physics, snapping and right-to-left layouts.
  */
 export function Carousel({ label, variant, children }: CarouselProps) {
   const { t, dir } = useI18n();
   const indicator = useThemeSettings().settings.home.carouselIndicator;
-  const track = useRef<HTMLUListElement>(null);
-  const [pages, setPages] = useState(1);
-  const [page, setPage] = useState(0);
+  const [viewport, embla] = useEmblaCarousel({ direction: dir, align: 'start', containScroll: 'trimSnaps', slidesToScroll: 'auto' });
+  const [snaps, setSnaps] = useState<number[]>([]);
+  const [selected, setSelected] = useState(0);
+  const [progress, setProgress] = useState(0);
 
-  const measure = useCallback(() => {
-    const element = track.current;
-    // A zero-width track (hidden, or not laid out yet) has no pages to count.
-    if (!element || element.clientWidth === 0) return;
-    const max = element.scrollWidth - element.clientWidth;
-    // In RTL the scroll offset runs negative from zero.
-    const offset = Math.abs(element.scrollLeft);
-    const count = max > 4 ? Math.ceil(element.scrollWidth / element.clientWidth) : 1;
-    setPages(count);
-    setPage(offset >= max - 4 ? count - 1 : Math.min(count - 1, Math.round(offset / element.clientWidth)));
-  }, []);
+  const sync = useCallback(() => {
+    if (!embla) return;
+    setSnaps(embla.scrollSnapList());
+    setSelected(embla.selectedScrollSnap());
+    setProgress(Math.max(0, Math.min(1, embla.scrollProgress())));
+  }, [embla]);
 
   useEffect(() => {
-    const element = track.current;
-    if (!element) return;
-    measure();
-    const observer = new ResizeObserver(measure);
-    observer.observe(element);
-    element.addEventListener('scroll', measure, { passive: true });
+    if (!embla) return;
+    sync();
+    embla.on('select', sync).on('reInit', sync).on('scroll', sync);
     return () => {
-      observer.disconnect();
-      element.removeEventListener('scroll', measure);
+      embla.off('select', sync).off('reInit', sync).off('scroll', sync);
     };
-  }, [measure, children.length]);
-
-  const goTo = (target: number) => {
-    const element = track.current;
-    if (!element) return;
-    const max = element.scrollWidth - element.clientWidth;
-    const left = Math.min(max, Math.max(0, target) * element.clientWidth);
-    element.scrollTo({ left: dir === 'rtl' ? -left : left, behavior: 'smooth' });
-  };
+  }, [embla, sync]);
 
   const Previous = dir === 'rtl' ? LuChevronRight : LuChevronLeft;
   const Next = dir === 'rtl' ? LuChevronLeft : LuChevronRight;
+  const pages = snaps.length;
 
   return (
-    <div className="carousel" data-variant={variant} data-indicator={indicator}>
-      <ul ref={track} className="carousel__track" aria-label={label}>
-        {children.map((child, index) => (
-          <li key={index}>{child}</li>
-        ))}
-      </ul>
+    <div className="carousel" data-variant={variant}>
+      <div ref={viewport} className="carousel__viewport">
+        <ul className="carousel__track" aria-label={label}>
+          {children.map((child, index) => (
+            <li key={index} className="carousel__slide">
+              {child}
+            </li>
+          ))}
+        </ul>
+      </div>
 
       {pages > 1 && (
         <div className="carousel__controls">
-          <button className="icon-button" type="button" aria-label={t('action.previous')} disabled={page === 0} onClick={() => goTo(page - 1)}>
+          <button className="icon-button" type="button" aria-label={t('action.previous')} disabled={selected === 0} onClick={() => embla?.scrollPrev()}>
             <Previous aria-hidden />
           </button>
-          {indicator === 'dots' && (
+          {indicator === 'dots' ? (
             <div className="carousel__dots">
-              {Array.from({ length: pages }, (_, index) => (
-                <button key={index} type="button" aria-label={t('carousel.page', { n: index + 1 })} aria-current={index === page} onClick={() => goTo(index)} />
+              {snaps.map((_, index) => (
+                <button key={index} type="button" aria-label={t('carousel.page', { n: index + 1 })} aria-current={index === selected} onClick={() => embla?.scrollTo(index)} />
               ))}
             </div>
+          ) : (
+            <div className="carousel__bar" aria-hidden>
+              <span style={{ inlineSize: `${Math.max(100 / pages, progress * 100)}%` }} />
+            </div>
           )}
-          <button className="icon-button" type="button" aria-label={t('action.next')} disabled={page === pages - 1} onClick={() => goTo(page + 1)}>
+          <button className="icon-button" type="button" aria-label={t('action.next')} disabled={selected === pages - 1} onClick={() => embla?.scrollNext()}>
             <Next aria-hidden />
           </button>
         </div>

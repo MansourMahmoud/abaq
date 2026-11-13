@@ -10,9 +10,12 @@ const MESSAGES: Localized[] = [
 ];
 
 /**
- * Promotional strip above the header. In marquee mode the message list is
- * rendered twice so the CSS animation can loop without a visible seam; the
- * duplicate is hidden from assistive technology.
+ * Promotional strip above the header.
+ *
+ * Marquee mode renders the message group twice. Each group is at least as wide
+ * as the bar (`min-width: 100%`), and the track slides by exactly one group, so
+ * the second copy is always in place when the first leaves: the loop never
+ * shows a gap, however wide the screen. The copy is hidden from assistive tech.
  */
 export function AnnouncementBar() {
   const { pick, t } = useI18n();
@@ -21,17 +24,16 @@ export function AnnouncementBar() {
 
   if (!announcement.enabled || dismissed) return null;
 
-  const isMarquee = announcement.mode === 'marquee';
-
   return (
     <div className="announcement" role="region" aria-label={pick(MESSAGES[0])}>
       <div className="announcement__viewport">
-        {isMarquee ? (
+        {announcement.mode === 'marquee' ? (
           <div className="announcement__track">
-            {[false, true].map((isClone) => (
-              <ul key={String(isClone)} className="announcement__list" aria-hidden={isClone}>
-                {MESSAGES.map((message) => (
-                  <li key={message.en}>{pick(message)}</li>
+            {[false, true].map((isCopy) => (
+              <ul key={String(isCopy)} className="announcement__group" aria-hidden={isCopy}>
+                {/* Messages repeat inside a group so short lists still fill wide screens. */}
+                {[...MESSAGES, ...MESSAGES].map((message, index) => (
+                  <li key={index}>{pick(message)}</li>
                 ))}
               </ul>
             ))}

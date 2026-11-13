@@ -46,9 +46,11 @@
     transform var(--t-fast) var(--ease);
 }
 
+/* Hover inverts to the text colour: readable on a page, a photo or a dark band alike. */
 .button:hover {
-  background: transparent;
-  color: var(--c-accent);
+  border-color: var(--c-text);
+  background: var(--c-text);
+  color: var(--c-bg);
 }
 
 .button:active {
@@ -69,6 +71,8 @@
 /* Image that scales inside its (overflow-hidden) frame on hover. */
 .media-zoom {
   overflow: hidden;
+  /* Own stacking context: keeps rounded corners clipped while the image scales. */
+  isolation: isolate;
 }
 
 .media-zoom img {
@@ -99,18 +103,39 @@
 .announcement__track {
   display: flex;
   width: max-content;
-  animation: announcement-scroll 28s linear infinite;
+  min-width: 200%;
+  animation: announcement-scroll 36s linear infinite;
 }
 
 .announcement__track:hover {
   animation-play-state: paused;
 }
 
-.announcement__list {
+/* One group fills at least the whole bar, so its copy is always ready behind it. */
+.announcement__group {
   display: flex;
-  gap: 64px;
-  padding: 8px 32px;
+  flex: 1 0 auto;
+  justify-content: space-around;
+  gap: 56px;
+  min-width: 50%;
+  padding: 8px 28px;
   white-space: nowrap;
+}
+
+.announcement__group li {
+  display: inline-flex;
+  align-items: center;
+  gap: 56px;
+}
+
+/* Small diamond between messages. */
+.announcement__group li::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  opacity: 0.6;
+  transform: rotate(45deg);
 }
 
 .announcement__single {
@@ -129,7 +154,7 @@
   color: inherit;
 }
 
-/* The track holds two copies of the list, so half its width is one loop. */
+/* The track holds two identical groups, so half its width is one loop. */
 @keyframes announcement-scroll {
   to {
     transform: translateX(-50%);
@@ -677,6 +702,16 @@
   border: 1px solid var(--c-line);
   border-radius: var(--radius-sm);
   line-height: 1.5;
+}
+
+.footer__compliance img {
+  grid-row: span 2;
+  width: 44px;
+  height: 44px;
+  padding: 3px;
+  border-radius: 8px;
+  background: #fff;
+  object-fit: contain;
 }
 
 .footer__compliance svg {

@@ -6,6 +6,7 @@ import type { MessageKey } from '../../i18n/messages';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 import { ProductRail } from '../product/ProductRail';
 import { Picture } from '../ui/Picture';
+import { Reveal } from '../ui/Reveal';
 
 const TABS: { key: MessageKey; select: () => Product[] }[] = [
   { key: 'home.tab.bestsellers', select: () => products.filter((product) => product.rating >= 4.7) },
@@ -24,7 +25,7 @@ export function Bestsellers() {
 
   return (
     <section className="section section--paper">
-      <div className="container">
+      <Reveal className="container">
         <div className="section__head">
           <h2 className="section__title">{t('home.bestsellers')}</h2>
           <div className="tabs" role="tablist">
@@ -50,7 +51,7 @@ export function Bestsellers() {
             <ProductRail products={TABS[tab].select()} layout={layout} label={t(TABS[tab].key)} />
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -1,6 +1,7 @@
 import { FaWhatsapp } from 'react-icons/fa6';
 import { faqs, whatsappUrl } from '../../data/content';
 import { useI18n } from '../../i18n/I18nProvider';
+import { Reveal } from '../ui/Reveal';
 
 /**
  * FAQ beside a contact card. The card links to WhatsApp, which every store
@@ -10,7 +11,7 @@ export function FaqHelp() {
   const { t, pick } = useI18n();
   return (
     <section className="section section--flush-top">
-      <div className="container faq-layout">
+      <Reveal className="container faq-layout">
         <div>
           <h2 className="section__title faq-layout__title">{t('faq.title')}</h2>
           {faqs.map((entry, index) => (
@@ -27,7 +28,7 @@ export function FaqHelp() {
             <FaWhatsapp aria-hidden /> {t('action.whatsapp')}
           </a>
         </aside>
-      </div>
+      </Reveal>
     </section>
   );
 }

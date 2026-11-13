@@ -56,39 +56,34 @@
   min-width: 0;
 }
 
+.carousel__viewport {
+  /* The padding leaves room for cards to lift and cast a shadow on hover. */
+  margin-block: -8px -28px;
+  padding-block: 8px 28px;
+  overflow: hidden;
+  cursor: grab;
+  /* Vertical swipes still scroll the page; horizontal ones move the row. */
+  touch-action: pan-y pinch-zoom;
+}
+
+.carousel__viewport:active {
+  cursor: grabbing;
+}
+
 .carousel__track {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: var(--carousel-item);
+  display: flex;
   gap: var(--carousel-gap);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
 }
 
-.carousel__track::-webkit-scrollbar {
-  display: none;
-}
-
-.carousel[data-indicator='bar'] .carousel__track {
-  padding-block-end: 12px;
-  scrollbar-width: thin;
-}
-
-.carousel[data-indicator='bar'] .carousel__track::-webkit-scrollbar {
-  display: block;
-  height: 4px;
-}
-
-.carousel[data-indicator='bar'] .carousel__track::-webkit-scrollbar-thumb {
-  border-radius: 2px;
-  background: var(--c-accent);
-}
-
-.carousel__track > li {
+.carousel__slide {
+  flex: 0 0 var(--carousel-item);
   min-width: 0;
-  scroll-snap-align: start;
+}
+
+/* Dragging a row must not pick up its images or select its text. */
+.carousel__track img {
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 /*
@@ -164,23 +159,21 @@
   background: var(--c-accent);
 }
 
-.section--paper .carousel__dots button {
-  background: #cdbfa8;
+.carousel__bar {
+  flex: 1;
+  max-width: 220px;
+  height: 3px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--c-line);
 }
 
-.section--paper .carousel__dots button[aria-current='true'] {
-  background: var(--c-on-paper);
-}
-
-.section--paper .carousel__controls .icon-button {
-  border-color: #cdbfa8;
-  color: var(--c-on-paper);
-}
-
-.section--paper .carousel__controls .icon-button:hover {
-  border-color: var(--c-on-paper);
-  background: var(--c-on-paper);
-  color: var(--c-text);
+.carousel__bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--c-accent);
+  transition: inline-size var(--t-fast) linear;
 }
 
 /* ---------- Preloader ---------- */
@@ -382,19 +375,23 @@
 .payments li {
   display: grid;
   place-items: center;
-  min-width: 52px;
-  height: 32px;
-  padding-inline: 8px;
-  border-radius: 6px;
-  background: var(--c-text);
-  color: #15110e;
-  font-size: 0.7rem;
+  min-width: 54px;
+  height: 34px;
+  padding: 3px 6px;
+  border: 1px solid var(--c-line);
+  border-radius: 8px;
+  background: #fff;
+  color: #1d1a17;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  white-space: nowrap;
 }
 
-.payments svg {
-  font-size: 1.6rem;
+.payments img {
+  width: auto;
+  height: 100%;
+  max-width: 48px;
+  object-fit: contain;
 }
 
 /* ---------- Floating actions ---------- */
@@ -409,8 +406,9 @@
   justify-items: center;
 }
 
-.floating-actions__top {
+.floating-actions__top:not(:hover) {
   background: var(--c-surface);
+  box-shadow: var(--shadow-card);
 }
 
 .floating-actions__whatsapp {

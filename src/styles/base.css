@@ -4,6 +4,8 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  /* Borders start at zero width, so one `border` utility class is enough to draw one. */
+  border: 0 solid var(--c-line);
 }
 
 * {
@@ -142,4 +144,16 @@ html[lang='ar'] .eyebrow {
   overflow: hidden;
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Each page fades in when the route changes. */
+.page-enter {
+  animation: page-enter var(--t-med) var(--ease) both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
 }

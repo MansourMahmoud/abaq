@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
+import { LazyMotion, MotionConfig, domAnimation } from 'motion/react';
 import { BrowserRouter, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { AnnouncementBar } from './components/layout/AnnouncementBar';
 import { FloatingActions } from './components/layout/FloatingActions';
@@ -33,7 +34,8 @@ function Layout() {
       <AnnouncementBar />
       <div className="page-frame">
         <Header overHero={pathname === '/'} cartCount={count} />
-        <main>
+        {/* Keyed by path so each page fades in on navigation. */}
+        <main key={pathname} className="page-enter">
           <Outlet />
         </main>
       </div>
@@ -44,28 +46,40 @@ function Layout() {
   );
 }
 
-export default function App() {
+/** Application-wide context: language, theme settings, cart and animation config. */
+function Providers({ children }: { children: ReactNode }) {
   return (
     <I18nProvider>
       <ThemeSettingsProvider>
         <CartProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route element={<Layout />}>
-                <Route index element={<HomePage />} />
-                <Route path="category/:slug" element={<CategoryPage />} />
-                <Route path="product/:slug" element={<ProductPage />} />
-                <Route path="cart" element={<CartPage />} />
-                <Route path="blog" element={<BlogPage />} />
-                <Route path="blog/:slug" element={<ArticlePage />} />
-                <Route path="page/:slug" element={<StaticPage />} />
-                <Route path="branches" element={<BranchesPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
+          {/* domAnimation keeps the animation runtime small; reducedMotion honours the OS setting. */}
+          <LazyMotion features={domAnimation}>
+            <MotionConfig reducedMotion="user">{children}</MotionConfig>
+          </LazyMotion>
         </CartProvider>
       </ThemeSettingsProvider>
     </I18nProvider>
+  );
+}
+
+export default function App() {
+  return (
+    <Providers>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route index element={<HomePage />} />
+            <Route path="category/:slug" element={<CategoryPage />} />
+            <Route path="product/:slug" element={<ProductPage />} />
+            <Route path="cart" element={<CartPage />} />
+            <Route path="blog" element={<BlogPage />} />
+            <Route path="blog/:slug" element={<ArticlePage />} />
+            <Route path="page/:slug" element={<StaticPage />} />
+            <Route path="branches" element={<BranchesPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </Providers>
   );
 }

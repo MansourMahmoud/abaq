@@ -8,21 +8,23 @@
  */
 
 :root {
-  /* Palette (default "Abaq gold on oud") */
-  --c-bg: #15110e;
-  --c-surface: #1e1915;
-  --c-raise: #262019;
-  --c-line: #3a3129;
-  --c-accent: #d4af72;
-  --c-on-accent: #15110e;
-  --c-text: #f4ede3;
-  --c-text-soft: #cdbfaa;
-  --c-text-muted: #b8ab98;
-  --c-success: #5fd08a;
-  --c-paper: #f1e9dc;
-  --c-paper-raise: #fbf7f0;
-  --c-on-paper: #1e1915;
+  /* Palette (default: warm white, ink text, bronze accent) */
+  --c-bg: #faf8f5;
+  --c-surface: #ffffff;
+  --c-raise: #f3efe9;
+  --c-line: #e4ded4;
+  --c-accent: #8a5a14;
+  --c-on-accent: #ffffff;
+  --c-text: #1d1a17;
+  --c-text-soft: #4a433c;
+  --c-text-muted: #6f675e;
+  --c-success: #1c7c45;
+  /* Tinted band used to separate sections on the light background. */
+  --c-paper: #f1ebe1;
+  --c-paper-raise: #ffffff;
+  --c-on-paper: #1d1a17;
   --c-on-paper-muted: #5e5144;
+  --shadow-card: 0 1px 2px rgb(29 26 23 / 0.04), 0 8px 24px rgb(29 26 23 / 0.06);
 
   /* Typography */
   --font-display: 'Amiri', 'Cormorant Garamond', serif;
@@ -59,6 +61,34 @@
   --t-slow: 700ms;
 
   --header-h: 84px;
+}
+
+/*
+ * Dark scope. Anything that sits on a photo, a video or an ink-coloured band
+ * re-declares the palette locally, so the components inside it (buttons,
+ * badges, text) need no dark-specific rules of their own.
+ */
+.hero,
+.banner,
+.feature-banner,
+.drawer__banner,
+.reel,
+.cinema,
+.offer,
+.footer,
+.preloader,
+.header[data-floating='true'] {
+  --c-bg: #15110e;
+  --c-surface: #1e1915;
+  --c-raise: #262019;
+  --c-line: #3a3129;
+  --c-accent: #d4af72;
+  --c-on-accent: #15110e;
+  --c-text: #f4ede3;
+  --c-text-soft: #cdbfaa;
+  --c-text-muted: #b8ab98;
+  --c-success: #5fd08a;
+  color: var(--c-text);
 }
 
 html[lang='en'] {

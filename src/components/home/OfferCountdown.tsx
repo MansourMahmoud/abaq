@@ -4,6 +4,7 @@ import { products } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { MessageKey } from '../../i18n/messages';
 import { Picture } from '../ui/Picture';
+import { Reveal } from '../ui/Reveal';
 
 /** Demo offer: ends a fixed span after the page loads. A real one carries an end date. */
 const OFFER_SPAN_MS = ((2 * 24 + 14) * 60 + 36) * 60 * 1000;
@@ -35,7 +36,7 @@ export function OfferCountdown() {
 
   return (
     <section className="section offer">
-      <div className="container offer__layout">
+      <Reveal className="container offer__layout">
         <div className="offer__intro">
           <p className="eyebrow">{t('offer.eyebrow')}</p>
           <h2 className="section__title">{t('offer.title')}</h2>
@@ -74,7 +75,7 @@ export function OfferCountdown() {
             );
           })}
         </ul>
-      </div>
+      </Reveal>
     </section>
   );
 }

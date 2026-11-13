@@ -5,8 +5,10 @@ import { clipPoster, clipSrc, clips, type Clip } from '../../data/videos';
 import { useI18n } from '../../i18n/I18nProvider';
 import { useCart } from '../../lib/cart';
 import { Carousel } from '../ui/Carousel';
+import { Reveal } from '../ui/Reveal';
 
-const reelClips = clips.filter((clip) => clip.orientation === 'portrait');
+/** Portrait clips lead; landscape ones are centre-cropped to the same tall frame. */
+const reelClips = [...clips].sort((a, b) => Number(a.orientation !== 'portrait') - Number(b.orientation !== 'portrait'));
 
 function Reel({ clip }: { clip: Clip }) {
   const { t, pick, money } = useI18n();
@@ -48,7 +50,7 @@ export function Reels() {
   const { t } = useI18n();
   return (
     <section className="section section--flush-top">
-      <div className="container">
+      <Reveal className="container">
         <div className="section__head">
           <div>
             <p className="eyebrow">{t('reels.eyebrow')}</p>
@@ -60,7 +62,7 @@ export function Reels() {
             <Reel key={clip.file} clip={clip} />
           ))}
         </Carousel>
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -11,15 +11,17 @@ export interface Clip {
   productId: string;
   /** landscape clips feed the showcase player, portrait ones the reels rail */
   orientation: 'landscape' | 'portrait';
+  /** Length in seconds, shown in playlists before the file is loaded. */
+  seconds: number;
 }
 
 export const clips: Clip[] = [
-  { file: 'atomizer', title: { ar: 'رشّة واحدة تكفي', en: 'One spray is enough' }, productId: 'p3', orientation: 'landscape' },
-  { file: 'bottle-rose', title: { ar: 'ورد الطائف عن قرب', en: 'Taif Rose up close' }, productId: 'p4', orientation: 'landscape' },
-  { file: 'making-perfume', title: { ar: 'كيف نصنع العطر', en: 'How the perfume is made' }, productId: 'p8', orientation: 'landscape' },
-  { file: 'bottle-reflective', title: { ar: 'جديدنا', en: 'New in' }, productId: 'p2', orientation: 'portrait' },
-  { file: 'spray-wrist', title: { ar: 'على البشرة', en: 'On skin' }, productId: 'p1', orientation: 'portrait' },
-  { file: 'touching-bottle', title: { ar: 'فتح العلبة', en: 'Unboxing' }, productId: 'p10', orientation: 'portrait' },
+  { file: 'atomizer', title: { ar: 'رشّة واحدة تكفي', en: 'One spray is enough' }, productId: 'p3', orientation: 'landscape', seconds: 11 },
+  { file: 'bottle-rose', title: { ar: 'ورد الطائف عن قرب', en: 'Taif Rose up close' }, productId: 'p4', orientation: 'landscape', seconds: 10 },
+  { file: 'making-perfume', title: { ar: 'كيف نصنع العطر', en: 'How the perfume is made' }, productId: 'p8', orientation: 'landscape', seconds: 12 },
+  { file: 'bottle-reflective', title: { ar: 'جديدنا', en: 'New in' }, productId: 'p2', orientation: 'portrait', seconds: 11 },
+  { file: 'spray-wrist', title: { ar: 'على البشرة', en: 'On skin' }, productId: 'p1', orientation: 'portrait', seconds: 12 },
+  { file: 'touching-bottle', title: { ar: 'فتح العلبة', en: 'Unboxing' }, productId: 'p10', orientation: 'portrait', seconds: 12 },
 ];
 
 export const clipSrc = (clip: Clip) => `/media/video/${clip.file}.mp4`;
