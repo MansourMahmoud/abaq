@@ -373,13 +373,122 @@
   color: var(--c-accent);
 }
 
-/* Sub-category cards: sideways scroll without a visible bar. */
+/* ---------- Sub-category panel overlapping the banner ---------- */
+
+/* With the panel present, the banner's text and controls move up to clear it. */
+.category-hero[data-has-nav='true'] .category-hero__slider {
+  min-height: clamp(340px, 38vw, 480px);
+}
+
+.category-hero[data-has-nav='true'] .category-hero__content {
+  padding-block-end: 150px;
+}
+
+.category-hero[data-has-nav='true'] .category-hero__controls {
+  inset-block-end: 92px;
+}
+
+.category-subnav {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 3vw, 36px);
+  margin-block-start: -72px;
+  margin-inline: clamp(10px, 3vw, 40px);
+  padding: 16px clamp(14px, 2.4vw, 28px);
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-lg);
+  background: var(--c-surface);
+  box-shadow: 0 18px 44px rgb(29 26 23 / 0.12);
+}
+
+.category-subnav__title {
+  display: none;
+  flex: none;
+  padding-inline-end: clamp(16px, 3vw, 36px);
+  border-inline-end: 1px solid var(--c-line);
+  line-height: 1.5;
+}
+
+.category-subnav__title strong {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+}
+
+@media (min-width: 900px) {
+  .category-subnav__title {
+    display: grid;
+  }
+}
+
 .subcategory-row {
+  display: flex;
+  flex: 1;
+  gap: clamp(10px, 2vw, 24px);
+  min-width: 0;
+  padding-block: 4px; /* room for the accent ring, which the scroll box would clip */
+  overflow-x: auto;
   scrollbar-width: none;
 }
 
 .subcategory-row::-webkit-scrollbar {
   display: none;
+}
+
+.category-subnav__item {
+  display: grid;
+  justify-items: center;
+  width: 104px;
+  padding: 4px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* Photo inside a ring; the ring fills with the accent for the current category and on hover. */
+.category-subnav__photo {
+  width: 84px;
+  height: 84px;
+  margin-block-end: 8px;
+  padding: 4px;
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  transition: border-color var(--t-med) var(--ease), box-shadow var(--t-med) var(--ease);
+}
+
+.category-subnav__photo img {
+  border-radius: 50%;
+  transition: transform 1400ms var(--ease);
+}
+
+.category-subnav__item:hover .category-subnav__photo,
+.category-subnav__item[aria-current='page'] .category-subnav__photo {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 2px var(--c-accent);
+}
+
+.category-subnav__item:hover .category-subnav__photo img {
+  transform: scale(1.06);
+}
+
+.category-subnav__item strong {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 0.95rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color var(--t-fast) var(--ease);
+}
+
+.category-subnav__item:hover strong,
+.category-subnav__item[aria-current='page'] strong {
+  color: var(--c-accent);
+}
+
+.category-subnav__item small {
+  color: var(--c-text-muted);
+  font-size: var(--fs-xs);
 }
 
 .listing-bar {

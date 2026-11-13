@@ -91,11 +91,11 @@ export function CategoryPage() {
 
   return (
     <>
-      <CategoryHero path={path} slides={slides} />
+      <CategoryHero path={path} slides={slides}>
+        {chipsRoot && <SubcategoryNav root={chipsRoot} currentId={category.id} />}
+      </CategoryHero>
 
       <section className="section container">
-        {chipsRoot && <SubcategoryNav root={chipsRoot} currentId={category.id} />}
-
         <div className="listing" data-filters={settings.filters}>
           {settings.filters && all.length > 0 && (
             <aside className="listing__sidebar" aria-label={t('filters.title')}>
