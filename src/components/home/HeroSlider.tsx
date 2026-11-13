@@ -7,7 +7,7 @@ import { LuChevronLeft, LuChevronRight, LuPlus } from 'react-icons/lu';
 import { products } from '../../data/catalog';
 import { heroSlides } from '../../data/content';
 import { useI18n } from '../../i18n/I18nProvider';
-import { useCart } from '../../lib/cart';
+import { useQuickAdd } from '../../lib/quickAdd';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 import { Picture } from '../ui/Picture';
 import { Price } from '../ui/Price';
@@ -23,7 +23,7 @@ import { Price } from '../ui/Price';
  */
 export function HeroSlider() {
   const { t, pick, dir } = useI18n();
-  const { add } = useCart();
+  const add = useQuickAdd();
   const { hero } = useThemeSettings().settings;
   const delay = hero.autoplaySeconds * 1000;
 

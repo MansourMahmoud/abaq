@@ -43,7 +43,7 @@ export function SubcategoryNav({ root, parent, currentId }: SubcategoryNavProps)
         )}
       </div>
 
-      <Carousel label={t('nav.subcategories')} variant="tiles">
+      <Carousel label={t('nav.subcategories')} variant="tiles" focusIndex={Math.max(0, entries.findIndex((entry) => entry.category.id === currentId))}>
         {entries.map(({ category, name, hint }) => {
           const active = category.id === currentId;
           const count = productsInCategory(category.id).length;

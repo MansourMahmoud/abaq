@@ -910,3 +910,263 @@
     height: 112px;
   }
 }
+
+/* ---------- Hero product ---------- */
+
+.signature {
+  position: relative;
+  display: grid;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: center;
+  padding: clamp(24px, 5vw, 64px);
+  overflow: hidden;
+  border: 1px solid rgb(212 175 114 / 0.35);
+  border-radius: var(--radius-lg);
+  /* An eight-point star lattice over a warm ink ground. */
+  background:
+    radial-gradient(60% 80% at 50% 0%, rgb(212 175 114 / 0.14), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='72' viewBox='0 0 72 72'%3E%3Cg fill='none' stroke='%23d4af72' stroke-opacity='.13'%3E%3Crect x='16' y='16' width='40' height='40'/%3E%3Crect x='16' y='16' width='40' height='40' transform='rotate(45 36 36)'/%3E%3Ccircle cx='36' cy='36' r='6'/%3E%3C/g%3E%3C/svg%3E"),
+    #15110e;
+}
+
+@media (min-width: 1024px) {
+  .signature {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  }
+}
+
+/* Gold brackets in two opposite corners. */
+.signature__corner {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  border: 1px solid #d4af72;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.signature__corner[data-corner='start'] {
+  inset-block-start: 14px;
+  inset-inline-start: 14px;
+  border-block-end: 0;
+  border-inline-end: 0;
+  border-start-start-radius: 18px;
+}
+
+.signature__corner[data-corner='end'] {
+  inset-block-end: 14px;
+  inset-inline-end: 14px;
+  border-block-start: 0;
+  border-inline-start: 0;
+  border-end-end-radius: 18px;
+}
+
+.signature__stage {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 18px;
+}
+
+/* Double arch: a thin outer line, a gap, then the photo. */
+.signature__arch {
+  width: min(100%, 380px);
+  aspect-ratio: 4 / 5;
+  padding: 10px;
+  border: 1px solid #d4af72;
+  border-radius: 999px 999px 20px 20px;
+  box-shadow: 0 0 80px rgb(212 175 114 / 0.18);
+}
+
+.signature__arch > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid rgb(212 175 114 / 0.45);
+  border-radius: 999px 999px 12px 12px;
+  background: #1e1915;
+}
+
+.signature__arch img {
+  animation: mega-content 700ms var(--ease);
+}
+
+.signature__seal {
+  position: absolute;
+  inset-block-start: 8%;
+  inset-inline-end: max(0px, calc(50% - 210px));
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  width: 86px;
+  height: 86px;
+  border-radius: 50%;
+  background: var(--c-sale);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  line-height: 1.2;
+  box-shadow: 0 0 0 4px #15110e, 0 0 0 5px var(--c-sale);
+  transform: rotate(-10deg);
+}
+
+.signature__seal strong {
+  font-size: 1.6rem;
+}
+
+.signature__thumbs {
+  display: flex;
+  gap: 8px;
+}
+
+.signature__thumbs button {
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  border-radius: 50%;
+  background: transparent;
+  opacity: 0.6;
+  transition:
+    opacity var(--t-med) var(--ease),
+    border-color var(--t-med) var(--ease);
+}
+
+.signature__thumbs button:hover,
+.signature__thumbs button[aria-pressed='true'] {
+  border-color: var(--c-accent);
+  opacity: 1;
+}
+
+.signature__body {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  text-align: center;
+}
+
+.signature__body > .text-soft {
+  margin-inline: auto;
+}
+
+@media (min-width: 1024px) {
+  .signature__body {
+    text-align: start;
+  }
+
+  .signature__body > .text-soft {
+    margin-inline: 0;
+  }
+}
+
+/* Eyebrow between two short gold rules. */
+.signature__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--c-accent);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.06em;
+}
+
+.signature__eyebrow span {
+  width: 36px;
+  height: 1px;
+  background: currentColor;
+}
+
+@media (min-width: 1024px) {
+  .signature__eyebrow {
+    justify-content: flex-start;
+  }
+
+  .signature__eyebrow span:first-child {
+    display: none;
+  }
+}
+
+.signature__title {
+  font-size: clamp(2.4rem, 1.6rem + 3vw, 4rem);
+}
+
+.signature__title a {
+  transition: color var(--t-med) var(--ease);
+}
+
+.signature__title a:hover {
+  color: var(--c-accent);
+}
+
+.signature__notes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-md);
+  background: rgb(255 255 255 / 0.03);
+  text-align: center;
+}
+
+.signature__notes > div {
+  display: grid;
+  gap: 2px;
+  padding: 12px 8px;
+}
+
+.signature__notes > div + div {
+  border-inline-start: 1px solid var(--c-line);
+}
+
+.signature__notes dt {
+  color: var(--c-accent);
+  font-size: var(--fs-xs);
+}
+
+.signature__notes dd {
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+
+.signature .options {
+  text-align: start;
+}
+
+.signature__buy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 20px;
+  padding-block-start: 16px;
+  border-block-start: 1px solid var(--c-line);
+}
+
+.signature__price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.signature__price strong {
+  color: var(--c-accent);
+  font-size: 2rem;
+}
+
+.signature__price s {
+  color: var(--c-text-muted);
+}
+
+.signature__price span {
+  align-self: center;
+  padding: 1px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--c-sale);
+  color: #fff;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+}

@@ -296,3 +296,12 @@ export const giftCard = {
   amounts: [100, 250, 500, 1000],
   points: [l('تصل فوراً بالبريد الإلكتروني', 'Delivered instantly by email'), l('مع رسالة شخصية باسمك', 'With a personal message from you')],
 };
+
+/* ---------- Hero product ---------- */
+
+/** The one product the store puts forward, with its own stage on the home page. */
+export const signature = {
+  productId: 'p3',
+  eyebrow: l('عطر الموسم', 'Scent of the season'),
+  note: l('شحن مجاني · عيّنة هدية · استبدال خلال ٧ أيام للمنتج المغلق', 'Free shipping · a free sample · 7-day exchange on sealed products'),
+};

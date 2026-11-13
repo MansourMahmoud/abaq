@@ -10,11 +10,16 @@ const ICONS: Record<(typeof perks)[number]['icon'], IconType> = {
   card: LuCreditCard,
 };
 
-/** Four reasons to buy, in a card that overlaps the bottom edge of the hero. */
-export function PerksStrip() {
+/** Four reasons to buy, in one card. On the home page it overlaps the bottom edge of the hero. */
+interface PerksStripProps {
+  /** Pull the card up over the section above it (the hero). */
+  overlap?: boolean;
+}
+
+export function PerksStrip({ overlap = true }: PerksStripProps) {
   const { pick } = useI18n();
   return (
-    <section className="container relative z-[2] -mt-10 md:-mt-12" aria-label={pick({ ar: 'مزايا المتجر', en: 'Store benefits' })}>
+    <section className={`container relative z-[2] ${overlap ? '-mt-10 md:-mt-12' : ''}`} aria-label={pick({ ar: 'مزايا المتجر', en: 'Store benefits' })}>
       <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-lg border border-line bg-line shadow-[var(--shadow-card)] lg:grid-cols-4">
         {perks.map((perk) => {
           const Icon = ICONS[perk.icon];

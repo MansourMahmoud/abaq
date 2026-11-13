@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AnimatePresence, m } from 'motion/react';
 import { FaWhatsapp } from 'react-icons/fa6';
-import { LuArrowUp, LuX } from 'react-icons/lu';
+import { LuArrowUp, LuPhone, LuX } from 'react-icons/lu';
 import { STORE, chatPrompts, whatsappUrl } from '../../data/content';
 import { useI18n } from '../../i18n/I18nProvider';
 import { useThemeSettings } from '../../settings/ThemeSettings';
@@ -42,8 +42,9 @@ function usePromptCycle(count: number, enabled: boolean): [number | null, () => 
 }
 
 /**
- * WhatsApp shortcut with rotating prompt bubbles, and a back-to-top button
- * that appears after one screen of scroll. The bubble always opens toward the
+ * Contact buttons (call and WhatsApp, with rotating prompt bubbles) on one
+ * edge, and a back-to-top button on the other that appears after one screen
+ * of scroll. The bubble always opens toward the
  * middle of the screen (to the left of a button on the right edge), is small enough to stay clear of the content, and never
  * takes focus.
  */
@@ -61,12 +62,14 @@ export function FloatingActions() {
   }, []);
 
   return (
-    <div className="floating-actions" data-side={floating.side}>
+    <>
+      {/* Back to top sits on the opposite edge, away from the contact buttons. */}
       <AnimatePresence>
         {scrolled && (
           <m.button
             key="top"
-            className="icon-button floating-actions__top"
+            className="icon-button floating-top"
+            data-side={floating.side === 'right' ? 'left' : 'right'}
             type="button"
             aria-label={t('action.backToTop')}
             initial={{ opacity: 0 }}
@@ -79,6 +82,14 @@ export function FloatingActions() {
           </m.button>
         )}
       </AnimatePresence>
+
+    <div className="floating-actions" data-side={floating.side}>
+      {floating.phone && (
+        <a className="floating-actions__phone" href={`tel:${STORE.phone}`} aria-label={`${t('help.call')}: ${STORE.phone}`}>
+          <LuPhone aria-hidden />
+          <bdi dir="ltr">{STORE.phone}</bdi>
+        </a>
+      )}
 
       {floating.whatsapp && (
         <div className="floating-actions__chat">
@@ -114,5 +125,6 @@ export function FloatingActions() {
         </div>
       )}
     </div>
+    </>
   );
 }

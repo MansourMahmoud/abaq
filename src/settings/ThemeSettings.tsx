@@ -60,6 +60,12 @@ export interface ThemeSettings {
     filters: boolean;
     /** Promotional card placed inside the product grid. */
     inlineBanner: boolean;
+    /** Banners under the listing: one wide banner, two side by side, or none. */
+    bottomBanners: 'one' | 'two' | 'none';
+    /** Store benefits strip under the listing. */
+    showPerks: boolean;
+    /** Customer reviews under the listing. */
+    showReviews: boolean;
   };
   cart: {
     banner: boolean;
@@ -73,6 +79,8 @@ export interface ThemeSettings {
     side: 'right' | 'left';
     /** Rotate short prompts beside the chat button. */
     prompts: boolean;
+    /** Call button above the chat button. */
+    phone: boolean;
     /** Discount ticket on the edge of the screen opposite the chat button. */
     coupon: boolean;
   };
@@ -101,9 +109,9 @@ export const defaultSettings: ThemeSettings = {
   preloader: { enabled: true, background: 'blur' },
   home: { categoriesLayout: 'carousel', productsLayout: 'carousel', carouselIndicator: 'dots' },
   hero: { effect: 'fade', autoplaySeconds: 7 },
-  category: { perPage: 8, pagination: 'infinite', filters: true, inlineBanner: true },
+  category: { perPage: 8, pagination: 'infinite', filters: true, inlineBanner: true, bottomBanners: 'one', showPerks: true, showReviews: true },
   cart: { banner: true, bannerHeight: 'medium', bannerWidth: 'contained' },
-  floating: { whatsapp: true, side: 'right', prompts: true, coupon: true },
+  floating: { whatsapp: true, side: 'right', prompts: true, phone: true, coupon: true },
   popup: { enabled: true, delaySeconds: 6, remindAfterDays: 3 },
   footer: { showPromo: true, showSocial: true, showPayments: true, showCompliance: true, contactStyle: 'icons' },
 };

@@ -57,6 +57,9 @@ code or opens a link (`data/content.ts`, `announcements`).
 | `category.pagination` | `infinite`, `button` | `infinite` |
 | `category.filters` | on / off | on |
 | `category.inlineBanner` | on / off | on |
+| `category.bottomBanners` | `one` (wide), `two`, `none` | `one` |
+| `category.showPerks` | on / off | on |
+| `category.showReviews` | on / off | on |
 
 ## Cart
 
@@ -73,6 +76,7 @@ code or opens a link (`data/content.ts`, `announcements`).
 | `floating.whatsapp` | on / off | on |
 | `floating.side` | `right`, `left` | `right` |
 | `floating.prompts` | on / off: rotating messages beside the button | on |
+| `floating.phone` | on / off: call button above the chat button | on |
 | `floating.coupon` | on / off: discount ticket on the opposite edge | on |
 
 ## Welcome popup

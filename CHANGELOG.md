@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.0
+
+- Hero product section with options, quantity, add to cart and buy now
+- Products with options open a quick options dialog wherever they are added from
+- Listing pages: one wide or two banners, benefits strip, customer reviews; the sub-category row opens on the one being viewed; switch-style filters
+- Call button above WhatsApp; back to top moved to the other edge
+- Video player: previous / next, progress on the playing item
+
 ## 0.8.0
 
 - Discounts show wherever a product appears (hero, video, reels, search, menus, reviews, sets)

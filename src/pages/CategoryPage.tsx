@@ -1,18 +1,39 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { LuGrid2X2, LuGrid3X3, LuSlidersHorizontal, LuX } from 'react-icons/lu';
+import { LuArrowUpLeft, LuArrowUpRight, LuGrid2X2, LuGrid3X3, LuSlidersHorizontal, LuX } from 'react-icons/lu';
+import { CategoryReviews } from '../components/category/CategoryReviews';
 import { CategoryHero, type CategorySlide } from '../components/category/CategoryHero';
 import { FilterPanel } from '../components/category/FilterPanel';
 import { ProductListing } from '../components/category/ProductListing';
 import { SubcategoryNav } from '../components/category/SubcategoryNav';
+import { PerksStrip } from '../components/home/PerksStrip';
 import { ProductRail } from '../components/product/ProductRail';
 import { Picture } from '../components/ui/Picture';
 import { ALL_PRODUCTS, brands, categories, discountOf, findCategoryPath, productsInCategory, type Category } from '../data/catalog';
-import { useI18n } from '../i18n/I18nProvider';
+import { useI18n, type Localized } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/messages';
+import type { PhotoKey } from '../lib/media';
 import { SORTS, applyFilters, countFilters, readFilters, writeFilters, type Filters, type Sort } from '../lib/filters';
 import { useThemeSettings } from '../settings/ThemeSettings';
 import { NotFoundPage } from './NotFoundPage';
+
+/** Promotions shown under every listing. The merchant sets their picture, text and link. */
+const BOTTOM_BANNERS: { to: string; photo: PhotoKey; label: Localized; title: Localized; text: Localized }[] = [
+  {
+    to: '/category/gifts',
+    photo: 'bottlesRow',
+    label: { ar: 'أطقم الهدايا', en: 'Gift sets' },
+    title: { ar: 'هدية جاهزة بالتغليف والبطاقة', en: 'A gift, wrapped and signed' },
+    text: { ar: 'أطقم مختارة تصل مغلّفة مع بطاقة تكتب عليها ما تشاء.', en: 'Chosen sets that arrive wrapped, with a card in your words.' },
+  },
+  {
+    to: '/category/bakhoor',
+    photo: 'burnerMajlis',
+    label: { ar: 'البخور', en: 'Bakhoor' },
+    title: { ar: 'رائحة المجالس تبدأ من هنا', en: 'The scent of the majlis starts here' },
+    text: { ar: 'معمول ودقة وكسر عود طبيعي للبيت والضيوف.', en: 'Maamoul, dukhoon and natural oud chips for home and guests.' },
+  },
+];
 
 const SORT_LABELS: Record<Sort, MessageKey> = {
   featured: 'sort.featured',
@@ -35,7 +56,8 @@ function resolvePath(slug: string): Category[] | null {
  */
 export function CategoryPage() {
   const { slug = '' } = useParams();
-  const { t, pick, money, number } = useI18n();
+  const { t, pick, money, number, dir } = useI18n();
+  const BannerArrow = dir === 'rtl' ? LuArrowUpLeft : LuArrowUpRight;
   const settings = useThemeSettings().settings.category;
   const [params, setParams] = useSearchParams();
   const [density, setDensity] = useState<'comfortable' | 'compact'>('comfortable');
@@ -169,25 +191,32 @@ export function CategoryPage() {
         </div>
       </section>
 
-      {/* Supporting sections under the listing; each can be switched off by the merchant. */}
-      <section className="section section--flush-top container">
-        <div className="grid gap-4 md:grid-cols-2">
-          <Link className="banner banner--strip media-zoom" to="/category/gifts">
-            <Picture photo="bottlesRow" alt="" sizes="(min-width: 768px) 50vw, 100vw" />
-            <span className="banner__text">
-              <span className="eyebrow">{pick({ ar: 'أطقم الهدايا', en: 'Gift sets' })}</span>
-              <span className="banner__title">{pick({ ar: 'هدية جاهزة بالتغليف والبطاقة', en: 'A gift, wrapped and signed' })}</span>
-            </span>
-          </Link>
-          <Link className="banner banner--strip media-zoom" to="/category/bakhoor">
-            <Picture photo="burnerMajlis" alt="" sizes="(min-width: 768px) 50vw, 100vw" />
-            <span className="banner__text">
-              <span className="eyebrow">{pick({ ar: 'البخور', en: 'Bakhoor' })}</span>
-              <span className="banner__title">{pick({ ar: 'رائحة المجالس تبدأ من هنا', en: 'The scent of the majlis starts here' })}</span>
-            </span>
-          </Link>
+      {/* Supporting sections under the listing; each is a merchant setting. */}
+      {settings.bottomBanners !== 'none' && (
+        <section className="section section--flush-top container">
+          <div className={`grid gap-4 ${settings.bottomBanners === 'two' ? 'md:grid-cols-2' : ''}`}>
+            {BOTTOM_BANNERS.slice(0, settings.bottomBanners === 'two' ? 2 : 1).map((banner) => (
+              <Link key={banner.to} className="collection listing-banner" data-wide={settings.bottomBanners === 'one'} to={banner.to}>
+                <Picture photo={banner.photo} alt="" sizes={settings.bottomBanners === 'one' ? '100vw' : '(min-width: 768px) 50vw, 100vw'} />
+                <span className="collection__label">{pick(banner.label)}</span>
+                <span className="collection__text">
+                  <strong>{pick(banner.title)}</strong>
+                  <span>{pick(banner.text)}</span>
+                </span>
+                <span className="collection__arrow" aria-hidden>
+                  <BannerArrow />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {settings.showPerks && (
+        <div className="pb-[var(--section-gap)]">
+          <PerksStrip overlap={false} />
         </div>
-      </section>
+      )}
 
       <section className="section section--surface">
         <div className="container">
@@ -197,6 +226,8 @@ export function CategoryPage() {
           <ProductRail products={productsInCategory(ALL_PRODUCTS.id).filter((product) => product.rating >= 4.8)} layout="carousel" label={t('category.bestsellers')} />
         </div>
       </section>
+
+      {settings.showReviews && <CategoryReviews category={category} />}
 
       {/* Phones: the filters open in a sheet from the bottom of the screen. */}
       {settings.filters && (

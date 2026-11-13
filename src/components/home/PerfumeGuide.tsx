@@ -3,7 +3,7 @@ import { LuArrowLeft, LuArrowRight, LuClock3 } from 'react-icons/lu';
 import { products } from '../../data/catalog';
 import { guide, guideShop } from '../../data/home';
 import { useI18n } from '../../i18n/I18nProvider';
-import { useCart } from '../../lib/cart';
+import { useQuickAdd } from '../../lib/quickAdd';
 import { Picture } from '../ui/Picture';
 import { Reveal } from '../ui/Reveal';
 import { Price } from '../ui/Price';
@@ -14,7 +14,7 @@ import { Price } from '../ui/Price';
  */
 export function PerfumeGuide() {
   const { t, pick, number, dir } = useI18n();
-  const { add } = useCart();
+  const add = useQuickAdd();
   const Arrow = dir === 'rtl' ? LuArrowLeft : LuArrowRight;
   const starter = products.find((product) => product.slug === 'discovery-set');
   return (

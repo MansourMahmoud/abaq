@@ -318,6 +318,10 @@ export const ar = {
   'coupon.label': 'خصم {percent}٪ على طلبك الأول',
   'coupon.press': 'اضغط لنسخ الكود',
   'coupon.stub': 'كود خصم',
+  'quick.title': 'اختر ما يناسبك',
+  'quick.details': 'كل تفاصيل المنتج',
+  'action.buyNow': 'اشترِ الآن',
+  'reviews.inCategory': 'آراء عملاء {name}',
 } as const;
 
 export type MessageKey = keyof typeof ar;
@@ -639,4 +643,8 @@ export const en: Messages = {
   'coupon.label': '{percent}% off your first order',
   'coupon.press': 'Press to copy the code',
   'coupon.stub': 'Promo code',
+  'quick.title': 'Choose your options',
+  'quick.details': 'Full product details',
+  'action.buyNow': 'Buy now',
+  'reviews.inCategory': 'What customers say about {name}',
 };

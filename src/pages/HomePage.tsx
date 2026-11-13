@@ -21,6 +21,7 @@ import { Reels } from '../components/home/Reels';
 import { PerfumeGuide } from '../components/home/PerfumeGuide';
 import { ScentFinder } from '../components/home/ScentFinder';
 import { ScentQuiz } from '../components/home/ScentQuiz';
+import { SignatureProduct } from '../components/home/SignatureProduct';
 import { Story } from '../components/home/Story';
 import { Testimonials } from '../components/home/Testimonials';
 import { TikTokFeed } from '../components/home/TikTokFeed';
@@ -44,6 +45,7 @@ export function HomePage() {
       <CategoryShowcase />
       <BrandStrip />
       <Bestsellers />
+      <SignatureProduct />
       <LayeringSet />
       <ScentFinder />
       <ScentQuiz />

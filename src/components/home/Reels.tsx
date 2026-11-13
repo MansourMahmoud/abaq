@@ -4,7 +4,7 @@ import { LuPlay, LuPlus } from 'react-icons/lu';
 import { products } from '../../data/catalog';
 import { clipPoster, clipSrc, clips, type Clip } from '../../data/videos';
 import { useI18n } from '../../i18n/I18nProvider';
-import { useCart } from '../../lib/cart';
+import { useQuickAdd } from '../../lib/quickAdd';
 import { Carousel } from '../ui/Carousel';
 import { Picture } from '../ui/Picture';
 import { Reveal } from '../ui/Reveal';
@@ -15,7 +15,7 @@ const reelClips = [...clips].sort((a, b) => Number(a.orientation !== 'portrait')
 
 function Reel({ clip }: { clip: Clip }) {
   const { t, pick } = useI18n();
-  const { add } = useCart();
+  const add = useQuickAdd();
   const video = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
   const [progress, setProgress] = useState(0);

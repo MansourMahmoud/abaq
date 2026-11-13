@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { LuHeart, LuStar } from 'react-icons/lu';
 import { discountOf, type Product } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
-import { useCart } from '../../lib/cart';
+import { useQuickAdd } from '../../lib/quickAdd';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 import { Picture } from '../ui/Picture';
 
@@ -20,7 +20,7 @@ interface ProductCardProps {
 export function ProductCard({ product, sizes = '(min-width: 1024px) 25vw, 50vw' }: ProductCardProps) {
   const { pick, t, money, number } = useI18n();
   const { productCard } = useThemeSettings().settings;
-  const { add } = useCart();
+  const add = useQuickAdd();
   const name = pick(product.name);
   const href = `/product/${product.slug}`;
   const discount = discountOf(product);

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import { LuStar } from 'react-icons/lu';
-import { brands, type Category, type Product } from '../../data/catalog';
+import { LuBadgePercent, LuPackageCheck, LuStar } from 'react-icons/lu';
+import { brands, discountOf, type Category, type Product } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
 import type { Filters } from '../../lib/filters';
 import { PriceRange } from './PriceRange';
@@ -86,13 +86,21 @@ export function FilterPanel({ filters, onChange, products, subcategories }: Filt
       </Group>
 
       <Group title={t('filters.more')}>
-        <label className="filter-option">
-          <input type="checkbox" checked={filters.onSale} onChange={(event) => onChange({ onSale: event.target.checked })} />
-          <span>{t('filters.onSale')}</span>
+        <label className="filter-switch">
+          <LuBadgePercent aria-hidden />
+          <span>
+            {t('filters.onSale')}
+            <small>{t('category.count', { count: number(products.filter((product) => discountOf(product)).length) })}</small>
+          </span>
+          <input type="checkbox" role="switch" checked={filters.onSale} onChange={(event) => onChange({ onSale: event.target.checked })} />
         </label>
-        <label className="filter-option">
-          <input type="checkbox" checked={filters.inStock} onChange={(event) => onChange({ inStock: event.target.checked })} />
-          <span>{t('filters.inStock')}</span>
+        <label className="filter-switch">
+          <LuPackageCheck aria-hidden />
+          <span>
+            {t('filters.inStock')}
+            <small>{t('category.count', { count: number(products.filter((product) => !product.soldOut).length) })}</small>
+          </span>
+          <input type="checkbox" role="switch" checked={filters.inStock} onChange={(event) => onChange({ inStock: event.target.checked })} />
         </label>
       </Group>
     </div>

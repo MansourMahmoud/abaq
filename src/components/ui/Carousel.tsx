@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -15,6 +15,8 @@ interface CarouselProps {
    */
   variant: 'products' | 'categories' | 'reels' | 'cards' | 'deals' | 'tiles';
   children: ReactNode[];
+  /** Index of an item to bring into view: at once on first render, smoothly when it changes. */
+  focusIndex?: number;
 }
 
 /**
@@ -22,7 +24,7 @@ interface CarouselProps {
  * or a thin progress bar, per the merchant's setting). Built on Embla, which
  * handles drag physics, snapping and right-to-left layouts.
  */
-export function Carousel({ label, variant, children }: CarouselProps) {
+export function Carousel({ label, variant, children, focusIndex }: CarouselProps) {
   const { t, dir } = useI18n();
   const indicator = useThemeSettings().settings.home.carouselIndicator;
   const [viewport, embla] = useEmblaCarousel({ direction: dir, align: 'start', containScroll: 'trimSnaps', slidesToScroll: 'auto', duration: 38 });
@@ -45,6 +47,15 @@ export function Carousel({ label, variant, children }: CarouselProps) {
       embla.off('select', sync).off('reInit', sync).off('scroll', sync);
     };
   }, [embla, sync]);
+
+  // Bring the focused item's page into view. A page may hold several items.
+  const focused = useRef(false);
+  useEffect(() => {
+    if (!embla || focusIndex === undefined) return;
+    const page = embla.internalEngine().slideRegistry.findIndex((group) => group.includes(focusIndex));
+    if (page >= 0) embla.scrollTo(page, !focused.current);
+    focused.current = true;
+  }, [embla, focusIndex]);
 
   const Previous = dir === 'rtl' ? LuChevronRight : LuChevronLeft;
   const Next = dir === 'rtl' ? LuChevronLeft : LuChevronRight;

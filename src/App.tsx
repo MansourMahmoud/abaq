@@ -10,6 +10,7 @@ import { FooterPromo } from './components/layout/FooterPromo';
 import { Header } from './components/layout/Header';
 import { TopBar } from './components/layout/TopBar';
 import { WelcomePopup } from './components/layout/WelcomePopup';
+import { QuickAddProvider } from './components/product/QuickAdd';
 import { ErrorState } from './components/ui/ErrorState';
 import { LocaleDialog } from './components/ui/LocaleDialog';
 import { PageSkeleton } from './components/ui/PageSkeleton';
@@ -91,6 +92,8 @@ export default function App() {
   return (
     <Providers>
       <BrowserRouter>
+        {/* Inside the router: its dialog links to product pages. */}
+        <QuickAddProvider>
         <Routes>
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
@@ -105,6 +108,7 @@ export default function App() {
             <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
+        </QuickAddProvider>
       </BrowserRouter>
     </Providers>
   );

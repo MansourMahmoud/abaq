@@ -4,32 +4,21 @@ import { LuBadgeCheck, LuGift, LuHeart, LuMinus, LuPlay, LuPlus, LuRefreshCw, Lu
 import type { IconType } from 'react-icons';
 import { RecentlyViewed } from '../components/home/RecentlyViewed';
 import { ProductRail } from '../components/product/ProductRail';
+import { VariantPicker } from '../components/product/VariantPicker';
 import { Stars } from '../components/product/ReviewCard';
 import { ReviewsPanel } from '../components/product/ReviewsPanel';
 import { ClipPlayer } from '../components/ui/ClipPlayer';
 import { PaymentBadges } from '../components/ui/PaymentBadges';
 import { Picture } from '../components/ui/Picture';
-import { brands, categories, discountOf, findProduct, hasVariants, productDetails, relatedProducts } from '../data/catalog';
+import { brands, categories, discountOf, findProduct, productDetails, relatedProducts } from '../data/catalog';
 import { reviews } from '../data/content';
 import { clipPoster, clips } from '../data/videos';
-import { useI18n, type Localized } from '../i18n/I18nProvider';
+import { useI18n } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/messages';
 import { useCart } from '../lib/cart';
+import { useVariant } from '../lib/variants';
 import { rememberProduct } from '../lib/recentlyViewed';
 import { NotFoundPage } from './NotFoundPage';
-
-/** Price multipliers relative to the catalogue price (eau de parfum, 50 ml). */
-const CONCENTRATIONS: { name: Localized; hint: Localized; factor: number }[] = [
-  { name: { ar: 'أو دو بارفان', en: 'Eau de parfum' }, hint: { ar: 'ثبات ٦–٨ ساعات', en: 'Lasts 6–8 hours' }, factor: 1 },
-  { name: { ar: 'بارفان', en: 'Parfum' }, hint: { ar: 'ثبات ٨–١٠ ساعات', en: 'Lasts 8–10 hours' }, factor: 1.19 },
-  { name: { ar: 'إكستريه', en: 'Extrait' }, hint: { ar: 'ثبات +١٢ ساعة', en: 'Lasts 12+ hours' }, factor: 1.4 },
-];
-
-const SIZES: { name: Localized; factor: number }[] = [
-  { name: { ar: '٣٠ مل', en: '30 ml' }, factor: 0.69 },
-  { name: { ar: '٥٠ مل', en: '50 ml' }, factor: 1 },
-  { name: { ar: '١٠٠ مل', en: '100 ml' }, factor: 1.31 },
-];
 
 const PERKS: { key: MessageKey; Icon: IconType }[] = [
   { key: 'product.perk.delivery', Icon: LuTruck },
@@ -47,9 +36,8 @@ export function ProductPage() {
   const product = findProduct(slug);
 
   const [media, setMedia] = useState(0);
-  const [concentration, setConcentration] = useState(0);
-  const [size, setSize] = useState(1);
   const [quantity, setQuantity] = useState(1);
+  const variant = useVariant(product);
   const [zoom, setZoom] = useState<CSSProperties>({});
   const [tab, setTab] = useState<'description' | 'reviews'>('description');
 
@@ -61,7 +49,6 @@ export function ProductPage() {
 
   const details = productDetails(product.id);
   const discount = discountOf(product);
-  const variants = hasVariants(product);
   const clip = clips.find((entry) => entry.productId === product.id);
   const category = categories.find((entry) => product.categoryIds.includes(entry.id));
   // Demo data has only a few reviews per product, so the page shows this product's first, then the rest.
@@ -71,8 +58,7 @@ export function ProductPage() {
 
   // Gallery entries: every photo, then the product's clip when it has one.
   const showingClip = clip !== undefined && media === product.photos.length;
-  const priceFor = (sizeIndex: number) => Math.round((product.price * CONCENTRATIONS[concentration].factor * SIZES[sizeIndex].factor) / 5) * 5;
-  const unitPrice = variants ? priceFor(size) : product.price;
+  const { unitPrice, option } = variant;
   // The discount applies to every option, so the "before" price scales with the chosen one.
   const compareAt = discount ? Math.round((unitPrice / (1 - discount.percent / 100)) / 5) * 5 : unitPrice;
 
@@ -82,9 +68,6 @@ export function ProductPage() {
     setZoom({ transform: 'scale(2)', transformOrigin: `${((event.clientX - box.left) / box.width) * 100}% ${((event.clientY - box.top) / box.height) * 100}%` });
   };
 
-  const option = variants
-    ? { ar: `${CONCENTRATIONS[concentration].name.ar} · ${SIZES[size].name.ar}`, en: `${CONCENTRATIONS[concentration].name.en} · ${SIZES[size].name.en}` }
-    : undefined;
   const addToCart = () => add(product, { quantity, unitPrice, option });
 
   return (
@@ -170,28 +153,7 @@ export function ProductPage() {
               <span className="text-muted">{t('product.vat')}</span>
             </p>
 
-            {variants && (
-              <>
-                <fieldset className="options">
-                  <legend>{t('product.concentration')}</legend>
-                  {CONCENTRATIONS.map((option, index) => (
-                    <button key={option.name.en} type="button" aria-pressed={index === concentration} onClick={() => setConcentration(index)}>
-                      {pick(option.name)}
-                      <small>{pick(option.hint)}</small>
-                    </button>
-                  ))}
-                </fieldset>
-                <fieldset className="options">
-                  <legend>{t('product.size')}</legend>
-                  {SIZES.map((option, index) => (
-                    <button key={option.name.en} type="button" aria-pressed={index === size} onClick={() => setSize(index)}>
-                      {pick(option.name)}
-                      <small>{money(priceFor(index))}</small>
-                    </button>
-                  ))}
-                </fieldset>
-              </>
-            )}
+            <VariantPicker variant={variant} />
 
             <div className="buy-bar">
               <div className="quantity" role="group" aria-label={t('product.quantity')}>

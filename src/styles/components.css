@@ -440,14 +440,69 @@
   align-items: flex-start;
 }
 
-.floating-actions__top:not(:hover) {
+/* Back to top: alone on the opposite edge. */
+.icon-button.floating-top {
+  position: fixed;
+  inset-block-end: 24px;
+  z-index: 15;
+}
+
+.floating-top[data-side='left'] {
+  left: 20px;
+}
+
+.floating-top[data-side='right'] {
+  right: 20px;
+}
+
+.floating-top:not(:hover) {
   background: var(--c-surface);
   box-shadow: var(--shadow-card);
 }
 
-/* Centred over the chat button, whichever side it is on. */
-.floating-actions__top {
+/* Call button: a disc that widens to show the number on hover or focus. */
+.floating-actions__phone {
+  display: inline-flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  height: 46px;
+  min-width: 46px;
   margin-inline: 4px;
+  padding-inline: 13px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-pill);
+  background: var(--c-surface);
+  box-shadow: var(--shadow-card);
+  color: var(--c-accent);
+  font-size: 1.15rem;
+  transition:
+    background-color var(--t-med) var(--ease),
+    color var(--t-med) var(--ease),
+    border-color var(--t-med) var(--ease);
+}
+
+.floating-actions__phone bdi {
+  max-width: 0;
+  overflow: hidden;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    max-width var(--t-slow) var(--ease),
+    margin var(--t-slow) var(--ease);
+}
+
+.floating-actions__phone:hover,
+.floating-actions__phone:focus-visible {
+  border-color: var(--c-accent);
+  background: var(--c-accent);
+  color: var(--c-on-accent);
+}
+
+.floating-actions__phone:hover bdi,
+.floating-actions__phone:focus-visible bdi {
+  max-width: 180px;
+  margin-inline-end: 10px;
 }
 
 .floating-actions__chat {
@@ -945,7 +1000,8 @@ html[dir='ltr'] .floating-actions__prompt {
 
 /* Phones: keep the floating buttons above the product page's fixed buy bar. */
 @media (max-width: 959px) {
-  body:has(.sticky-buy) .floating-actions {
+  body:has(.sticky-buy) .floating-actions,
+  body:has(.sticky-buy) .floating-top {
     inset-block-end: 88px;
   }
 }

@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { LuMaximize, LuPause, LuPlay, LuPlus, LuVolume2, LuVolumeX } from 'react-icons/lu';
+import { LuMaximize, LuPause, LuPlay, LuPlus, LuSkipBack, LuSkipForward, LuVolume2, LuVolumeX } from 'react-icons/lu';
 import { products } from '../../data/catalog';
 import { clipPoster, clipSrc, clips } from '../../data/videos';
 import { useI18n } from '../../i18n/I18nProvider';
-import { useCart } from '../../lib/cart';
+import { useQuickAdd } from '../../lib/quickAdd';
 import { Picture } from '../ui/Picture';
 import { Reveal } from '../ui/Reveal';
 import { Price } from '../ui/Price';
@@ -26,7 +26,7 @@ function clock(seconds: number): string {
  */
 export function VideoShowcase() {
   const { t, pick } = useI18n();
-  const { add } = useCart();
+  const add = useQuickAdd();
   const stage = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
   /** Whether the next clip should start playing once it is mounted. */
@@ -126,8 +126,14 @@ export function VideoShowcase() {
             </div>
 
             <div className="absolute inset-x-0 bottom-0 flex items-center gap-1 bg-gradient-to-t from-black/85 to-transparent px-2 pb-2 pt-10 md:gap-2 md:px-4 md:pb-3" dir="ltr">
+              <button type="button" className={`${controlButton} hidden sm:grid`} aria-label={t('action.previous')} onClick={() => select((index - 1 + playlist.length) % playlist.length)}>
+                <LuSkipBack aria-hidden />
+              </button>
               <button type="button" className={controlButton} aria-label={playing ? t('video.pause') : t('video.play')} onClick={toggle}>
                 {playing ? <LuPause aria-hidden /> : <LuPlay aria-hidden />}
+              </button>
+              <button type="button" className={`${controlButton} hidden sm:grid`} aria-label={t('action.next')} onClick={() => select((index + 1) % playlist.length)}>
+                <LuSkipForward aria-hidden />
               </button>
               <span className="w-[5.5rem] shrink-0 text-center text-xs tabular-nums text-white/85 md:text-sm">
                 {clock(time)} / {clock(clip.seconds)}
@@ -180,6 +186,11 @@ export function VideoShowcase() {
                       <span className="grid min-w-0 leading-snug">
                         <span className="truncate text-sm font-semibold">{pick(entry.title)}</span>
                         <span className="truncate text-xs text-muted">{pick(entryProduct.name)}</span>
+                        {active && (
+                          <span className="mt-1 block h-[3px] overflow-hidden rounded-pill bg-line" dir="ltr" aria-hidden>
+                            <span className="block h-full bg-accent" style={{ inlineSize: `${Math.min(100, (time / entry.seconds) * 100)}%` }} />
+                          </span>
+                        )}
                         {active && (
                           <span className="mt-0.5 flex items-center gap-1.5 text-xs text-accent">
                             <span className="cinema__bars" data-playing={playing} aria-hidden>
