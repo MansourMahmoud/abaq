@@ -752,3 +752,34 @@
   background: var(--c-on-accent);
   color: var(--c-accent);
 }
+
+/* Links in a mega-menu column: a short accent rule slides in on hover. */
+.mega__leaf {
+  position: relative;
+  display: block;
+  padding: 6px 0;
+  color: var(--c-text-soft);
+  transition:
+    color var(--t-fast) var(--ease),
+    padding var(--t-fast) var(--ease);
+}
+
+.mega__leaf::before {
+  content: '';
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0;
+  width: 0;
+  height: 1px;
+  background: var(--c-accent);
+  transition: width var(--t-fast) var(--ease);
+}
+
+.mega__leaf:hover {
+  padding-inline-start: 18px;
+  color: var(--c-accent);
+}
+
+.mega__leaf:hover::before {
+  width: 12px;
+}

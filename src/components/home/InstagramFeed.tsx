@@ -11,8 +11,8 @@ const RING = 'bg-[conic-gradient(from_210deg,#feda75,#fa7e1e,#d62976,#962fbf,#4f
 
 /**
  * Instagram section laid out like the account's profile: avatar, handle,
- * figures and a follow button; a row of story highlights; then a wall of
- * posts where the first is featured at double size. Hovering a post shows
+ * figures and a follow button; a row of story highlights; then a row of
+ * square posts. Hovering a post shows
  * its likes and comments; every tile opens the account.
  */
 export function InstagramFeed() {
@@ -67,13 +67,13 @@ export function InstagramFeed() {
             ))}
           </ul>
 
-          {/* Six columns; the first post takes a 2×2 cell so the wall has a focal point. */}
+          {/* Square posts: three across on phones, six on wide screens. */}
           <ul className="mt-5 grid grid-cols-3 gap-2 md:grid-cols-6 md:gap-3">
-            {instagram.posts.slice(0, 5).map((post, index) => (
-              <li key={post.photo} className={index === 0 ? 'col-span-2 row-span-2' : 'md:col-span-2'}>
-                <a href={instagram.href} target="_blank" rel="noopener noreferrer" aria-label={`Instagram ${instagram.handle}`} className={`group relative block h-full overflow-hidden rounded-md ${index === 0 ? 'aspect-square md:aspect-auto' : 'aspect-square md:aspect-[2/1]'}`}>
-                  <Picture photo={post.photo} alt="" sizes={index === 0 ? '(min-width: 768px) 33vw, 66vw' : '33vw'} />
-                  <span className="absolute inset-0 flex items-center justify-center gap-4 bg-black/55 text-sm font-semibold text-white opacity-0 transition-opacity duration-700 ease-theme group-hover:opacity-100 group-focus-visible:opacity-100">
+            {instagram.posts.map((post) => (
+              <li key={post.photo} className="min-w-0">
+                <a href={instagram.href} target="_blank" rel="noopener noreferrer" aria-label={`Instagram ${instagram.handle}`} className="group relative block aspect-square overflow-hidden rounded-md">
+                  <Picture photo={post.photo} alt="" sizes="(min-width: 768px) 16vw, 33vw" />
+                  <span className="absolute inset-0 flex flex-col items-center justify-center gap-1 bg-black/55 text-sm font-semibold text-white opacity-0 transition-opacity duration-500 ease-theme group-hover:opacity-100 group-focus-visible:opacity-100">
                     <span className="inline-flex items-center gap-1.5">
                       <LuHeart className="fill-white" aria-hidden /> {number(post.likes)}
                     </span>

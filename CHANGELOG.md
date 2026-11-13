@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1
+
+- Header dropdown as a column menu with a footer row
+- Home: layering set (add three products at once), shop by brand, loyalty programme
+- Instagram posts in an even row; quicker second-photo fade
+
 ## 0.5.0
 
 - Cart: discount per line, amount saved, working coupon, full breakdown with VAT

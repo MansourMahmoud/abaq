@@ -188,3 +188,31 @@ export const guide = {
   ],
   link: { label: l('اقرأ الدليل كاملاً', 'Read the full guide'), to: '/blog' },
 };
+
+/* ---------- Layering routine ---------- */
+
+/** Three products worn together, sold as one set from the home page. */
+export const layering = {
+  eyebrow: l('طبقات العطر', 'Scent layering'),
+  title: l('ثلاث خطوات لعطر يدوم يومك كله', 'Three steps to a scent that lasts all day'),
+  text: l('هكذا يتعطّر أهل الخليج: دهن على البشرة، عطر فوقه، وبخور للثوب. اطلب الثلاثة معاً بضغطة واحدة.', 'The Gulf way to wear scent: oil on the skin, perfume over it, bakhoor for the clothes. Order all three in one tap.'),
+  steps: [
+    { productId: 'p20', step: l('دهن على نقاط النبض', 'Oil on the pulse points') },
+    { productId: 'p1', step: l('رشّتان من العطر فوقه', 'Two sprays of perfume over it') },
+    { productId: 'p22', step: l('بخور للثوب والمجلس', 'Bakhoor for clothes and home') },
+  ],
+};
+
+/* ---------- Loyalty ---------- */
+
+export const loyalty = {
+  eyebrow: l('برنامج الولاء', 'Loyalty programme'),
+  title: l('كل طلب يقرّبك من عطرك القادم', 'Every order brings your next scent closer'),
+  steps: [
+    { value: l('١ ر.س = نقطة', 'SAR 1 = 1 point'), text: l('تجمع نقاطاً مع كل طلب تلقائياً.', 'Points add up with every order, automatically.') },
+    { value: l('٢٠٠ نقطة', '200 points'), text: l('هدية ترحيب عند أول طلب.', 'A welcome gift on your first order.') },
+    { value: l('٥٠٠ نقطة = ٢٥ ر.س', '500 points = SAR 25'), text: l('استبدلها خصماً عند إتمام الطلب.', 'Redeem them as a discount at checkout.') },
+    { value: l('ادعُ صديقاً', 'Invite a friend'), text: l('لك وله ٥٠ ر.س على أول طلب له.', 'SAR 50 each on their first order.') },
+  ],
+  action: { label: l('انضم الآن', 'Join now'), to: '/page/about' },
+};

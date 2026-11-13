@@ -78,13 +78,13 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 600ms var(--ease);
+  transition: opacity 450ms var(--ease);
 }
 
 @media (hover: hover) {
   .product-card:hover .product-card__alt {
     opacity: 1;
-    transition: opacity 1200ms var(--ease) 350ms;
+    transition: opacity 700ms var(--ease) 180ms;
   }
 }
 

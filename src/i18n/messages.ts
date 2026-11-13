@@ -233,7 +233,6 @@ export const ar = {
   'sort.priceDesc': 'السعر: من الأعلى',
   'sort.rating': 'الأعلى تقييماً',
   'sort.discount': 'الأكثر خصماً',
-  'nav.mainCategory': 'القسم الرئيسي',
   'nav.subcategories': 'الأقسام الفرعية',
   'chat.online': 'متصل الآن',
   'social.follow': 'تابعنا',
@@ -244,7 +243,6 @@ export const ar = {
   'category.backTo': 'رجوع إلى {name}',
   'category.viewing': 'تتصفّحه الآن',
   'category.branches': '{count} أقسام داخله',
-  'nav.inside': 'داخل {name}',
   'cart.saved': 'وفّرت {amount}',
   'cart.beforeDiscount': 'السعر قبل الخصم',
   'cart.productDiscounts': 'خصومات المنتجات',
@@ -264,6 +262,11 @@ export const ar = {
   'guide.concentration': 'التركيز والثبات',
   'guide.tips': 'ليدوم عطرك أطول',
   'guide.hours': '{hours} ساعة',
+  'layering.addAll': 'أضف الـ{count} للسلة',
+  'layering.added': 'أُضيفت للسلة',
+  'layering.total': 'سعر المجموعة',
+  'brands.eyebrow': 'تسوّق حسب',
+  'brands.title': 'الماركة',
 } as const;
 
 export type MessageKey = keyof typeof ar;
@@ -500,7 +503,6 @@ export const en: Messages = {
   'sort.priceDesc': 'Price: high to low',
   'sort.rating': 'Top rated',
   'sort.discount': 'Biggest discount',
-  'nav.mainCategory': 'Main category',
   'nav.subcategories': 'Sub-categories',
   'chat.online': 'Online now',
   'social.follow': 'Follow',
@@ -511,7 +513,6 @@ export const en: Messages = {
   'category.backTo': 'Back to {name}',
   'category.viewing': 'Viewing',
   'category.branches': '{count} inside',
-  'nav.inside': 'Inside {name}',
   'cart.saved': 'You saved {amount}',
   'cart.beforeDiscount': 'Price before discounts',
   'cart.productDiscounts': 'Product discounts',
@@ -531,4 +532,9 @@ export const en: Messages = {
   'guide.concentration': 'Concentration and lasting power',
   'guide.tips': 'Make it last longer',
   'guide.hours': '{hours} hours',
+  'layering.addAll': 'Add all {count} to cart',
+  'layering.added': 'Added to cart',
+  'layering.total': 'Set price',
+  'brands.eyebrow': 'Shop by',
+  'brands.title': 'Brand',
 };

@@ -1,11 +1,14 @@
 import { Link } from 'react-router-dom';
 import { PostCard } from '../components/blog/PostCard';
 import { Bestsellers } from '../components/home/Bestsellers';
+import { BrandStrip } from '../components/home/BrandStrip';
 import { BudgetPicker } from '../components/home/BudgetPicker';
 import { CategoryShowcase } from '../components/home/CategoryShowcase';
 import { FaqHelp } from '../components/home/FaqHelp';
 import { InstagramFeed } from '../components/home/InstagramFeed';
 import { HeroSlider } from '../components/home/HeroSlider';
+import { LayeringSet } from '../components/home/LayeringSet';
+import { LoyaltyBand } from '../components/home/LoyaltyBand';
 import { OfferCountdown } from '../components/home/OfferCountdown';
 import { PerksStrip } from '../components/home/PerksStrip';
 import { Reels } from '../components/home/Reels';
@@ -33,7 +36,9 @@ export function HomePage() {
       <HeroSlider />
       <PerksStrip />
       <CategoryShowcase />
+      <BrandStrip />
       <Bestsellers />
+      <LayeringSet />
       <ScentFinder />
       <ScentQuiz />
       <VideoShowcase />
@@ -61,6 +66,7 @@ export function HomePage() {
       <Testimonials />
       <InstagramFeed />
       <TikTokFeed />
+      <LoyaltyBand />
       <FaqHelp />
 
       <section className="section section--flush-top">
