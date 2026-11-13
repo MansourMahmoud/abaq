@@ -27,16 +27,20 @@ import { Testimonials } from '../components/home/Testimonials';
 import { TikTokFeed } from '../components/home/TikTokFeed';
 import { VideoShowcase } from '../components/home/VideoShowcase';
 import { Reveal } from '../components/ui/Reveal';
-import { products } from '../data/catalog';
+import { findCategory, products, productsInCategory } from '../data/catalog';
 import { posts } from '../data/content';
 import { useI18n } from '../i18n/I18nProvider';
+import { useThemeSettings } from '../settings/ThemeSettings';
 
 /** Newest products first; the catalogue lists them in the order they were added. */
 const NEW_ARRIVALS = [...products].reverse().filter((product) => !product.soldOut).slice(0, 8);
 
 /** Home page: an ordered stack of sections, each a self-contained component. */
 export function HomePage() {
-  const { t } = useI18n();
+  const { t, pick } = useI18n();
+  const { home } = useThemeSettings().settings;
+  // The category is looked up at any depth, so a sub-category can feed the row too.
+  const railCategory = findCategory(home.categoryRail.categoryId);
 
   return (
     <>
@@ -60,6 +64,16 @@ export function HomePage() {
         layout="grid"
         link={{ label: t('nav.viewAll'), to: '/category/all' }}
       />
+      {railCategory && (
+        <ProductShowcase
+          eyebrow={t('rail.eyebrow')}
+          title={pick(railCategory.name)}
+          lead={railCategory.description && pick(railCategory.description)}
+          products={productsInCategory(railCategory.id).slice(0, home.categoryRail.count)}
+          layout="carousel"
+          link={{ label: t('nav.viewAll'), to: `/category/${railCategory.slug}` }}
+        />
+      )}
       <BudgetPicker />
       <Occasions />
       <Reels />

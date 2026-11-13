@@ -20,6 +20,13 @@ export interface ThemeSettings {
     topBar: boolean;
     /** Open a panel of sub-categories (with the category banner) under the navigation. */
     megaMenu: boolean;
+    /** How many top-level categories the navigation row shows; the rest go under "All categories". */
+    navItems: number;
+    /**
+     * "All categories" entry, which opens the full category drawer.
+     * auto: only when the store has more categories than the row shows · always · never
+     */
+    allCategories: 'auto' | 'always' | 'never';
   };
   announcement: {
     enabled: boolean;
@@ -46,6 +53,8 @@ export interface ThemeSettings {
     productsLayout: 'carousel' | 'grid';
     /** dots: one dot per page under the carousel · bar: a thin scrollbar */
     carouselIndicator: 'dots' | 'bar';
+    /** One-row product section fed from a single category: which category, and how many products. */
+    categoryRail: { categoryId: string; count: number };
   };
   hero: {
     /** How one slide gives way to the next. */
@@ -103,11 +112,11 @@ export interface ThemeSettings {
 }
 
 export const defaultSettings: ThemeSettings = {
-  header: { variant: 'overlay', sticky: true, logoPosition: 'start', showActionLabels: false, topBar: true, megaMenu: true },
+  header: { variant: 'overlay', sticky: true, logoPosition: 'start', showActionLabels: false, topBar: true, megaMenu: true, navItems: 5, allCategories: 'auto' },
   announcement: { enabled: true, mode: 'marquee', dismissible: true, stickWithHeader: false, showIcons: true },
   productCard: { hover: 'zoom', imageRatio: '4/5' },
   preloader: { enabled: true, background: 'blur' },
-  home: { categoriesLayout: 'carousel', productsLayout: 'carousel', carouselIndicator: 'dots' },
+  home: { categoriesLayout: 'carousel', productsLayout: 'carousel', carouselIndicator: 'dots', categoryRail: { categoryId: 'bakhoor', count: 8 } },
   hero: { effect: 'fade', autoplaySeconds: 7 },
   category: { perPage: 8, pagination: 'infinite', filters: true, inlineBanner: true, bottomBanners: 'one', showPerks: true, showReviews: true },
   cart: { banner: true, bannerHeight: 'medium', bannerWidth: 'contained' },

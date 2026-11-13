@@ -406,6 +406,16 @@ export function findCategoryPath(slug: string, tree: Category[] = categories, tr
   return null;
 }
 
+/** The category with this id, at any depth of the tree. */
+export function findCategory(id: string, tree: Category[] = categories): Category | undefined {
+  for (const category of tree) {
+    if (category.id === id) return category;
+    const nested = category.children && findCategory(id, category.children);
+    if (nested) return nested;
+  }
+  return undefined;
+}
+
 /** Discount on a product, or null when it sells at full price. */
 export function discountOf(product: Product): { percent: number; saved: number } | null {
   if (!product.compareAt || product.compareAt <= product.price) return null;

@@ -10,8 +10,6 @@ import { CategoryDrawer } from './CategoryDrawer';
 import { MegaMenu } from './MegaMenu';
 import { SearchDialog } from './SearchDialog';
 
-/** Top-level categories shown in the navigation row; the rest open from the drawer. */
-const NAV_ITEMS = 5;
 /** Grace period before the panel closes once the pointer leaves it. */
 const MENU_CLOSE_DELAY_MS = 260;
 /** How long the pointer must rest on a category before its panel opens or replaces another. */
@@ -71,6 +69,7 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
     closeTimer.current = window.setTimeout(() => setMenu(null), MENU_CLOSE_DELAY_MS);
   };
 
+  const showAllCategories = header.allCategories === 'always' || (header.allCategories === 'auto' && categories.length > header.navItems);
   const menuCategory = header.megaMenu ? categories.find((category) => category.id === menu && category.children?.length) : undefined;
 
   // Navigating anywhere closes every panel the header owns.
@@ -132,7 +131,7 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
           <NavLink className="header__nav-link" to="/" end>
             {t('nav.home')}
           </NavLink>
-          {categories.slice(0, NAV_ITEMS).map((category) => {
+          {categories.slice(0, header.navItems).map((category) => {
             const hasMenu = header.megaMenu && Boolean(category.children?.length);
             const open = menu === category.id;
             return (
@@ -152,8 +151,8 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
               </div>
             );
           })}
-          {/* Categories beyond the first few live in the drawer. */}
-          {categories.length > NAV_ITEMS && (
+          {/* Opens the drawer, which lists every category however many there are. */}
+          {showAllCategories && (
             <button type="button" className="header__nav-link header__nav-more" onClick={() => {
                 closeMenu();
                 setDrawerOpen(true);

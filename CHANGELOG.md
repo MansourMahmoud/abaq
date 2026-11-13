@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.2
+
+- One-row product section fed from a chosen category, with a product count
+- Navigation: number of categories shown and when "All categories" appears are settings
+
 ## 0.9.1
 
 - Notes section explains each stage, when it appears and what the two meters mean

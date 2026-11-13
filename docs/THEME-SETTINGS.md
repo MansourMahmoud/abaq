@@ -13,6 +13,8 @@ and maps to one setting in the Salla theme's `twilight.json`.
 | `header.showActionLabels` | on / off | off |
 | `header.topBar` | on / off: social accounts, phone, email | on |
 | `header.megaMenu` | on / off: sub-category panel with banner | on |
+| `header.navItems` | number of categories in the navigation row | 5 |
+| `header.allCategories` | `auto` (only when there are more categories than the row shows), `always`, `never` | `auto` |
 
 ## Announcement bar
 
@@ -41,6 +43,8 @@ code or opens a link (`data/content.ts`, `announcements`).
 | `home.categoriesLayout` | `carousel`, `grid` | `carousel` |
 | `home.productsLayout` | `carousel`, `grid` | `carousel` |
 | `home.carouselIndicator` | `dots`, `bar` | `dots` |
+| `home.categoryRail.categoryId` | any category or sub-category | `bakhoor` |
+| `home.categoryRail.count` | number of products in the row | 8 |
 
 ## Product card
 

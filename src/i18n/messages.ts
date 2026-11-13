@@ -332,6 +332,7 @@ export const ar = {
   'product.topHint': 'أول ما تشمّه عند الرشّ، ثم يهدأ سريعاً.',
   'product.heartHint': 'شخصية العطر التي ترافقك معظم اليوم.',
   'product.baseHint': 'ما يبقى على البشرة والملابس في النهاية.',
+  'rail.eyebrow': 'من مجموعاتنا',
 } as const;
 
 export type MessageKey = keyof typeof ar;
@@ -667,4 +668,5 @@ export const en: Messages = {
   'product.topHint': 'What you smell on spraying; it fades quickly.',
   'product.heartHint': 'The character of the scent, with you most of the day.',
   'product.baseHint': 'What stays on skin and clothes at the end.',
+  'rail.eyebrow': 'From our collections',
 };
