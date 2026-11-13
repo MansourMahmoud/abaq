@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties, type MouseEvent } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { LuBadgeCheck, LuGift, LuHeart, LuMinus, LuPlay, LuPlus, LuRefreshCw, LuTestTubeDiagonal, LuTruck } from 'react-icons/lu';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { LuBadgeCheck, LuGift, LuHeart, LuMinus, LuPlay, LuPlus, LuRefreshCw, LuTestTubeDiagonal, LuTruck, LuZap } from 'react-icons/lu';
 import type { IconType } from 'react-icons';
 import { RecentlyViewed } from '../components/home/RecentlyViewed';
 import { ProductRail } from '../components/product/ProductRail';
@@ -33,6 +33,7 @@ export function ProductPage() {
   const { slug = '' } = useParams();
   const { t, pick, money, number } = useI18n();
   const { add } = useCart();
+  const navigate = useNavigate();
   const product = findProduct(slug);
 
   const [media, setMedia] = useState(0);
@@ -173,6 +174,19 @@ export function ProductPage() {
               </button>
             </div>
 
+            {!product.soldOut && (
+              <button
+                className="button button--ghost w-full"
+                type="button"
+                onClick={() => {
+                  addToCart();
+                  navigate('/cart');
+                }}
+              >
+                <LuZap aria-hidden /> {t('action.buyNow')}
+              </button>
+            )}
+
             <ul className="perks">
               {PERKS.map(({ key, Icon }) => (
                 <li key={key}>
@@ -203,24 +217,39 @@ export function ProductPage() {
             <div className="pyramid-layout__intro">
               <p className="eyebrow">{t('product.notesEyebrow')}</p>
               <h2 className="section__title">{t('product.notesTitle')}</h2>
-              {([['product.longevity', details.longevity], ['product.sillage', details.sillage]] as const).map(
-                ([key, value]) =>
+              <p className="text-soft">{t('product.notesLead')}</p>
+              {([['product.longevity', 'product.longevityHint', details.longevity], ['product.sillage', 'product.sillageHint', details.sillage]] as const).map(
+                ([key, hint, value]) =>
                   value !== undefined && (
                     <div key={key} className="meter">
-                      <span>{t(key)}</span>
-                      <span className="meter__bar" role="img" aria-label={`${number(value)} / ${number(5)}`}>
+                      <p>
+                        <strong>{t(key)}</strong>
+                        <span>{t('product.outOfFive', { value: number(value) })}</span>
+                      </p>
+                      <span className="meter__bar" role="img" aria-label={t('product.outOfFive', { value: number(value) })}>
                         {Array.from({ length: 5 }, (_, index) => (
                           <span key={index} data-on={index < value} />
                         ))}
                       </span>
+                      <small>{t(hint)}</small>
                     </div>
                   ),
               )}
             </div>
+            {/* Three stages, narrowest first: the shape of the pyramid follows how long each lasts. */}
             <ol className="pyramid">
-              <li><small>{t('product.top')}</small>{pick(details.pyramid.top)}</li>
-              <li><small>{t('product.heart')}</small>{pick(details.pyramid.heart)}</li>
-              <li><small>{t('product.base')}</small>{pick(details.pyramid.base)}</li>
+              {([['top', details.pyramid.top], ['heart', details.pyramid.heart], ['base', details.pyramid.base]] as const).map(([stage, notes], index) => (
+                <li key={stage}>
+                  <span className="pyramid__step">{number(index + 1)}</span>
+                  <span className="pyramid__text">
+                    <span className="pyramid__when">
+                      <strong>{t(`product.${stage}`)}</strong> · {t(`product.${stage}When`)}
+                    </span>
+                    <span className="pyramid__notes">{pick(notes)}</span>
+                    <small>{t(`product.${stage}Hint`)}</small>
+                  </span>
+                </li>
+              ))}
             </ol>
           </div>
         </section>
@@ -255,9 +284,7 @@ export function ProductPage() {
         </div>
       </section>
 
-      <div className="pt-[var(--section-gap)]">
-        <RecentlyViewed excludeId={product.id} />
-      </div>
+      <RecentlyViewed excludeId={product.id} />
 
       {/* Phones: the add-to-cart action stays reachable while scrolling. */}
       <div className="sticky-buy">

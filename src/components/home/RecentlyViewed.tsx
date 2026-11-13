@@ -20,7 +20,7 @@ export function RecentlyViewed({ excludeId }: RecentlyViewedProps) {
   if (items.length === 0) return null;
 
   return (
-    <section className="section section--flush-top">
+    <section className="section">
       <div className="container">
         <div className="section__head">
           <div>

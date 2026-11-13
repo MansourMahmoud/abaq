@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { LuCheck, LuCopy, LuPercent, LuX } from 'react-icons/lu';
 import { welcomeOffer } from '../../data/home';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -7,11 +7,12 @@ import { useThemeSettings } from '../../settings/ThemeSettings';
 
 const SESSION_KEY = 'abaq:coupon-tab';
 const COPIED_MS = 2200;
+const HOVER_INTENT_MS = 450;
 
 /**
  * Discount ticket tucked against the edge of the screen, opposite the chat
- * button. Only its stub shows; hovering or focusing slides the whole ticket
- * out, and pressing it copies the code. On touch screens the first tap slides
+ * button. Only a narrow stub shows; resting the pointer on it (or focusing it)
+ * slides the whole ticket out, and pressing it copies the code. On touch screens the first tap slides
  * it out and the second copies. It can be dismissed for the rest of the visit.
  */
 export function CouponTab() {
@@ -29,6 +30,19 @@ export function CouponTab() {
       setDismissed(false);
     }
   }, []);
+
+  const rest = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(rest.current), []);
+
+  /** Slides out only after the pointer has stayed on the stub, not when it merely passes the edge. */
+  const openOnRest = () => {
+    window.clearTimeout(rest.current);
+    rest.current = window.setTimeout(() => setOpen(true), HOVER_INTENT_MS);
+  };
+  const closeNow = () => {
+    window.clearTimeout(rest.current);
+    setOpen(false);
+  };
 
   if (!floating.coupon || dismissed) return null;
 
@@ -50,7 +64,7 @@ export function CouponTab() {
   };
 
   return (
-    <aside className="coupon-tab" data-open={open} data-side={floating.side === 'right' ? 'left' : 'right'} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+    <aside className="coupon-tab" data-open={open} data-side={floating.side === 'right' ? 'left' : 'right'} onMouseEnter={openOnRest} onMouseLeave={closeNow}>
       <button className="coupon-tab__ticket" type="button" aria-label={`${t('announcement.copy')}: ${welcomeOffer.code}`} aria-expanded={open} onClick={() => void press()} onFocus={() => setOpen(true)} onBlur={() => setOpen(false)}>
         <span className="coupon-tab__body">
           <small>{t('coupon.label', { percent: number(welcomeOffer.percent) })}</small>

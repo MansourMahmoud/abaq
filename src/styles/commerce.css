@@ -284,8 +284,26 @@
 
 .meter {
   display: grid;
-  gap: 8px;
+  gap: 6px;
+  margin-block-start: 18px;
+}
+
+.meter p {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.meter p span {
+  color: var(--c-accent);
+  font-size: var(--fs-sm);
   font-weight: 600;
+}
+
+.meter small {
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
 }
 
 .meter__bar {
@@ -296,7 +314,7 @@
 
 .meter__bar span {
   height: 8px;
-  border-radius: 4px;
+  border-radius: var(--radius-pill);
   background: var(--c-line);
 }
 
@@ -304,50 +322,87 @@
   background: var(--c-accent);
 }
 
+/*
+ * The three stages as a stepped pyramid: each row is wider than the one
+ * above, as each stage lasts longer than the one before. Rows are centred
+ * and tinted progressively; text is always dark on light.
+ */
 .pyramid {
   display: grid;
-  gap: 8px;
   justify-items: center;
+  gap: 10px;
 }
 
 .pyramid li {
-  display: grid;
-  place-content: center;
-  justify-items: center;
-  gap: 2px;
-  min-height: 112px;
-  padding: 12px 14%;
-  font-weight: 600;
-  text-align: center;
-}
-
-.pyramid small {
-  font-size: var(--fs-xs);
-  font-weight: 400;
-  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--radius-md);
+  background: var(--c-bg);
 }
 
 .pyramid li:nth-child(1) {
-  width: 52%;
-  background: var(--c-line);
-  clip-path: polygon(22% 0, 78% 0, 100% 100%, 0 100%);
-}
-
-.pyramid li:nth-child(1) small {
-  color: var(--c-accent);
+  max-width: 68%;
 }
 
 .pyramid li:nth-child(2) {
-  width: 76%;
-  background: #5a4630;
-  clip-path: polygon(9% 0, 91% 0, 100% 100%, 0 100%);
+  max-width: 84%;
+  background: color-mix(in srgb, var(--c-accent) 8%, var(--c-surface));
 }
 
 .pyramid li:nth-child(3) {
-  width: 100%;
+  background: color-mix(in srgb, var(--c-accent) 16%, var(--c-surface));
+}
+
+@media (max-width: 640px) {
+  .pyramid li:nth-child(n) {
+    max-width: none;
+  }
+}
+
+.pyramid__step {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
   background: var(--c-accent);
   color: var(--c-on-accent);
-  clip-path: polygon(6% 0, 94% 0, 100% 100%, 0 100%);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.pyramid__text {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  line-height: 1.5;
+}
+
+.pyramid__when {
+  color: var(--c-text-soft);
+  font-size: var(--fs-sm);
+}
+
+.pyramid__when strong {
+  color: var(--c-accent);
+}
+
+.pyramid__notes {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: var(--lh-display);
+}
+
+.pyramid small {
+  color: var(--c-text-muted);
+  font-size: var(--fs-sm);
 }
 
 /* Description / reviews */

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.9.1
+
+- Notes section explains each stage, when it appears and what the two meters mean
+- Buy now on the product page
+- Coupon ticket opens only when the pointer rests on its stub; narrower stub
+
 ## 0.9.0
 
 - Hero product section with options, quantity, add to cart and buy now

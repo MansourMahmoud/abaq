@@ -752,7 +752,7 @@
 /* ---------- Coupon ticket on the screen edge ---------- */
 
 .coupon-tab {
-  --stub: 42px;
+  --stub: 30px;
   --body: 190px;
   position: fixed;
   inset-block-start: 50%;
@@ -865,7 +865,7 @@
 }
 
 .coupon-tab__stub svg {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
 }
 
 /* Dismiss button, shown once the ticket is out. */
@@ -902,7 +902,7 @@
 
 @media (max-width: 600px) {
   .coupon-tab {
-    --stub: 34px;
+    --stub: 26px;
     --body: 170px;
   }
 
