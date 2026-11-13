@@ -293,9 +293,12 @@ export const ar = {
   'recent.title': 'شاهدتها مؤخراً',
   'guide.shop': 'تسوّق {name}',
   'guide.starter': 'ابدأ بالتجربة',
-  'nav.moreCategories': '+{count} أقسام أخرى',
   'nav.more': 'كل الأقسام',
   'category.none': 'لا منتجات بعد',
+  'nav.insideCount': 'داخل {name}: {count} أقسام',
+  'nav.topIn': 'الأكثر طلباً في {name}',
+  'reels.watch': 'شاهد',
+  'notes.shop': 'تسوّق النوتة',
 } as const;
 
 export type MessageKey = keyof typeof ar;
@@ -592,7 +595,10 @@ export const en: Messages = {
   'recent.title': 'Recently viewed',
   'guide.shop': 'Shop {name}',
   'guide.starter': 'Start by trying',
-  'nav.moreCategories': '+{count} more categories',
   'nav.more': 'All categories',
   'category.none': 'No products yet',
+  'nav.insideCount': 'Inside {name}: {count} sections',
+  'nav.topIn': 'Most wanted in {name}',
+  'reels.watch': 'Watch',
+  'notes.shop': 'Shop the note',
 };

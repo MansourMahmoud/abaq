@@ -1,88 +1,143 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { LuArrowLeft, LuArrowRight } from 'react-icons/lu';
+import { LuArrowLeft, LuArrowRight, LuChevronLeft, LuChevronRight } from 'react-icons/lu';
 import { productsInCategory, type Category } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
 import { Picture } from '../ui/Picture';
 
-/**
- * Dropdown panel for one top-level category, laid out as a classic mega menu:
- * one column per sub-category (photo, name, product count as the column
- * heading; its own children as a plain list underneath), the category banner
- * on the side, and a footer row with the link to the whole category.
- *
- * The panel is a descendant of the navigation item, so hover and keyboard
- * focus keep it open without any script (see `.header__nav-item` styles).
- */
-/*
- * The panel stays a fixed, readable size however large the tree is: at most
- * this many sub-categories, each with this many of its children. The rest is
- * one click away through the "view all" links (the listing page shows every
- * sub-category in a row that scrolls).
- */
-const MAX_COLUMNS = 8;
-const MAX_LEAVES = 4;
-/** With many columns, each lists fewer children so the panel stays short. */
-const MAX_LEAVES_DENSE = 3;
+interface MegaMenuProps {
+  category: Category;
+  /** Called when a link is chosen, so the header can close the panel. */
+  onNavigate: () => void;
+}
 
-export function MegaMenu({ category }: { category: Category }) {
-  const { t, pick, number, dir } = useI18n();
+/** Products previewed for the hovered sub-category. */
+const PREVIEW_PRODUCTS = 4;
+
+/**
+ * Sub-category panel for one top-level category, using the full width of the
+ * header. It has three parts:
+ *
+ * 1. a list of the sub-categories, which scrolls on its own, so it holds any
+ *    number of them;
+ * 2. the content of whichever sub-category is hovered or focused: its own
+ *    children as photo cards when it branches further, then a few of its
+ *    products;
+ * 3. the category banner.
+ */
+export function MegaMenu({ category, onNavigate }: MegaMenuProps) {
+  const { t, pick, number, money, dir } = useI18n();
+  const children = category.children ?? [];
+  const [activeId, setActiveId] = useState(children[0]?.id);
+  const active = children.find((child) => child.id === activeId) ?? children[0];
   const Arrow = dir === 'rtl' ? LuArrowLeft : LuArrowRight;
-  const all = category.children ?? [];
-  const children = all.slice(0, MAX_COLUMNS);
+  const Chevron = dir === 'rtl' ? LuChevronLeft : LuChevronRight;
+
+  if (!active) return null;
+  const branches = active.children ?? [];
+  const products = productsInCategory(active.id).slice(0, PREVIEW_PRODUCTS);
 
   return (
     <div className="mega">
-      <div className="scope-light mega__panel overflow-hidden rounded-lg border border-line bg-surface shadow-[0_24px_60px_rgb(29_26_23/0.16)]">
-        <div className="mega__body grid gap-8 p-6 lg:grid-cols-[minmax(0,1fr)_230px]">
-          <ul className={`grid content-start gap-x-6 gap-y-6 ${children.length > 6 ? 'sm:grid-cols-4' : 'sm:grid-cols-3'}`}>
-            {children.map((child) => (
-              <li key={child.id} className="min-w-0">
-                <Link to={`/category/${child.slug}`} className="group/head flex items-center gap-3 border-b border-line pb-3">
-                  <span className="h-12 w-12 shrink-0 overflow-hidden rounded-pill border border-line transition-colors duration-500 group-hover/head:border-accent">
-                    <Picture photo={child.photo} alt="" sizes="48px" />
-                  </span>
-                  <span className="grid min-w-0 leading-snug">
-                    <strong className="line-clamp-2 font-display text-lg leading-snug transition-colors duration-300 group-hover/head:text-accent" title={pick(child.name)}>
-                      {pick(child.name)}
-                    </strong>
-                    <span className="text-xs text-muted">{t('category.count', { count: number(productsInCategory(child.id).length) })}</span>
-                  </span>
-                </Link>
-                <ul className="mt-2 grid gap-0.5 text-[0.92rem]">
-                  {(child.children ?? []).slice(0, children.length > 6 ? MAX_LEAVES_DENSE : MAX_LEAVES).map((leaf) => (
+      <div className="scope-light overflow-hidden rounded-lg border border-line bg-surface shadow-[0_24px_60px_rgb(29_26_23/0.16)]">
+        <div className="grid lg:grid-cols-[250px_minmax(0,1fr)_260px]">
+          {/* 1. Sub-categories */}
+          <div className="border-e border-line bg-raise p-3">
+            <p className="px-3 pb-2 pt-1 text-xs text-muted">
+              {t('nav.subcategories')} · {number(children.length)}
+            </p>
+            <ul className="mega__list grid gap-0.5">
+              {children.map((child) => {
+                const current = child.id === active.id;
+                return (
+                  <li key={child.id}>
+                    <Link
+                      to={`/category/${child.slug}`}
+                      onClick={onNavigate}
+                      onMouseEnter={() => setActiveId(child.id)}
+                      onFocus={() => setActiveId(child.id)}
+                      className={`flex items-center gap-3 rounded-md px-3 py-2 transition-colors duration-300 ${current ? 'bg-surface text-accent shadow-[var(--shadow-card)]' : 'hover:bg-surface'}`}
+                    >
+                      <span className="h-9 w-9 shrink-0 overflow-hidden rounded-pill border border-line">
+                        <Picture photo={child.photo} alt="" sizes="36px" />
+                      </span>
+                      <span className="min-w-0 flex-1 truncate font-semibold">{pick(child.name)}</span>
+                      {child.children?.length ? <Chevron className="shrink-0 text-muted" aria-hidden /> : null}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          {/* 2. The hovered sub-category */}
+          <div className="mega__content min-w-0 p-6">
+            <div className="mb-4 flex items-end justify-between gap-4 border-b border-line pb-4">
+              <p className="grid min-w-0 leading-snug">
+                <strong className="truncate font-display text-2xl">{pick(active.name)}</strong>
+                <span className="truncate text-sm text-muted">{active.tagline ? pick(active.tagline) : t('category.count', { count: number(productsInCategory(active.id).length) })}</span>
+              </p>
+              <Link to={`/category/${active.slug}`} onClick={onNavigate} className="inline-flex shrink-0 items-center gap-2 rounded-pill border border-accent px-4 py-1.5 text-sm font-semibold text-accent transition-colors duration-300 hover:bg-accent hover:text-on-accent">
+                {t('category.all')} <Arrow aria-hidden />
+              </Link>
+            </div>
+
+            {branches.length > 0 && (
+              <div className="mb-5">
+                <p className="mb-3 text-xs text-muted">{t('nav.insideCount', { name: pick(active.name), count: number(branches.length) })}</p>
+                <ul className="grid grid-cols-2 gap-3 xl:grid-cols-3">
+                  {branches.map((leaf) => (
                     <li key={leaf.id}>
-                      <Link to={`/category/${leaf.slug}`} className="mega__leaf" title={pick(leaf.name)}>
-                        {pick(leaf.name)}
+                      <Link to={`/category/${leaf.slug}`} onClick={onNavigate} className="group flex items-center gap-3 rounded-md border border-line p-2 transition-colors duration-300 hover:border-accent hover:bg-raise">
+                        <span className="media-zoom h-16 w-16 shrink-0 rounded-sm">
+                          <Picture photo={leaf.photo} alt="" sizes="64px" />
+                        </span>
+                        <span className="grid min-w-0 leading-snug">
+                          <strong className="truncate transition-colors duration-300 group-hover:text-accent">{pick(leaf.name)}</strong>
+                          <span className="line-clamp-2 text-xs text-muted">{leaf.tagline ? pick(leaf.tagline) : t('category.count', { count: number(productsInCategory(leaf.id).length) })}</span>
+                        </span>
                       </Link>
                     </li>
                   ))}
-                  {(child.children?.length ?? 0) > 0 && (
-                    <li>
-                      <Link to={`/category/${child.slug}`} className="mega__leaf text-muted">
-                        {t('category.all')}
+                </ul>
+              </div>
+            )}
+            {products.length > 0 && (
+              <div>
+                <p className="mb-3 text-xs text-muted">{t('nav.topIn', { name: pick(active.name) })}</p>
+                <ul className="grid grid-cols-2 gap-3">
+                  {products.map((product) => (
+                    <li key={product.id}>
+                      <Link to={`/product/${product.slug}`} onClick={onNavigate} className="group flex items-center gap-3 rounded-md border border-line p-2 transition-colors duration-300 hover:border-accent hover:bg-raise">
+                        <span className="h-16 w-14 shrink-0 overflow-hidden rounded-sm bg-raise">
+                          <Picture photo={product.photos[0]} alt="" sizes="56px" />
+                        </span>
+                        <span className="grid min-w-0 leading-snug">
+                          <strong className="truncate transition-colors duration-300 group-hover:text-accent">{pick(product.name)}</strong>
+                          <span className="truncate text-xs text-muted">{pick(product.notes)}</span>
+                          <span className="text-sm font-semibold tabular-nums">{money(product.price)}</span>
+                        </span>
                       </Link>
                     </li>
-                  )}
+                  ))}
                 </ul>
-              </li>
-            ))}
-          </ul>
+              </div>
+            )}
+            {branches.length === 0 && products.length === 0 && <p className="py-8 text-center text-muted">{t('category.none')}</p>}
+          </div>
 
-          <Link to={`/category/${category.slug}`} className="scope-dark media-zoom relative hidden aspect-[4/5] min-w-0 self-start rounded-md lg:block">
+          {/* 3. Category banner */}
+          <Link to={`/category/${category.slug}`} onClick={onNavigate} className="scope-dark media-zoom relative hidden min-h-[260px] text-white lg:block">
             <span className="absolute inset-0">
-              <Picture photo={category.banner?.photo ?? category.photo} alt="" sizes="250px" />
+              <Picture photo={category.banner?.photo ?? category.photo} alt="" sizes="260px" />
             </span>
-            <span className="absolute inset-0 flex flex-col justify-end gap-1 bg-gradient-to-t from-black/85 to-transparent p-4 text-white">
-              {category.tagline && <span className="text-xs text-[#d4af72]">{pick(category.tagline)}</span>}
-              <span className="font-display text-xl font-bold leading-snug">{pick(category.banner?.title ?? category.name)}</span>
+            <span className="absolute inset-0 flex flex-col justify-end gap-1 bg-gradient-to-t from-black/85 via-black/20 to-transparent p-5">
+              <span className="text-xs text-[#d4af72]">{pick(category.name)}</span>
+              <span className="font-display text-2xl font-bold leading-snug">{pick(category.banner?.title ?? category.name)}</span>
+              <span className="mt-1 inline-flex items-center gap-2 text-sm">
+                {t('nav.viewAllIn', { name: pick(category.name) })} <Arrow aria-hidden />
+              </span>
             </span>
-          </Link>
-        </div>
-
-        <div className="flex items-center justify-between gap-4 border-t border-line bg-raise px-6 py-3 text-sm">
-          <span className="min-w-0 truncate text-muted">{category.description ? pick(category.description) : ''}</span>
-          <Link to={`/category/${category.slug}`} className="inline-flex shrink-0 items-center gap-2 font-semibold text-accent transition-opacity duration-300 hover:opacity-70">
-            {all.length > children.length ? t('nav.moreCategories', { count: number(all.length - children.length) }) : t('nav.viewAllIn', { name: pick(category.name) })} <Arrow aria-hidden />
           </Link>
         </div>
       </div>

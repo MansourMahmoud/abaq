@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0
+
+- Header menu rebuilt: full-width panel with a scrolling sub-category list, hover content (nested sections or products) and banner; closes on leave, Escape, link click and navigation
+- Oud oil now has ten sub-categories, three of them nested, as a real example
+- Reels, occasions and shop-by-note sections redesigned
+
 ## 0.6.1
 
 - Tested with 20 sub-categories, nested levels, very long names and six-figure prices

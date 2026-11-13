@@ -528,41 +528,41 @@
   transition: transform var(--t-fast) var(--ease);
 }
 
-.header__nav-item:hover .header__nav-caret,
-.header__nav-item:focus-within .header__nav-caret {
-  transform: rotate(180deg);
+/* The panel hangs under the header and spans its content width. */
+.header__mega {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  z-index: 5;
+  display: none;
 }
 
-/*
- * Centred under the navigation, which is itself centred in the header. Its
- * top padding bridges the gap to the link so the pointer can cross it.
- */
-.header__nav {
-  position: relative;
+@media (min-width: 1200px) {
+  .header__mega {
+    display: block;
+  }
 }
 
 .mega {
-  position: absolute;
-  inset-block-start: 100%;
-  left: 50%;
-  z-index: 5;
-  width: min(940px, calc(100vw - 2 * var(--gutter) - 200px));
-  padding-block-start: 10px;
-  visibility: hidden;
-  opacity: 0;
-  transform: translate(-50%, 8px);
-  transition:
-    opacity var(--t-fast) var(--ease),
-    transform var(--t-fast) var(--ease),
-    visibility 0s linear var(--t-fast);
+  /* Pulled up slightly so the pointer can travel from the link to the panel. */
+  margin-block-start: -10px;
+  padding-block-start: 6px;
+  animation: mega-in var(--t-fast) var(--ease);
 }
 
-.header__nav-item:hover .mega,
-.header__nav-item:focus-within .mega {
-  visibility: visible;
-  opacity: 1;
-  transform: translate(-50%, 0);
-  transition-delay: 0s;
+@keyframes mega-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.header__nav-link[data-open='true'] .header__nav-caret {
+  transform: rotate(180deg);
+}
+
+.header__nav-link[data-open='true']:not(.active) {
+  color: var(--c-accent);
 }
 
 .search-dialog {
@@ -753,48 +753,16 @@
   color: var(--c-accent);
 }
 
-/* Links in a mega-menu column: a short accent rule slides in on hover. */
-.mega__leaf {
-  position: relative;
-  display: block;
-  padding: 6px 0;
-  color: var(--c-text-soft);
-  transition:
-    color var(--t-fast) var(--ease),
-    padding var(--t-fast) var(--ease);
-}
-
-.mega__leaf::before {
-  content: '';
-  position: absolute;
-  inset-block-start: 50%;
-  inset-inline-start: 0;
-  width: 0;
-  height: 1px;
-  background: var(--c-accent);
-  transition: width var(--t-fast) var(--ease);
-}
-
-.mega__leaf:hover {
-  padding-inline-start: 18px;
-  color: var(--c-accent);
-}
-
-.mega__leaf:hover::before {
-  width: 12px;
-}
-
-/* However many sub-categories there are, the panel never grows past the screen. */
-.mega__body {
-  max-height: min(560px, calc(100vh - 260px));
+/* Sub-category list: scrolls on its own when it is longer than the panel. */
+.mega__list {
+  max-height: min(430px, calc(100vh - 300px));
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
-/* One line per link; the full name is in its tooltip. */
-.mega__leaf {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.mega__content {
+  max-height: min(430px, calc(100vh - 300px));
+  overflow-y: auto;
 }
 
 .header__nav-more {

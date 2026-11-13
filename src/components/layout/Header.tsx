@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import { LuChevronDown, LuGlobe, LuHeart, LuMenu, LuSearch, LuShoppingBag, LuUser } from 'react-icons/lu';
 import { categories } from '../../data/catalog';
 import { useI18n } from '../../i18n/I18nProvider';
@@ -12,6 +12,8 @@ import { SearchDialog } from './SearchDialog';
 
 /** Top-level categories shown in the navigation row; the rest open from the drawer. */
 const NAV_ITEMS = 5;
+/** Grace period before the panel closes once the pointer leaves it. */
+const MENU_CLOSE_DELAY_MS = 180;
 
 interface HeaderProps {
   /** True on pages that open with a full-bleed hero the header may sit on. */
@@ -34,13 +36,52 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
+  const [menu, setMenu] = useState<string | null>(null);
+  const closeTimer = useRef<number | undefined>(undefined);
+  const { pathname, search } = useLocation();
   const { scrolled, goingDown } = useScrollState();
+
+  /*
+   * The sub-category panel is opened by hover or keyboard focus and closed by
+   * leaving it (after a short grace period, so the pointer can cross the gap),
+   * by Escape, by choosing a link, and whenever the page changes.
+   */
+  const openMenu = (id: string) => {
+    window.clearTimeout(closeTimer.current);
+    setMenu(id);
+  };
+  const closeMenu = () => {
+    window.clearTimeout(closeTimer.current);
+    setMenu(null);
+  };
+  const scheduleClose = () => {
+    window.clearTimeout(closeTimer.current);
+    closeTimer.current = window.setTimeout(() => setMenu(null), MENU_CLOSE_DELAY_MS);
+  };
+
+  const menuCategory = header.megaMenu ? categories.find((category) => category.id === menu && category.children?.length) : undefined;
+
+  // Navigating anywhere closes every panel the header owns.
+  useEffect(() => {
+    setMenu(null);
+    setDrawerOpen(false);
+    setSearchOpen(false);
+  }, [pathname, search]);
+
+  useEffect(() => {
+    if (!menu) return;
+    const onKey = (event: KeyboardEvent) => event.key === 'Escape' && setMenu(null);
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [menu]);
+
+  useEffect(() => () => window.clearTimeout(closeTimer.current), []);
 
   // Over the hero the header is transparent until the page scrolls, then it turns solid.
   const overlaysHero = overHero && header.variant !== 'classic';
   const floats = overlaysHero && !scrolled;
   // A sticky header slides away while scrolling down, unless one of its panels is open.
-  const hidden = header.sticky && goingDown && !drawerOpen && !searchOpen;
+  const hidden = header.sticky && goingDown && !drawerOpen && !searchOpen && !menu;
 
   return (
     <header
@@ -73,18 +114,33 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
           <NavLink className="header__nav-link" to="/" end>
             {t('nav.home')}
           </NavLink>
-          {categories.slice(0, NAV_ITEMS).map((category) => (
-            <div key={category.id} className="header__nav-item">
-              <NavLink className="header__nav-link" to={`/category/${category.slug}`} aria-haspopup={header.megaMenu && category.children ? 'true' : undefined}>
-                {pick(category.name)}
-                {header.megaMenu && category.children && <LuChevronDown className="header__nav-caret" aria-hidden />}
-              </NavLink>
-              {header.megaMenu && category.children && <MegaMenu category={category} />}
-            </div>
-          ))}
+          {categories.slice(0, NAV_ITEMS).map((category) => {
+            const hasMenu = header.megaMenu && Boolean(category.children?.length);
+            const open = menu === category.id;
+            return (
+              <div key={category.id} className="header__nav-item" onMouseEnter={hasMenu ? () => openMenu(category.id) : undefined} onMouseLeave={hasMenu ? scheduleClose : undefined}>
+                <NavLink
+                  className="header__nav-link"
+                  to={`/category/${category.slug}`}
+                  aria-haspopup={hasMenu ? 'true' : undefined}
+                  aria-expanded={hasMenu ? open : undefined}
+                  data-open={open}
+                  onFocus={hasMenu ? () => openMenu(category.id) : undefined}
+                  onClick={closeMenu}
+                >
+                  {pick(category.name)}
+                  {hasMenu && <LuChevronDown className="header__nav-caret" aria-hidden />}
+                </NavLink>
+              </div>
+            );
+          })}
           {/* Categories beyond the first few live in the drawer. */}
           {categories.length > NAV_ITEMS && (
-            <button type="button" className="header__nav-link header__nav-more" onClick={() => setDrawerOpen(true)}>
+            <button type="button" className="header__nav-link header__nav-more" onClick={() => {
+                closeMenu();
+                setDrawerOpen(true);
+              }}
+            >
               {t('nav.more')} <LuChevronDown className="header__nav-caret" aria-hidden />
             </button>
           )}
@@ -112,6 +168,17 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
           </Link>
         </div>
       </div>
+
+      {/*
+       * The panel is a child of the header row, not of the navigation pill: the
+       * pill has a backdrop filter, which would confine an absolutely placed
+       * child to its own width. Hovering the panel keeps it open.
+       */}
+      {menuCategory && (
+        <div className="container header__mega" onMouseEnter={() => openMenu(menuCategory.id)} onMouseLeave={scheduleClose}>
+          <MegaMenu key={menuCategory.id} category={menuCategory} onNavigate={closeMenu} />
+        </div>
+      )}
 
       <CategoryDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)} onLocale={onLocale} onSearch={() => setSearchOpen(true)} cartCount={cartCount} />
       <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} />

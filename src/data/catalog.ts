@@ -94,7 +94,7 @@ export const categories: Category[] = [
     id: 'oud',
     slug: 'oud',
     name: l('دهن العود', 'Oud oil'),
-    tagline: l('هندي · كمبودي · مخلطات', 'Indian · Cambodian · blends'),
+    tagline: l('هندي · كمبودي · سيوفي · مخلطات', 'Indian · Cambodian · Seufi · blends'),
     description: l('دهن عود طبيعي بدرجات تعتيق مختلفة، بالتولة ونصف التولة وربعها.', 'Natural oud oil in several ages, sold by the tola, half and quarter.'),
     photo: 'oudOil',
     banner: { title: l('وصل حديثاً من كمبوديا', 'Just in from Cambodia'), photo: 'handsHolding' },
@@ -121,7 +121,25 @@ export const categories: Category[] = [
           { id: 'oud-cambodian-maroki', slug: 'oud-cambodian-maroki', name: l('مروكي', 'Maroki'), tagline: l('دخاني يميل للحلاوة', 'Smoky with a sweet edge'), photo: 'oudOil' },
         ],
       },
-      { id: 'oud-blends', slug: 'oud-blends', name: l('مخلطات', 'Blends'), tagline: l('عود مع ورد ومسك وصندل', 'Oud with rose, musk and sandalwood'), photo: 'rollOns' },
+      {
+        id: 'oud-blends',
+        slug: 'oud-blends',
+        name: l('مخلطات', 'Blends'),
+        tagline: l('عود مع ورد ومسك وصندل', 'Oud with rose, musk and sandalwood'),
+        photo: 'rollOns',
+        children: [
+          { id: 'oud-blends-rose', slug: 'oud-blends-rose', name: l('عود وورد', 'Oud and rose'), tagline: l('ناعم ومناسب للهدايا', 'Soft, and good for gifting'), photo: 'pinkBottle' },
+          { id: 'oud-blends-musk', slug: 'oud-blends-musk', name: l('عود ومسك', 'Oud and musk'), tagline: l('نظيف وثابت', 'Clean and lasting'), photo: 'blueBottle' },
+          { id: 'oud-blends-sandal', slug: 'oud-blends-sandal', name: l('عود وصندل', 'Oud and sandalwood'), tagline: l('كريمي ودافئ', 'Creamy and warm'), photo: 'rollOns' },
+        ],
+      },
+      { id: 'oud-seufi', slug: 'oud-seufi', name: l('سيوفي', 'Seufi'), tagline: l('أندر الدهون وأغلاها', 'The rarest and most prized'), photo: 'oudOil' },
+      { id: 'oud-trat', slug: 'oud-trat', name: l('تراط', 'Trat'), tagline: l('تايلندي حلو بلمسة فاكهية', 'Thai, sweet with a fruity touch'), photo: 'handsHolding' },
+      { id: 'oud-burmese', slug: 'oud-burmese', name: l('بورمي', 'Burmese'), tagline: l('جاف وخشبي', 'Dry and woody'), photo: 'goldBottle' },
+      { id: 'oud-kalimantan', slug: 'oud-kalimantan', name: l('كلمنتان', 'Kalimantan'), tagline: l('إندونيسي أخضر ومنعش', 'Indonesian, green and fresh'), photo: 'clearOnFur' },
+      { id: 'oud-rose-oil', slug: 'oud-rose-oil', name: l('دهن الورد', 'Rose oil'), tagline: l('ورد طائفي مركّز', 'Concentrated Taif rose'), photo: 'daisyShadows' },
+      { id: 'oud-amber-oil', slug: 'oud-amber-oil', name: l('دهن العنبر', 'Amber oil'), tagline: l('دافئ وحلو', 'Warm and sweet'), photo: 'amberTrio' },
+      { id: 'oud-musk-oil', slug: 'oud-musk-oil', name: l('دهن المسك', 'Musk oil'), tagline: l('مسك أبيض وأسود', 'White and black musk'), photo: 'monoBottle' },
     ],
   },
   {
@@ -208,22 +226,22 @@ export const products: Product[] = [
   {
     id: 'p5', brand: 'wateen', slug: 'indian-oud-oil', name: l('دهن عود هندي', 'Indian Oud Oil'), family: l('تعتيق ٥ سنوات', 'Aged 5 years'),
     notes: l('ربع تولة · نصف تولة · تولة', 'Quarter · half · full tola'), price: 850, rating: 4.9,
-    badge: l('الأكثر مبيعاً', 'Bestseller'), photos: ['oudOil', 'rollOns'], categoryIds: ['oud', 'oud-indian', 'oud-indian-aged'],
+    badge: l('الأكثر مبيعاً', 'Bestseller'), photos: ['oudOil', 'rollOns'], categoryIds: ['oud', 'oud-indian', 'oud-indian-aged', 'oud-seufi'],
   },
   {
     id: 'p6', brand: 'wateen', slug: 'cambodian-oud', name: l('عود كمبودي', 'Cambodian Oud'), family: l('تعتيق ٣ سنوات', 'Aged 3 years'),
     notes: l('ربع تولة · نصف تولة', 'Quarter · half tola'), price: 580, rating: 4.7,
-    photos: ['handsHolding', 'oudOil'], categoryIds: ['oud', 'oud-cambodian', 'oud-cambodian-pure'],
+    photos: ['handsHolding', 'oudOil'], categoryIds: ['oud', 'oud-cambodian', 'oud-cambodian-pure', 'oud-kalimantan'],
   },
   {
     id: 'p7', brand: 'wateen', slug: 'young-indian-oud', name: l('عود هندي حديث', 'Young Indian Oud'), family: l('تعتيق سنة', 'Aged 1 year'),
     notes: l('ربع تولة · نصف تولة', 'Quarter · half tola'), price: 390, rating: 4.5,
-    photos: ['rollOns', 'oudOil'], categoryIds: ['oud', 'oud-indian', 'oud-indian-young'],
+    photos: ['rollOns', 'oudOil'], categoryIds: ['oud', 'oud-indian', 'oud-indian-young', 'oud-burmese'],
   },
   {
     id: 'p8', brand: 'abaq', slug: 'royal-blend', name: l('مخلط ملكي', 'Royal Blend'), family: l('عود · ورد · مسك', 'Oud · rose · musk'),
     notes: l('نصف تولة · تولة', 'Half · full tola'), price: 440, rating: 4.6,
-    photos: ['blueBottle', 'amberTrio'], categoryIds: ['oud', 'oud-blends'],
+    photos: ['blueBottle', 'amberTrio'], categoryIds: ['oud', 'oud-blends', 'oud-blends-rose', 'oud-rose-oil'],
   },
   {
     id: 'p9', brand: 'sidra', slug: 'royal-maamoul', name: l('معمول ملكي', 'Royal Maamoul'), family: l('بخور', 'Bakhoor'),
@@ -278,12 +296,12 @@ export const products: Product[] = [
   {
     id: 'p19', brand: 'wateen', slug: 'maroki-oud', name: l('عود مروكي', 'Maroki Oud'), family: l('تعتيق ٤ سنوات', 'Aged 4 years'),
     notes: l('ربع تولة · نصف تولة · تولة', 'Quarter · half · full tola'), price: 720, rating: 4.8,
-    photos: ['oudOil', 'handsHolding'], categoryIds: ['oud', 'oud-cambodian', 'oud-cambodian-maroki'],
+    photos: ['oudOil', 'handsHolding'], categoryIds: ['oud', 'oud-cambodian', 'oud-cambodian-maroki', 'oud-trat'],
   },
   {
     id: 'p20', brand: 'dana', slug: 'sandal-attar', name: l('عطر الصندل', 'Sandal Attar'), family: l('صندل · ورد', 'Sandalwood · rose'),
     notes: l('ربع تولة · نصف تولة', 'Quarter · half tola'), price: 260, compareAt: 310, rating: 4.4,
-    photos: ['rollOns', 'blueBottle'], categoryIds: ['oud', 'oud-blends'],
+    photos: ['rollOns', 'blueBottle'], categoryIds: ['oud', 'oud-blends', 'oud-blends-sandal'],
   },
   {
     id: 'p21', brand: 'wateen', slug: 'oud-chips', name: l('كسر عود طبيعي', 'Natural Oud Chips'), family: l('بخور', 'Bakhoor'),
@@ -304,6 +322,16 @@ export const products: Product[] = [
     id: 'p24', brand: 'abaq', slug: 'duo-set', name: l('طقم الثنائي', 'The Duo Set'), family: l('هدية', 'Gift'),
     notes: l('عطران ٥٠ مل', 'Two 50 ml perfumes'), price: 520, compareAt: 600, rating: 4.7,
     photos: ['amberTrio', 'bottlesRow'], categoryIds: ['gifts'],
+  },
+  {
+    id: 'p25', brand: 'wateen', slug: 'white-musk-oil', name: l('دهن المسك الأبيض', 'White Musk Oil'), family: l('مسك', 'Musk'),
+    notes: l('ربع تولة · نصف تولة', 'Quarter · half tola'), price: 160, rating: 4.6,
+    photos: ['monoBottle', 'clearOnFur'], categoryIds: ['oud', 'oud-musk-oil', 'oud-blends', 'oud-blends-musk'],
+  },
+  {
+    id: 'p26', brand: 'wateen', slug: 'amber-oil', name: l('دهن العنبر', 'Amber Oil'), family: l('عنبر', 'Amber'),
+    notes: l('ربع تولة · نصف تولة', 'Quarter · half tola'), price: 210, compareAt: 250, rating: 4.7,
+    photos: ['amberTrio', 'rollOns'], categoryIds: ['oud', 'oud-amber-oil'],
   },
 ];
 
