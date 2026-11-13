@@ -13,7 +13,9 @@ import { SearchDialog } from './SearchDialog';
 /** Top-level categories shown in the navigation row; the rest open from the drawer. */
 const NAV_ITEMS = 5;
 /** Grace period before the panel closes once the pointer leaves it. */
-const MENU_CLOSE_DELAY_MS = 180;
+const MENU_CLOSE_DELAY_MS = 260;
+/** How long the pointer must rest on a category before its panel opens or replaces another. */
+const MENU_OPEN_DELAY_MS = 200;
 
 interface HeaderProps {
   /** True on pages that open with a full-bleed hero the header may sit on. */
@@ -38,6 +40,7 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
 
   const [menu, setMenu] = useState<string | null>(null);
   const closeTimer = useRef<number | undefined>(undefined);
+  const openTimer = useRef<number | undefined>(undefined);
   const { pathname, search } = useLocation();
   const { scrolled, goingDown } = useScrollState();
 
@@ -48,14 +51,23 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
    */
   const openMenu = (id: string) => {
     window.clearTimeout(closeTimer.current);
+    window.clearTimeout(openTimer.current);
     setMenu(id);
+  };
+  /** Opens after the pointer has rested on the link, so passing over the row opens nothing. */
+  const openMenuOnRest = (id: string) => {
+    window.clearTimeout(closeTimer.current);
+    window.clearTimeout(openTimer.current);
+    openTimer.current = window.setTimeout(() => setMenu(id), MENU_OPEN_DELAY_MS);
   };
   const closeMenu = () => {
     window.clearTimeout(closeTimer.current);
+    window.clearTimeout(openTimer.current);
     setMenu(null);
   };
   const scheduleClose = () => {
     window.clearTimeout(closeTimer.current);
+    window.clearTimeout(openTimer.current);
     closeTimer.current = window.setTimeout(() => setMenu(null), MENU_CLOSE_DELAY_MS);
   };
 
@@ -75,7 +87,13 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
     return () => window.removeEventListener('keydown', onKey);
   }, [menu]);
 
-  useEffect(() => () => window.clearTimeout(closeTimer.current), []);
+  useEffect(
+    () => () => {
+      window.clearTimeout(closeTimer.current);
+      window.clearTimeout(openTimer.current);
+    },
+    [],
+  );
 
   // Over the hero the header is transparent until the page scrolls, then it turns solid.
   const overlaysHero = overHero && header.variant !== 'classic';
@@ -118,7 +136,7 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
             const hasMenu = header.megaMenu && Boolean(category.children?.length);
             const open = menu === category.id;
             return (
-              <div key={category.id} className="header__nav-item" onMouseEnter={hasMenu ? () => openMenu(category.id) : undefined} onMouseLeave={hasMenu ? scheduleClose : undefined}>
+              <div key={category.id} className="header__nav-item" onMouseEnter={hasMenu ? () => openMenuOnRest(category.id) : scheduleClose} onMouseLeave={hasMenu ? scheduleClose : undefined}>
                 <NavLink
                   className="header__nav-link"
                   to={`/category/${category.slug}`}
@@ -176,7 +194,7 @@ export function Header({ overHero, cartCount, onLocale }: HeaderProps) {
        */}
       {menuCategory && (
         <div className="container header__mega" onMouseEnter={() => openMenu(menuCategory.id)} onMouseLeave={scheduleClose}>
-          <MegaMenu key={menuCategory.id} category={menuCategory} onNavigate={closeMenu} />
+          <MegaMenu category={menuCategory} onNavigate={closeMenu} />
         </div>
       )}
 

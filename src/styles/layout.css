@@ -547,7 +547,7 @@
   /* Pulled up slightly so the pointer can travel from the link to the panel. */
   margin-block-start: -10px;
   padding-block-start: 6px;
-  animation: mega-in var(--t-fast) var(--ease);
+  animation: mega-in var(--t-med) var(--ease);
 }
 
 @keyframes mega-in {
@@ -753,16 +753,66 @@
   color: var(--c-accent);
 }
 
-/* Sub-category list: scrolls on its own when it is longer than the panel. */
+/* Sub-category list: scrolls on its own, without a visible bar, fading at its end. */
 .mega__list {
-  max-height: min(430px, calc(100vh - 300px));
+  max-height: min(480px, calc(100vh - 290px));
+  padding-block-end: 20px;
   overflow-y: auto;
   overscroll-behavior: contain;
+  scrollbar-width: none;
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent);
 }
 
+.mega__list::-webkit-scrollbar {
+  display: none;
+}
+
+.mega__entry {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--c-text-soft);
+  transition:
+    background-color var(--t-med) var(--ease),
+    color var(--t-med) var(--ease);
+}
+
+.mega__entry[data-current='true'] {
+  background: var(--c-surface);
+  color: var(--c-accent);
+  font-weight: 600;
+}
+
+/* Fades in each time the content switches to another sub-category. */
 .mega__content {
-  max-height: min(430px, calc(100vh - 300px));
+  max-height: min(540px, calc(100vh - 230px));
   overflow-y: auto;
+  animation: mega-content 520ms var(--ease);
+}
+
+@keyframes mega-content {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Small heading with a hairline running to the edge. */
+.mega__label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-block-end: 16px;
+  color: var(--c-text-muted);
+  font-size: var(--fs-xs);
+}
+
+.mega__label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--c-line);
 }
 
 .header__nav-more {

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.7.1
+
+- Header menu opens and switches only after the pointer rests; content fades in; calmer, roomier layout
+
 ## 0.7.0
 
 - Header menu rebuilt: full-width panel with a scrolling sub-category list, hover content (nested sections or products) and banner; closes on leave, Escape, link click and navigation
