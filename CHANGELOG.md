@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.4.2
+
+- Listing pages open with a banner carousel (category, offers, top rated) and sub-category cards
+- Story section rebuilt with values, figures and a photo collage
+- TikTok section on a dark band with profile, ranking, views and likes
+- Three more clips; product photo swap waits for the pointer to settle
+
 ## 0.4.1
 
 - Category drawer rebuilt: search, account shortcuts, photo rows, landscape banner, pages and contact

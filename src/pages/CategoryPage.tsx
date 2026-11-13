@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { LuGrid2X2, LuGrid3X3, LuSlidersHorizontal, LuX } from 'react-icons/lu';
+import { CategoryHero, type CategorySlide } from '../components/category/CategoryHero';
 import { FilterPanel } from '../components/category/FilterPanel';
 import { ProductListing } from '../components/category/ProductListing';
+import { SubcategoryNav } from '../components/category/SubcategoryNav';
 import { ProductRail } from '../components/product/ProductRail';
 import { Picture } from '../components/ui/Picture';
-import { ALL_PRODUCTS, brands, categories, findCategoryPath, productsInCategory, type Category } from '../data/catalog';
+import { ALL_PRODUCTS, brands, categories, discountOf, findCategoryPath, productsInCategory, type Category } from '../data/catalog';
 import { useI18n } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/messages';
 import { SORTS, applyFilters, countFilters, readFilters, writeFilters, type Filters, type Sort } from '../lib/filters';
@@ -53,8 +55,21 @@ export function CategoryPage() {
   const parent = path.at(-2);
   const banner = [...path].reverse().find((entry) => entry.banner)?.banner;
   // A leaf category shows its siblings so the shopper can move sideways.
-  const chips = category.children ?? parent?.children ?? [];
   const chipsRoot = category.children ? category : parent;
+
+  // Banner slides: the category itself, then promotions built from its own products.
+  const onSale = all.find((product) => discountOf(product));
+  const topRated = [...all].sort((a, b) => b.rating - a.rating)[0];
+  const name = category.name;
+  const slides: CategorySlide[] = [
+    { id: 'category', photo: banner?.photo ?? category.photo, title: name, lead: category.description },
+    ...(onSale
+      ? [{ id: 'offers', photo: onSale.photos[0], eyebrow: { ar: 'عروض القسم', en: 'Category offers' }, title: { ar: `خصومات على ${name.ar}`, en: `Offers on ${name.en}` }, lead: { ar: 'أسعار مخفّضة لفترة محدودة على مختارات من هذا القسم.', en: 'Reduced prices for a limited time on picks from this category.' }, action: { label: { ar: 'تسوّق العروض', en: 'Shop the offers' }, to: `/category/${category.slug}?sale=1` } }]
+      : []),
+    ...(topRated
+      ? [{ id: 'top', photo: topRated.photos[1] ?? topRated.photos[0], eyebrow: { ar: 'اختيار العملاء', en: 'Customers’ choice' }, title: { ar: `الأعلى تقييماً في ${name.ar}`, en: `Top rated in ${name.en}` }, lead: { ar: 'ما يعود إليه عملاؤنا مرة بعد مرة.', en: 'What our customers come back to, time after time.' }, action: { label: { ar: 'شاهد الأعلى تقييماً', en: 'See the top rated' }, to: `/category/${category.slug}?sort=rating` } }]
+      : []),
+  ];
   const activeCount = countFilters(filters);
 
   const update = (patch: Partial<Filters>) => setParams(writeFilters({ ...filters, ...patch }), { replace: true, preventScrollReset: true });
@@ -76,50 +91,10 @@ export function CategoryPage() {
 
   return (
     <>
-      <section className="container category-hero">
-        <div className="banner category-hero__banner">
-          <Picture photo={banner?.photo ?? category.photo} alt="" sizes="100vw" priority />
-          <div className="banner__text">
-            <nav className="breadcrumb" aria-label={t('nav.breadcrumb')}>
-              <Link to="/">{t('nav.home')}</Link>
-              {path.map((entry, index) =>
-                index === path.length - 1 ? (
-                  <span key={entry.id} aria-current="page">
-                    {pick(entry.name)}
-                  </span>
-                ) : (
-                  <Link key={entry.id} to={`/category/${entry.slug}`}>
-                    {pick(entry.name)}
-                  </Link>
-                ),
-              )}
-            </nav>
-            <h1 className="category-hero__title">{pick(category.name)}</h1>
-            {category.description && <p className="text-soft category-hero__lead">{pick(category.description)}</p>}
-          </div>
-        </div>
-      </section>
+      <CategoryHero path={path} slides={slides} />
 
       <section className="section container">
-        {chips.length > 0 && chipsRoot && (
-          <ul className="chips" aria-label={pick(chipsRoot.name)}>
-            <li>
-              <Link className="chip" aria-current={category.id === chipsRoot.id ? 'page' : undefined} to={`/category/${chipsRoot.slug}`}>
-                {t('category.all')}
-              </Link>
-            </li>
-            {chips.map((child) => (
-              <li key={child.id}>
-                <Link className="chip" aria-current={child.id === category.id ? 'page' : undefined} to={`/category/${child.slug}`}>
-                  <span className="chip__thumb">
-                    <Picture photo={child.photo} alt="" sizes="40px" />
-                  </span>
-                  {pick(child.name)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
+        {chipsRoot && <SubcategoryNav root={chipsRoot} currentId={category.id} />}
 
         <div className="listing" data-filters={settings.filters}>
           {settings.filters && all.length > 0 && (

@@ -40,7 +40,15 @@ export const story = {
     'بدأ عبق من محل صغير وقناعة بسيطة: أن تعرف ما في الزجاجة قبل أن تشتريها. لهذا نكتب نوتات كل عطر بوضوح، ونرسل مع كل طلب عيّنة تجرّبها أولاً.',
     'Abaq began as a small shop with a simple belief: you should know what is in the bottle before you buy it. So we spell out every note, and every order ships with a sample to try first.',
   ),
-  photos: ['souk', 'handsHolding'] as [PhotoKey, PhotoKey],
+  photos: ['souk', 'handsHolding', 'oudOil'] as [PhotoKey, PhotoKey, PhotoKey],
+  /** Small badge over the main photo. */
+  since: l('منذ ٢٠١٤', 'Since 2014'),
+  /** What the store promises, shown as three short cards. */
+  values: [
+    { icon: 'notes', title: l('نوتات مكتوبة بوضوح', 'Notes spelled out'), text: l('تعرف المقدمة والقلب والقاعدة قبل الشراء.', 'Top, heart and base, before you buy.') },
+    { icon: 'source', title: l('من المصدر مباشرة', 'Straight from the source'), text: l('نختار الزيوت بأنفسنا ونعبّئها عندنا.', 'We pick the oils ourselves and bottle them in-house.') },
+    { icon: 'sample', title: l('جرّب أولاً', 'Try first'), text: l('عيّنة مع كل طلب، والزجاجة تبقى مغلقة.', 'A sample with every order; the bottle stays sealed.') },
+  ] as { icon: 'notes' | 'source' | 'sample'; title: Localized; text: Localized }[],
   /** Figures shown under the text; the numbers count up when scrolled into view. */
   stats: [
     { value: 12000, suffix: '+', label: l('طلب تم توصيله', 'orders delivered') },
@@ -48,6 +56,7 @@ export const story = {
     { value: 3, suffix: '', label: l('فروع في المملكة', 'branches in the Kingdom') },
   ],
   link: { label: l('اقرأ حكايتنا', 'Read our story'), to: '/page/about' },
+  secondaryLink: { label: l('زُر أقرب فرع', 'Visit a branch'), to: '/branches' },
 };
 
 /**
@@ -77,15 +86,21 @@ export const instagram = {
 export const tiktok = {
   eyebrow: l('الأكثر مشاهدة على تيك توك', 'Most watched on TikTok'),
   title: l('شاهد عبق على تيك توك', 'Watch Abaq on TikTok'),
+  text: l('مراجعات قصيرة، نصائح للثبات، وكواليس من المعمل كل أسبوع.', 'Short reviews, tips for lasting power and weekly scenes from the lab.'),
   handle: '@abaq',
   href: 'https://tiktok.com',
+  stats: [
+    { value: l('١٢٠ ألف', '120K'), label: l('متابع', 'followers') },
+    { value: l('٢٫٤ مليون', '2.4M'), label: l('إعجاب', 'likes') },
+  ],
   /** `file` names a clip in `data/videos.ts`. */
   videos: [
-    { file: 'touching-bottle', caption: l('فتح علبة طقم الإرث', 'Unboxing the Heritage Set'), views: l('٢١٤ ألف', '214K') },
-    { file: 'spray-wrist', caption: l('أين ترشّ العطر ليثبت؟', 'Where to spray so it lasts'), views: l('١٨٠ ألف', '180K') },
-    { file: 'bottle-reflective', caption: l('جديدنا: مسك الصباح', 'New in: Morning Musk'), views: l('٩٦ ألف', '96K') },
-    { file: 'atomizer', caption: l('رشّة واحدة تكفي', 'One spray is enough'), views: l('٧٣ ألف', '73K') },
-    { file: 'making-perfume', caption: l('من داخل المعمل', 'Inside the lab'), views: l('٥٨ ألف', '58K') },
+    { file: 'gift-moment', caption: l('فتح علبة طقم الثنائي', 'Unboxing the Duo Set'), views: l('٢١٤ ألف', '214K'), likes: l('١٨ ألف', '18K') },
+    { file: 'spray-wrist', caption: l('أين ترشّ العطر ليثبت؟', 'Where to spray so it lasts'), views: l('١٨٠ ألف', '180K'), likes: l('١٥ ألف', '15K') },
+    { file: 'bottle-reflective', caption: l('جديدنا: مسك الصباح', 'New in: Morning Musk'), views: l('٩٦ ألف', '96K'), likes: l('٧ آلاف', '7K') },
+    { file: 'final-touch', caption: l('حرير الفانيلا عن قرب', 'Vanilla Silk up close'), views: l('٨٨ ألف', '88K'), likes: l('٦ آلاف', '6K') },
+    { file: 'blending', caption: l('من داخل المعمل', 'Inside the lab'), views: l('٥٨ ألف', '58K'), likes: l('٤ آلاف', '4K') },
+    { file: 'touching-bottle', caption: l('طقم الإرث هدية', 'The Heritage Set as a gift'), views: l('٤١ ألف', '41K'), likes: l('٣ آلاف', '3K') },
   ],
 };
 

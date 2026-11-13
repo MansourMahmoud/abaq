@@ -306,3 +306,28 @@
   color: var(--c-text-muted);
   font-size: var(--fs-sm);
 }
+
+/* ---------- TikTok section ---------- */
+
+.tiktok {
+  background: #0f0c0a;
+}
+
+/* TikTok's two-colour offset on its glyph and around the avatar. */
+.tiktok-glyph {
+  filter: drop-shadow(1.5px 1.5px 0 #fe2c55) drop-shadow(-1.5px -1.5px 0 #25f4ee);
+}
+
+.tiktok-ring {
+  background: linear-gradient(135deg, #25f4ee, #fe2c55);
+}
+
+.tiktok-tile {
+  outline: 1px solid var(--c-line);
+  outline-offset: -1px;
+  transition: outline-color var(--t-med) var(--ease);
+}
+
+.tiktok-tile:hover {
+  outline-color: var(--c-accent);
+}

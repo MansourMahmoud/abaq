@@ -304,17 +304,51 @@
   padding-block-start: 24px;
 }
 
-.category-hero__banner {
-  aspect-ratio: auto;
-  min-height: clamp(260px, 34vw, 400px);
+/* Reuses the hero slider's track, slides and dots at banner size. */
+.category-hero__slider {
+  min-height: clamp(300px, 36vw, 440px);
+  border-radius: var(--radius-lg);
 }
 
-.category-hero__banner::after {
-  background: linear-gradient(to top, rgb(21 17 14 / 0.95), rgb(21 17 14 / 0.35));
+.category-hero__content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 4px;
+  width: 100%;
+  padding: 72px clamp(20px, 4vw, 48px) 84px;
+}
+
+.category-hero__slider .hero__slide[data-active='true'] .category-hero__content > * {
+  animation: hero-rise var(--t-slow) var(--ease) both;
+}
+
+.category-hero__crumbs {
+  position: absolute;
+  inset-block-start: 24px;
+  inset-inline: clamp(20px, 4vw, 48px);
+  z-index: 2;
+}
+
+.category-hero__controls {
+  position: absolute;
+  inset-block-end: 24px;
+  inset-inline-start: clamp(20px, 4vw, 48px);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.category-hero__controls .icon-button:not(:hover) {
+  background: rgb(21 17 14 / 0.55);
 }
 
 .category-hero__title {
-  font-size: var(--fs-hero);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 1.2rem + 3.4vw, 3.75rem);
+  font-weight: 700;
+  line-height: var(--lh-display);
 }
 
 .category-hero__lead {
@@ -339,47 +373,13 @@
   color: var(--c-accent);
 }
 
-.chips {
-  display: flex;
-  gap: 10px;
-  margin-block-end: 24px;
-  padding-block-end: 6px;
-  overflow-x: auto;
+/* Sub-category cards: sideways scroll without a visible bar. */
+.subcategory-row {
+  scrollbar-width: none;
 }
 
-.chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 48px;
-  padding: 4px 18px;
-  border: 1px solid var(--c-line);
-  border-radius: var(--radius-pill);
-  white-space: nowrap;
-  transition:
-    border-color var(--t-fast) var(--ease),
-    background-color var(--t-fast) var(--ease),
-    color var(--t-fast) var(--ease);
-}
-
-.chip:hover {
-  border-color: var(--c-accent);
-  color: var(--c-accent);
-}
-
-.chip[aria-current='page'] {
-  border-color: var(--c-accent);
-  background: var(--c-accent);
-  color: var(--c-on-accent);
-  font-weight: 600;
-}
-
-.chip__thumb {
-  width: 38px;
-  height: 38px;
-  margin-inline-start: -12px;
-  overflow: hidden;
-  border-radius: 50%;
+.subcategory-row::-webkit-scrollbar {
+  display: none;
 }
 
 .listing-bar {
@@ -712,4 +712,10 @@
   .cinema__list {
     mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
   }
+}
+
+/* Slides fill the slider's full height, whatever their own content needs. */
+.hero__viewport,
+.hero__track {
+  height: 100%;
 }

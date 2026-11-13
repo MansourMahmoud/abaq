@@ -22,6 +22,9 @@ export const clips: Clip[] = [
   { file: 'bottle-reflective', title: { ar: 'جديدنا', en: 'New in' }, productId: 'p2', orientation: 'portrait', seconds: 11 },
   { file: 'spray-wrist', title: { ar: 'على البشرة', en: 'On skin' }, productId: 'p1', orientation: 'portrait', seconds: 12 },
   { file: 'touching-bottle', title: { ar: 'فتح العلبة', en: 'Unboxing' }, productId: 'p10', orientation: 'portrait', seconds: 12 },
+  { file: 'blending', title: { ar: 'تركيب النوتات', en: 'Blending the notes' }, productId: 'p14', orientation: 'landscape', seconds: 11 },
+  { file: 'gift-moment', title: { ar: 'لمسة قبل الإهداء', en: 'A touch before gifting' }, productId: 'p24', orientation: 'portrait', seconds: 11 },
+  { file: 'final-touch', title: { ar: 'حرير الفانيلا', en: 'Vanilla Silk' }, productId: 'p17', orientation: 'portrait', seconds: 10 },
 ];
 
 export const clipSrc = (clip: Clip) => `/media/video/${clip.file}.mp4`;

@@ -34,7 +34,7 @@
 }
 
 .product-card__media img {
-  transition: transform var(--t-slow) var(--ease);
+  transition: transform 1400ms var(--ease);
 }
 
 .product-card[data-hover='zoom']:hover .product-card__media img {
@@ -69,18 +69,22 @@
   color: var(--c-bg);
 }
 
-/* Second photo sits on top of the first and fades in on hover. */
+/*
+ * Second photo sits on top of the first. It only starts to appear after the
+ * pointer has rested on the card for a moment, then fades in slowly, so
+ * moving the mouse across a row of cards does not make the photos flicker.
+ */
 .product-card__alt {
   position: absolute;
   inset: 0;
   opacity: 0;
-  /* A slow cross-fade: the second photo eases in rather than switching. */
-  transition: opacity var(--t-slow) var(--ease);
+  transition: opacity 600ms var(--ease);
 }
 
 @media (hover: hover) {
   .product-card:hover .product-card__alt {
     opacity: 1;
+    transition: opacity 1200ms var(--ease) 350ms;
   }
 }
 
