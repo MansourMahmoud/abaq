@@ -11,7 +11,7 @@ const l = (ar: string, en: string): Localized => ({ ar, en });
 
 /** Store identity. In the Salla theme these come from the store profile. */
 export const STORE = {
-  name: l('عبق', 'Abaq'),
+  name: l('فوح', 'Fawh'),
   description: l('عطور ودهن عود وبخور مختارة بعناية، بنوتات واضحة تساعدك على الاختيار.', 'Carefully chosen perfumes, oud oils and bakhoor, with clear notes to help you choose.'),
   phone: '+201021786873',
   email: 'get.digimarket@gmail.com',
@@ -96,7 +96,7 @@ export const posts: Post[] = [
     excerpt: l('الفرق بين الهندي والكمبودي والمروكي، وما الذي يصنع سعر التولة.', 'Indian, Cambodian and maroki: what separates them and what sets the price of a tola.'),
     category: l('عود وبخور', 'Oud and bakhoor'),
     photo: 'handsHolding',
-    author: l('فريق عبق', 'Abaq team'),
+    author: l('فريق فوح', 'Fawh team'),
     date: '2026-10-28',
     minutes: 6,
     shopSlug: 'oud',
@@ -112,7 +112,7 @@ export const posts: Post[] = [
     excerpt: l('التركيز يحدد الثبات والفوحان، وليس الجودة.', 'Concentration sets longevity and sillage, not quality.'),
     category: l('دليل الشراء', 'Buying guide'),
     photo: 'clearOnFur',
-    author: l('فريق عبق', 'Abaq team'),
+    author: l('فريق فوح', 'Fawh team'),
     date: '2026-10-14',
     minutes: 4,
     shopSlug: 'men',
@@ -127,7 +127,7 @@ export const posts: Post[] = [
     excerpt: l('الضوء والحرارة أعداء العطر. ثلاث عادات بسيطة تحميه.', 'Light and heat are the enemies. Three simple habits protect it.'),
     category: l('العناية بالعطر', 'Perfume care'),
     photo: 'amberTrio',
-    author: l('فريق عبق', 'Abaq team'),
+    author: l('فريق فوح', 'Fawh team'),
     date: '2026-09-30',
     minutes: 3,
     shopSlug: 'samples',
@@ -141,7 +141,7 @@ export const posts: Post[] = [
     excerpt: l('ثلاثة أسئلة عن صاحب الهدية تكفي للاختيار.', 'Three questions about the person are enough to choose.'),
     category: l('هدايا', 'Gifts'),
     photo: 'bottlesRow',
-    author: l('فريق عبق', 'Abaq team'),
+    author: l('فريق فوح', 'Fawh team'),
     date: '2026-09-12',
     minutes: 5,
     shopSlug: 'gifts',
@@ -166,7 +166,7 @@ export const pages: StaticPage[] = [
     title: l('من نحن', 'About us'),
     photo: 'souk',
     sections: [
-      { text: l('بدأ عبق من محل صغير في سوق العطارين، ومن قناعة بسيطة: أن يعرف العميل ما في الزجاجة قبل أن يشتريها.', 'Abaq began as a small shop in the perfumers’ souk, with one simple belief: a customer should know what is in the bottle before buying it.') },
+      { text: l('بدأ فوح من محل صغير في سوق العطارين، ومن قناعة بسيطة: أن يعرف العميل ما في الزجاجة قبل أن يشتريها.', 'Fawh began as a small shop in the perfumers’ souk, with one simple belief: a customer should know what is in the bottle before buying it.') },
       { heading: l('ما نلتزم به', 'What we stand by'), text: l('نختار كل عطر بأنفسنا ونكتب نوتاته بوضوح.', 'We choose every perfume ourselves and describe its notes plainly.'), list: [l('منتجات أصلية من مصادرها', 'Authentic products from their sources'), l('عيّنة مجانية مع كل طلب', 'A free sample with every order'), l('استبدال خلال سبعة أيام', 'Exchange within seven days')] },
     ],
   },
@@ -297,7 +297,7 @@ export interface Announcement {
 
 export const announcements: Announcement[] = [
   { icon: 'truck', text: l('شحن مجاني على كل طلب يتجاوز ٣٠٠ ر.س', 'Free shipping on every order over SAR 300') },
-  { icon: 'tag', text: l('خصم ١٠٪ على طلبك الأول', '10% off your first order'), action: { kind: 'copy', code: 'ABAQ10' } },
+  { icon: 'tag', text: l('خصم ١٠٪ على طلبك الأول', '10% off your first order'), action: { kind: 'copy', code: 'FAWH10' } },
   { icon: 'sample', text: l('عيّنة هدية داخل كل شحنة', 'A free sample in every parcel') },
   { icon: 'gift', text: l('أطقم هدايا بتغليف فاخر وبطاقة باسمك', 'Gift sets, finely wrapped, with a card in your name'), action: { kind: 'link', label: l('اكتشف الأطقم', 'See the sets'), to: '/category/gifts' } },
 ];

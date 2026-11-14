@@ -176,7 +176,7 @@ export interface Brand {
 }
 
 export const brands: Brand[] = [
-  { id: 'abaq', name: l('عبق', 'Abaq') },
+  { id: 'fawh', name: l('فوح', 'Fawh') },
   { id: 'nafha', name: l('نفحة', 'Nafha') },
   { id: 'sidra', name: l('سدرة', 'Sidra') },
   { id: 'wateen', name: l('وتين', 'Wateen') },
@@ -204,7 +204,7 @@ export const ALL_PRODUCTS: Category = {
 
 export const products: Product[] = [
   {
-    id: 'p1', brand: 'abaq', slug: 'royal-oud', name: l('عود ملكي', 'Royal Oud'), family: l('شرقي خشبي', 'Woody oriental'),
+    id: 'p1', brand: 'fawh', slug: 'royal-oud', name: l('عود ملكي', 'Royal Oud'), family: l('شرقي خشبي', 'Woody oriental'),
     notes: l('عود · زعفران · ورد طائفي', 'Oud · saffron · Taif rose'), price: 420, rating: 4.8,
     badge: l('الأكثر مبيعاً', 'Bestseller'), photos: ['goldBottle', 'spraying', 'handsHolding'], categoryIds: ['men', 'men-oriental', 'men-oriental-oud'],
   },
@@ -214,7 +214,7 @@ export const products: Product[] = [
     photos: ['clearOnFur', 'monoBottle'], categoryIds: ['men', 'men-fresh'],
   },
   {
-    id: 'p3', brand: 'abaq', slug: 'night-amber', name: l('عنبر الليل', 'Night Amber'), family: l('عنبري', 'Amber'),
+    id: 'p3', brand: 'fawh', slug: 'night-amber', name: l('عنبر الليل', 'Night Amber'), family: l('عنبري', 'Amber'),
     notes: l('عنبر · فانيلا · باتشولي', 'Amber · vanilla · patchouli'), price: 306, compareAt: 360, rating: 4.7,
     badge: l('خصم ١٥٪', '15% off'), photos: ['amberTrio', 'goldBottle'], categoryIds: ['women', 'women-amber', 'men', 'men-oriental', 'men-oriental-amber'],
   },
@@ -239,7 +239,7 @@ export const products: Product[] = [
     photos: ['rollOns', 'oudOil'], categoryIds: ['oud', 'oud-indian', 'oud-indian-young', 'oud-burmese'],
   },
   {
-    id: 'p8', brand: 'abaq', slug: 'royal-blend', name: l('مخلط ملكي', 'Royal Blend'), family: l('عود · ورد · مسك', 'Oud · rose · musk'),
+    id: 'p8', brand: 'fawh', slug: 'royal-blend', name: l('مخلط ملكي', 'Royal Blend'), family: l('عود · ورد · مسك', 'Oud · rose · musk'),
     notes: l('نصف تولة · تولة', 'Half · full tola'), price: 440, rating: 4.6,
     photos: ['blueBottle', 'amberTrio'], categoryIds: ['oud', 'oud-blends', 'oud-blends-rose', 'oud-rose-oil'],
   },
@@ -249,12 +249,12 @@ export const products: Product[] = [
     photos: ['burnerCarpet', 'burnerMajlis'], categoryIds: ['bakhoor'],
   },
   {
-    id: 'p10', brand: 'abaq', slug: 'heritage-set', name: l('طقم الإرث', 'Heritage Set'), family: l('هدية', 'Gift'),
+    id: 'p10', brand: 'fawh', slug: 'heritage-set', name: l('طقم الإرث', 'Heritage Set'), family: l('هدية', 'Gift'),
     notes: l('ثلاثة عطور ٣٠ مل', 'Three 30 ml perfumes'), price: 690, compareAt: 790, rating: 4.8,
     badge: l('هدية', 'Gift'), photos: ['bottlesRow', 'amberTrio'], categoryIds: ['gifts'],
   },
   {
-    id: 'p11', brand: 'abaq', slug: 'discovery-set', name: l('طقم العيّنات', 'Discovery Set'), family: l('خمس عيّنات', 'Five samples'),
+    id: 'p11', brand: 'fawh', slug: 'discovery-set', name: l('طقم العيّنات', 'Discovery Set'), family: l('خمس عيّنات', 'Five samples'),
     notes: l('٥ × ٢ مل', '5 × 2 ml'), price: 75, rating: 4.7,
     photos: ['rollOns', 'bottlesRow'], categoryIds: ['samples', 'gifts'],
   },
@@ -269,7 +269,7 @@ export const products: Product[] = [
     photos: ['blueBottle', 'clearOnFur'], categoryIds: ['men', 'men-fresh'],
   },
   {
-    id: 'p14', brand: 'abaq', slug: 'black-saffron', name: l('زعفران أسود', 'Black Saffron'), family: l('شرقي', 'Oriental'),
+    id: 'p14', brand: 'fawh', slug: 'black-saffron', name: l('زعفران أسود', 'Black Saffron'), family: l('شرقي', 'Oriental'),
     notes: l('زعفران · عود · عنبر', 'Saffron · oud · amber'), price: 510, rating: 4.9,
     badge: l('جديد', 'New'), photos: ['spraying', 'goldBottle'], categoryIds: ['men', 'men-oriental', 'men-oriental-oud'],
   },
@@ -284,7 +284,7 @@ export const products: Product[] = [
     photos: ['clearOnFur', 'daisyShadows'], categoryIds: ['women', 'women-floral', 'women-floral-white'],
   },
   {
-    id: 'p17', brand: 'abaq', slug: 'vanilla-silk', name: l('حرير الفانيلا', 'Vanilla Silk'), family: l('عنبري', 'Amber'),
+    id: 'p17', brand: 'fawh', slug: 'vanilla-silk', name: l('حرير الفانيلا', 'Vanilla Silk'), family: l('عنبري', 'Amber'),
     notes: l('فانيلا · تونكا · مسك', 'Vanilla · tonka · musk'), price: 320, compareAt: 400, rating: 4.8,
     photos: ['pinkBottle', 'amberTrio'], categoryIds: ['women', 'women-amber'],
   },
@@ -314,12 +314,12 @@ export const products: Product[] = [
     photos: ['burnerCarpet', 'souk'], categoryIds: ['bakhoor'],
   },
   {
-    id: 'p23', brand: 'abaq', slug: 'amber-maamoul', name: l('معمول العنبر', 'Amber Maamoul'), family: l('بخور', 'Bakhoor'),
+    id: 'p23', brand: 'fawh', slug: 'amber-maamoul', name: l('معمول العنبر', 'Amber Maamoul'), family: l('بخور', 'Bakhoor'),
     notes: l('عنبر · مسك · زعفران', 'Amber · musk · saffron'), price: 140, compareAt: 175, rating: 4.5,
     photos: ['burnerMajlis', 'amberTrio'], categoryIds: ['bakhoor'],
   },
   {
-    id: 'p24', brand: 'abaq', slug: 'duo-set', name: l('طقم الثنائي', 'The Duo Set'), family: l('هدية', 'Gift'),
+    id: 'p24', brand: 'fawh', slug: 'duo-set', name: l('طقم الثنائي', 'The Duo Set'), family: l('هدية', 'Gift'),
     notes: l('عطران ٥٠ مل', 'Two 50 ml perfumes'), price: 520, compareAt: 600, rating: 4.7,
     photos: ['amberTrio', 'bottlesRow'], categoryIds: ['gifts'],
   },
@@ -346,7 +346,7 @@ export interface ProductDetails {
 }
 
 const DEFAULT_DETAILS: ProductDetails = {
-  description: l('منتج مختار بعناية من مجموعة عبق، يصلك بتغليف يحفظه ومعه عيّنة مجانية.', 'A carefully chosen piece from the Abaq collection, packed safely and shipped with a free sample.'),
+  description: l('منتج مختار بعناية من مجموعة فوح، يصلك بتغليف يحفظه ومعه عيّنة مجانية.', 'A carefully chosen piece from the Fawh collection, packed safely and shipped with a free sample.'),
   stock: 12,
 };
 

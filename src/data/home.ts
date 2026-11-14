@@ -37,8 +37,8 @@ export const story = {
   eyebrow: l('حكايتنا', 'Our story'),
   title: l('من سوق العطارين إلى بيتك', 'From the perfumers’ souk to your home'),
   text: l(
-    'بدأ عبق من محل صغير وقناعة بسيطة: أن تعرف ما في الزجاجة قبل أن تشتريها. لهذا نكتب نوتات كل عطر بوضوح، ونرسل مع كل طلب عيّنة تجرّبها أولاً.',
-    'Abaq began as a small shop with a simple belief: you should know what is in the bottle before you buy it. So we spell out every note, and every order ships with a sample to try first.',
+    'بدأ فوح من محل صغير وقناعة بسيطة: أن تعرف ما في الزجاجة قبل أن تشتريها. لهذا نكتب نوتات كل عطر بوضوح، ونرسل مع كل طلب عيّنة تجرّبها أولاً.',
+    'Fawh began as a small shop with a simple belief: you should know what is in the bottle before you buy it. So we spell out every note, and every order ships with a sample to try first.',
   ),
   photos: ['souk', 'handsHolding', 'oudOil'] as [PhotoKey, PhotoKey, PhotoKey],
   /** Small badge over the main photo. */
@@ -65,8 +65,8 @@ export const story = {
  */
 export const instagram = {
   eyebrow: l('تابعنا على إنستغرام', 'Follow us on Instagram'),
-  title: l('عبق في بيوتكم', 'Abaq at home'),
-  handle: '@abaq',
+  title: l('فوح في بيوتكم', 'Fawh at home'),
+  handle: '@fawh',
   href: 'https://instagram.com',
   bio: l('عطور ودهن عود وبخور · صور من عملائنا كل أسبوع', 'Perfume, oud and bakhoor · customer photos every week'),
   stats: [
@@ -93,9 +93,9 @@ export const instagram = {
 
 export const tiktok = {
   eyebrow: l('الأكثر مشاهدة على تيك توك', 'Most watched on TikTok'),
-  title: l('شاهد عبق على تيك توك', 'Watch Abaq on TikTok'),
+  title: l('شاهد فوح على تيك توك', 'Watch Fawh on TikTok'),
   text: l('مراجعات قصيرة، نصائح للثبات، وكواليس من المعمل كل أسبوع.', 'Short reviews, tips for lasting power and weekly scenes from the lab.'),
-  handle: '@abaq',
+  handle: '@fawh',
   href: 'https://tiktok.com',
   stats: [
     { value: l('١٢٠ ألف', '120K'), label: l('متابع', 'followers') },
@@ -267,10 +267,10 @@ export const guideShop = ['/category/men-fresh', '/category/women', '/category/m
 /* ---------- Welcome offer (popup and edge ticket) ---------- */
 
 export const welcomeOffer = {
-  code: 'ABAQ10',
+  code: 'FAWH10',
   percent: 10,
   eyebrow: l('هدية الترحيب', 'A welcome gift'),
-  title: l('أهلاً بك في عبق', 'Welcome to Abaq'),
+  title: l('أهلاً بك في فوح', 'Welcome to Fawh'),
   text: l('خصم ١٠٪ على طلبك الأول. انسخ الكود واستخدمه عند إتمام الطلب.', '10% off your first order. Copy the code and use it at checkout.'),
   photo: 'spraying' as PhotoKey,
   to: '/category/all',

@@ -1,4 +1,4 @@
-# Abaq
+# Fawh
 
 A storefront theme for perfume, oud and bakhoor stores on Salla. This
 repository holds the standalone demo: the full theme running on a sample

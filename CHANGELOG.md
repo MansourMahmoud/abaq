@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.10.0
+
+- The store is now Fawh: new wordmark and logo files, brand tile, coupon code FAWH10, social handles and storage keys
+
 ## 0.9.4
 
 - Phones: every page reviewed from 320px up. Cart lines, the welcome dialog, banners, product cards, note cards, reviews, the Instagram header and the buy bar no longer clip, overlap or widen the page

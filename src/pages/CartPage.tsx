@@ -14,7 +14,7 @@ import { useThemeSettings } from '../settings/ThemeSettings';
 const VAT_RATE = 0.15;
 
 /** Demo coupons (code to percentage off). The Salla theme validates codes with the store. */
-const COUPONS: Record<string, number> = { ABAQ10: 10 };
+const COUPONS: Record<string, number> = { FAWH10: 10 };
 
 /**
  * Cart: lines with their discounts, a free-shipping meter, a gift option and

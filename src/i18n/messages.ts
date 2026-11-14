@@ -103,7 +103,7 @@ export const ar = {
   'video.eyebrow': 'شاهد ثم تسوّق',
   'video.title': 'العطر كما يبدو في يدك',
   'video.lead': 'كل فيديو مرتبط بمنتجه، ويُضاف للسلة دون مغادرة الصفحة.',
-  'reels.eyebrow': 'ريلز عبق',
+  'reels.eyebrow': 'ريلز فوح',
   'reels.title': 'لحظات قصيرة مع عطورنا',
 
   'faq.title': 'أسئلة شائعة',
@@ -439,7 +439,7 @@ export const en: Messages = {
   'video.eyebrow': 'Watch, then shop',
   'video.title': 'The perfume as it looks in your hand',
   'video.lead': 'Each video is linked to its product, which you can add to the cart without leaving the page.',
-  'reels.eyebrow': 'Abaq reels',
+  'reels.eyebrow': 'Fawh reels',
   'reels.title': 'Short moments with our perfumes',
 
   'faq.title': 'Frequently asked questions',

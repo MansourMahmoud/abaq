@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { readJson, writeJson } from './storage';
 
-const STORAGE_KEY = 'abaq:recent';
+const STORAGE_KEY = 'fawh:recent';
 const MAX_ITEMS = 8;
 
 function read(): string[] {

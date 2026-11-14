@@ -3,7 +3,7 @@ import { useI18n } from '../../i18n/I18nProvider';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 import { LogoMark } from './Logo';
 
-const SESSION_KEY = 'abaq:visited';
+const SESSION_KEY = 'fawh:visited';
 /** Long enough for the logo to draw once, short enough not to hold the page back. */
 const MIN_VISIBLE_MS = 1300;
 const FADE_MS = 500;

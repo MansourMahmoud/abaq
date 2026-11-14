@@ -23,7 +23,7 @@ export function GiftCardBand() {
           <div className="gift-card scope-dark mx-auto w-full max-w-[440px]">
             <span className="flex items-center justify-between">
               <span className="inline-flex items-center gap-2 text-accent">
-                <LogoMark className="h-8 w-8" /> <strong className="font-display text-2xl">{pick({ ar: 'عبق', en: 'Abaq' })}</strong>
+                <LogoMark className="h-8 w-8" /> <strong className="font-display text-2xl">{pick({ ar: 'فوح', en: 'Fawh' })}</strong>
               </span>
               <span className="text-xs tracking-[0.2em] text-soft">GIFT CARD</span>
             </span>
@@ -32,7 +32,7 @@ export function GiftCardBand() {
               <strong className="font-display text-5xl leading-none text-accent tabular-nums">{money(amount)}</strong>
             </span>
             <span className="flex items-center justify-between text-xs text-muted">
-              <bdi dir="ltr">ABAQ •••• •••• 2026</bdi>
+              <bdi dir="ltr">FAWH •••• •••• 2026</bdi>
               <LuGift className="text-lg text-accent" aria-hidden />
             </span>
           </div>

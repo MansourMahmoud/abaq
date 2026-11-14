@@ -36,8 +36,8 @@ interface I18nValue {
   number: (value: number) => string;
 }
 
-const LOCALE_KEY = 'abaq:locale';
-const CURRENCY_KEY = 'abaq:currency';
+const LOCALE_KEY = 'fawh:locale';
+const CURRENCY_KEY = 'fawh:currency';
 const dictionaries = { ar, en };
 
 const I18nContext = createContext<I18nValue | null>(null);

@@ -5,7 +5,7 @@ import { useI18n } from '../../i18n/I18nProvider';
 import { copyText } from '../../lib/storage';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 
-const SESSION_KEY = 'abaq:coupon-tab';
+const SESSION_KEY = 'fawh:coupon-tab';
 const COPIED_MS = 2200;
 const HOVER_INTENT_MS = 450;
 

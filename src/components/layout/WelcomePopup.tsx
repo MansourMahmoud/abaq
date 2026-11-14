@@ -7,7 +7,7 @@ import { copyText, readJson, writeJson } from '../../lib/storage';
 import { useThemeSettings } from '../../settings/ThemeSettings';
 import { Picture } from '../ui/Picture';
 
-const STORAGE_KEY = 'abaq:welcome';
+const STORAGE_KEY = 'fawh:welcome';
 const DAY_MS = 86_400_000;
 
 /** What the browser remembers about the popup: never again, or not before a date. */

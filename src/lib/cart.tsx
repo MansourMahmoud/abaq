@@ -31,7 +31,7 @@ interface CartValue {
 
 const CartContext = createContext<CartValue | null>(null);
 
-const STORAGE_KEY = 'abaq:cart';
+const STORAGE_KEY = 'fawh:cart';
 /** Upper bound on one line's quantity, so a stored or typed value can never run away. */
 const MAX_QUANTITY = 99;
 
