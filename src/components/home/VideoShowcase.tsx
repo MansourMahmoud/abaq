@@ -102,7 +102,7 @@ export function VideoShowcase() {
                 type="button"
                 aria-label={`${t('video.play')}: ${pick(clip.title)}`}
                 onClick={toggle}
-                className="absolute inset-0 m-auto grid h-20 w-20 place-items-center rounded-pill bg-accent text-3xl text-on-accent shadow-[0_0_0_10px_rgb(212_175_114/0.25)] transition-transform duration-500 ease-theme hover:scale-110 md:h-24 md:w-24"
+                className="absolute inset-0 m-auto grid h-14 w-14 place-items-center rounded-pill bg-accent text-2xl text-on-accent shadow-[0_0_0_8px_rgb(212_175_114/0.25)] max-sm:bottom-6 sm:h-20 sm:w-20 sm:text-3xl transition-transform duration-500 ease-theme hover:scale-110 md:h-24 md:w-24"
               >
                 <LuPlay aria-hidden className="translate-x-0.5 rtl:-translate-x-0.5" />
               </button>

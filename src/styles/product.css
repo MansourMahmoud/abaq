@@ -168,8 +168,16 @@
   font-variant-numeric: tabular-nums;
 }
 
+.product-card__price > span:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 8px;
+}
+
+/* The old price moves to its own line as a whole, never split from its currency. */
 .product-card__price s {
-  margin-inline-start: 8px;
+  white-space: nowrap;
   color: var(--c-text-muted);
   font-size: var(--fs-sm);
   font-weight: 400;
@@ -224,38 +232,42 @@
   }
 
   .product-grid .product-card__name {
-    font-size: 1.15rem;
+    font-size: 1.05rem;
   }
 
   .product-grid .product-card__notes {
     display: none;
   }
 
-  .product-grid .product-card__price[data-sale='true'] > span:first-child {
-  color: var(--c-sale);
-  font-weight: 700;
-}
+  .product-grid .product-card__price {
+    font-size: 1.05rem;
+  }
 
-.product-card__save {
-  justify-self: start;
-  margin-block-start: 3px;
-  padding: 1px 9px;
-  border-radius: var(--radius-pill);
-  background: var(--c-sale);
-  color: #fff;
-  font-size: var(--fs-xs);
-  font-weight: 600;
-}
-
-.product-card__add:disabled {
-  border-color: var(--c-line);
-  background: var(--c-raise);
-  color: var(--c-text-muted);
-  cursor: not-allowed;
-}
-
-.product-card__add {
+  .product-grid .product-card__add {
     flex: 1 1 100%;
+    padding-inline: 10px;
+  }
+
+  /*
+   * A narrow card has no room for a badge and the wishlist button side by
+   * side, so the button drops to the lower corner and the badge keeps the
+   * whole top edge.
+   */
+  .product-grid .product-card__badges {
+    inset-block-start: 8px;
+    inset-inline-start: 8px;
+    max-width: calc(100% - 16px);
+  }
+
+  .product-grid .product-card__badge {
+    padding: 2px 9px;
+  }
+
+  .product-grid .product-card__wish {
+    inset-block: auto 6px;
+    inset-inline-end: 6px;
+    width: 36px;
+    height: 36px;
   }
 }
 

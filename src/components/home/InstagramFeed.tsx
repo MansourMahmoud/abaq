@@ -22,10 +22,10 @@ export function InstagramFeed() {
       <Reveal className="container">
         <div className="rounded-lg border border-line bg-surface p-4 md:p-7">
           <div className="flex flex-wrap items-center gap-x-8 gap-y-5">
-            <div className="flex min-w-0 flex-1 items-center gap-4">
-              <span className={`grid h-20 w-20 shrink-0 place-items-center rounded-pill p-[3px] md:h-24 md:w-24 ${RING}`}>
+            <div className="flex min-w-0 flex-[1_1_240px] items-center gap-3 sm:gap-4">
+              <span className={`grid h-16 w-16 shrink-0 place-items-center rounded-pill p-[3px] sm:h-20 sm:w-20 md:h-24 md:w-24 ${RING}`}>
                 <span className="grid h-full w-full place-items-center rounded-pill border-[3px] border-surface bg-[#15110e] text-[#d4af72]">
-                  <LogoMark className="h-10 w-10" />
+                  <LogoMark className="h-8 w-8 sm:h-10 sm:w-10" />
                 </span>
               </span>
               <div className="grid min-w-0 gap-0.5">
@@ -39,7 +39,7 @@ export function InstagramFeed() {
                 </p>
               </div>
             </div>
-            <dl className="flex gap-8">
+            <dl className="flex flex-1 justify-around gap-4 sm:flex-none sm:gap-8">
               {instagram.stats.map((stat) => (
                 <div key={stat.label.en} className="grid text-center">
                   <dd className="m-0 text-xl font-bold md:text-2xl">{pick(stat.value)}</dd>
@@ -47,7 +47,7 @@ export function InstagramFeed() {
                 </div>
               ))}
             </dl>
-            <a className="button" href={instagram.href} target="_blank" rel="noopener noreferrer">
+            <a className="button max-sm:w-full" href={instagram.href} target="_blank" rel="noopener noreferrer">
               <FaInstagram aria-hidden /> {t('social.follow')}
             </a>
           </div>

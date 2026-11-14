@@ -254,7 +254,7 @@
 }
 
 .banner--inline {
-  aspect-ratio: auto;
+  --banner-ratio: 0%;
   min-height: 160px;
   border-radius: var(--radius-md);
 }
@@ -530,7 +530,7 @@
 }
 
 .banner--strip {
-  aspect-ratio: auto;
+  --banner-ratio: 0%;
   min-height: 150px;
 }
 
@@ -540,6 +540,8 @@
 
 .cart__layout {
   display: grid;
+  /* An explicit shrinkable column: a long total must wrap inside the page, never widen it. */
+  grid-template-columns: minmax(0, 1fr);
   gap: clamp(20px, 3vw, 32px);
 }
 
@@ -552,6 +554,7 @@
 
 .cart__lines {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   min-width: 0;
 }
@@ -649,6 +652,7 @@
 
 .summary {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   padding: clamp(18px, 2.5vw, 28px);
   border-radius: var(--radius-lg);
@@ -883,4 +887,49 @@
   background: color-mix(in srgb, var(--c-success) 10%, transparent);
   color: var(--c-success);
   font-weight: 600;
+}
+
+/* ---------- Small phones ---------- */
+
+@media (max-width: 420px) {
+  .buy-bar__add {
+    padding-inline: 14px;
+    font-size: var(--fs-base);
+    white-space: nowrap;
+  }
+
+  .sticky-buy .button {
+    flex: none;
+    padding-inline: 18px;
+  }
+}
+
+/* On a phone the line total gets a row of its own, so large amounts and the saving both fit. */
+@media (max-width: 520px) {
+  .cart-line {
+    grid-template-columns: 76px minmax(0, 1fr) 44px;
+    gap: 10px 12px;
+    padding: 12px;
+  }
+
+  .cart-line__name {
+    font-size: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+
+  .cart-line .quantity {
+    grid-column: 2 / -1;
+  }
+
+  .cart-line__total {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px 12px;
+    padding-block-start: 10px;
+    border-block-start: 1px solid var(--c-line);
+  }
 }

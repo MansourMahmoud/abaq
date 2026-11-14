@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.4
+
+- Phones: every page reviewed from 320px up. Cart lines, the welcome dialog, banners, product cards, note cards, reviews, the Instagram header and the buy bar no longer clip, overlap or widen the page
+- Banners keep their proportions as a minimum and grow with a long headline
+
 ## 0.9.3
 
 - Product page: the notes section speaks about the product itself, by name and with its own notes

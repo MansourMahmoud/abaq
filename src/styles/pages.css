@@ -243,11 +243,24 @@
   position: relative;
   display: flex;
   align-items: flex-end;
-  /* A fixed ratio per breakpoint keeps banners from growing into tall slabs. */
-  aspect-ratio: 16 / 10;
+  /* The banner's proportions, as height over width. Variants change or zero it. */
+  --banner-ratio: 62.5%;
   overflow: hidden;
   border-radius: var(--radius-lg);
   background: var(--c-raise);
+}
+
+/*
+ * An invisible strut holds the banner to its proportions. Unlike aspect-ratio
+ * it is only a floor: a headline longer than the photo makes the banner
+ * taller instead of being cut off, which matters on narrow phones.
+ */
+.banner::before,
+.feature-banner::before {
+  content: '';
+  flex: none;
+  width: 0;
+  padding-block-end: var(--banner-ratio);
 }
 
 .banner > img {
@@ -259,7 +272,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgb(21 17 14 / 0.92), rgb(21 17 14 / 0.05) 70%);
+  background: linear-gradient(to top, rgb(21 17 14 / 0.94), rgb(21 17 14 / 0.62) 45%, rgb(21 17 14 / 0.08) 88%);
 }
 
 .banner__text {
@@ -289,7 +302,7 @@
   }
 
   .banner-trio .banner {
-    aspect-ratio: auto;
+    --banner-ratio: 0%;
     min-height: 240px;
   }
 
@@ -1016,7 +1029,8 @@
   display: grid;
   justify-items: center;
   gap: 4px;
-  height: 100%;
+  /* The photo overhangs the card by 52px; the height leaves room for it in the row. */
+  height: calc(100% - 52px);
   margin-block-start: 52px;
   padding: 0 14px 18px;
   border: 1px solid var(--c-line);
@@ -1082,4 +1096,38 @@
 .note-card:hover .note-card__count {
   background: var(--c-accent);
   color: var(--c-on-accent);
+}
+
+/* ---------- Small phones ---------- */
+
+@media (max-width: 559px) {
+  /* One occasion and a glimpse of the next: enough width for its title and link. */
+  .carousel[data-variant='tiles']:has(.occasion) {
+    --carousel-item: 64%;
+  }
+
+  .occasion__text {
+    padding: 14px;
+  }
+
+  .occasion__text strong {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 420px) {
+  /* Three tabs share the row instead of the last one sliding out of view. */
+  .tabs button {
+    flex: 1 0 auto;
+    padding-inline: 12px;
+  }
+
+  .note-card {
+    padding-inline: 8px;
+  }
+
+  .note-card__photo {
+    width: 92px;
+    height: 92px;
+  }
 }

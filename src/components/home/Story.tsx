@@ -70,8 +70,8 @@ export function Story() {
 
           <dl className="mt-7 grid grid-cols-3 divide-x divide-line rounded-md border border-line bg-surface rtl:divide-x-reverse">
             {story.stats.map((stat) => (
-              <div key={stat.label.en} className="grid gap-1 px-3 py-4 text-center">
-                <dd className="m-0 text-2xl font-bold text-accent md:text-3xl">
+              <div key={stat.label.en} className="grid min-w-0 gap-1 px-1.5 py-4 text-center sm:px-3">
+                <dd className="m-0 text-xl font-bold text-accent sm:text-2xl md:text-3xl">
                   <CountUp value={stat.value} suffix={stat.suffix} />
                 </dd>
                 <dt className="text-xs text-muted sm:text-sm">{pick(stat.label)}</dt>

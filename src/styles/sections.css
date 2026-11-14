@@ -15,7 +15,7 @@
   position: relative;
   display: flex;
   align-items: flex-end;
-  aspect-ratio: 16 / 10;
+  --banner-ratio: 62.5%;
   border-radius: var(--radius-lg);
   color: var(--c-text);
 }
@@ -29,7 +29,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgb(21 17 14 / 0.92), rgb(21 17 14 / 0.1) 75%);
+  background: linear-gradient(to top, rgb(21 17 14 / 0.94), rgb(21 17 14 / 0.6) 45%, rgb(21 17 14 / 0.1) 88%);
 }
 
 .feature-banner__text {
@@ -64,7 +64,7 @@
   }
 
   .feature-banner {
-    aspect-ratio: auto;
+    --banner-ratio: 0%;
   }
 
   /* Beside the banner the product area is narrower: three whole cards. */
@@ -559,6 +559,7 @@
 .ticket__code {
   display: grid;
   flex: 1;
+  min-width: 0;
   gap: 2px;
   padding: 12px 18px;
   line-height: 1.3;
@@ -622,6 +623,7 @@
 
 .welcome__layout {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 @media (min-width: 760px) {
@@ -681,6 +683,7 @@
 .welcome__body {
   position: relative;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 14px;
   padding: clamp(22px, 4vw, 40px);
 }
@@ -1169,4 +1172,56 @@
   color: #fff;
   font-size: var(--fs-xs);
   font-weight: 600;
+}
+
+/* ---------- Small phones ---------- */
+
+@media (max-width: 420px) {
+  .ticket__code {
+    padding-inline: 14px;
+  }
+
+  .ticket__code bdi {
+    font-size: 1.3rem;
+    letter-spacing: 0.12em;
+  }
+
+  .ticket__action {
+    padding-inline: 12px;
+  }
+
+  .welcome__media {
+    min-height: 150px;
+  }
+
+  /* Three columns leave no room for long note names: one stage per row instead. */
+  .signature__notes {
+    grid-template-columns: minmax(0, 1fr);
+    text-align: start;
+  }
+
+  .signature__notes > div {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 14px;
+  }
+
+  .signature__notes > div + div {
+    border-inline-start: 0;
+    border-block-start: 1px solid var(--c-line);
+  }
+
+  .signature__notes dd {
+    overflow-wrap: anywhere;
+  }
+
+  .welcome__seal {
+    width: 88px;
+    height: 88px;
+  }
+
+  .welcome__seal strong {
+    font-size: 1.7rem;
+  }
 }

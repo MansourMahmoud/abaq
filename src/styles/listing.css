@@ -232,7 +232,7 @@
 
 .listing-grid__banner .banner {
   height: 100%;
-  aspect-ratio: auto;
+  --banner-ratio: 0%;
 }
 
 /* ---------- Bottom sheet (phone filters) ---------- */
@@ -412,4 +412,13 @@
 
 .listing-banner[data-wide='true'] {
   min-height: clamp(200px, 22vw, 300px);
+}
+
+/* ---------- Small phones ---------- */
+
+@media (max-width: 420px) {
+  .sheet__foot .button {
+    padding-inline: 12px;
+    white-space: nowrap;
+  }
 }

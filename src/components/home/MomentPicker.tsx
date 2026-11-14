@@ -56,8 +56,8 @@ export function MomentPicker() {
             <span className="absolute inset-0">
               <Picture photo={moment.photo} alt="" sizes="(min-width: 1024px) 30vw, 100vw" />
             </span>
-            <span className="absolute inset-0 flex flex-col justify-end gap-2 bg-gradient-to-t from-black/90 via-black/35 to-transparent p-6">
-              <strong className="font-display text-3xl leading-[var(--lh-display)]">{pick(moment.headline)}</strong>
+            <span className="absolute inset-0 flex flex-col justify-end gap-2 bg-gradient-to-t from-black/90 via-black/60 to-black/10 p-5 sm:p-6">
+              <strong className="font-display text-2xl leading-[var(--lh-display)] sm:text-3xl">{pick(moment.headline)}</strong>
               <span className="text-white/85">{pick(moment.text)}</span>
               <span className="button mt-2 w-fit">{t('action.shopNow')}</span>
             </span>

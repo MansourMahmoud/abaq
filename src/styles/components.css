@@ -768,7 +768,8 @@ html[dir='ltr'] .floating-actions__prompt {
 
 .review__who {
   display: grid;
-  flex: 1;
+  /* Wide enough for a name on one line; the verified chip wraps under it on narrow cards. */
+  flex: 1 1 120px;
   min-width: 0;
   line-height: 1.5;
 }
@@ -1037,4 +1038,18 @@ html[dir='ltr'] .floating-actions__prompt {
   font-weight: 700;
   line-height: 1.7;
   white-space: nowrap;
+}
+
+/* ---------- Small phones ---------- */
+
+/* The chat prompt is a nudge, not a panel: on a phone it drops the avatar and stays narrow. */
+@media (max-width: 480px) {
+  .floating-actions__prompt {
+    width: min(230px, calc(100vw - 96px));
+    padding: 10px 12px;
+  }
+
+  .floating-actions__avatar {
+    display: none;
+  }
 }

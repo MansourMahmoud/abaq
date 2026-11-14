@@ -71,16 +71,16 @@ export function PerfumeGuide() {
             </ol>
             {/* The product that goes with the tips: a sample set to practise on. */}
             {starter && (
-              <div className="mt-6 flex items-center gap-4 rounded-md bg-raise p-3">
+              <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-3 rounded-md bg-raise p-3">
                 <Link to={`/product/${starter.slug}`} className="media-zoom h-20 w-20 shrink-0 rounded-sm">
                   <Picture photo={starter.photos[0]} alt="" sizes="80px" />
                 </Link>
-                <p className="grid min-w-0 flex-1 leading-snug">
+                <p className="grid min-w-0 flex-[1_1_120px] leading-snug">
                   <span className="text-xs text-accent">{t('guide.starter')}</span>
                   <strong className="truncate font-display text-xl">{pick(starter.name)}</strong>
                   <Price product={starter} className="text-sm" />
                 </p>
-                <button className="button !min-h-[44px] !px-5 text-sm" type="button" onClick={() => add(starter)}>
+                <button className="button !min-h-[44px] !px-5 text-sm max-[420px]:w-full" type="button" onClick={() => add(starter)}>
                   {t('action.addToCart')}
                 </button>
               </div>
