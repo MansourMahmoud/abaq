@@ -5,14 +5,14 @@ import { ReviewAvatar, ReviewCard, Stars } from '../product/ReviewCard';
 import { Carousel } from '../ui/Carousel';
 import { Reveal } from '../ui/Reveal';
 
-/** How many customer photos overlap in the summary's avatar stack. */
+/** How many customer avatars overlap in the summary's stack. */
 const STACK_SIZE = 5;
 
-/** Store-wide reviews: an overall score with customer faces, then the reviews in a carousel. */
+/** Store-wide reviews: an overall score beside the latest reviewers, then the reviews in a carousel. */
 export function Testimonials() {
   const { t, number } = useI18n();
   const average = reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length;
-  const faces = reviews.filter((review) => review.avatar).slice(0, STACK_SIZE);
+  const faces = reviews.slice(0, STACK_SIZE);
 
   return (
     <section className="section">

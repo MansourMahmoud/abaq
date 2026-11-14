@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.1
+
+- New store mark: an incense burner with a curl of smoke, in place of the oil drop
+- Reviews show initials instead of stock portraits
+- docs/MEDIA-SOURCES.md records where every photo and video came from
+
 ## 0.10.0
 
 - The store is now Fawh: new wordmark and logo files, brand tile, coupon code FAWH10, social handles and storage keys

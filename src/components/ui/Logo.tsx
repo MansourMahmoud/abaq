@@ -2,16 +2,27 @@ import { STORE } from '../../data/content';
 import { useI18n } from '../../i18n/I18nProvider';
 
 /**
- * Store mark: a drop of perfume oil inside a ring. Drawn as strokes so the
- * preloader can animate it with `stroke-dashoffset`; `pathLength="1"` lets the
- * animation run without knowing each path's real length.
+ * Store mark: an incense burner with a curl of smoke rising from it, inside a
+ * ring. "Fawh" is the scent spreading from a source, which is what the mark
+ * shows. Drawn as strokes so the preloader can animate it with
+ * `stroke-dashoffset`; `pathLength="1"` lets the animation run without knowing
+ * each path's real length.
  */
+const MARK_PATHS = [
+  'M19.5 41h9',
+  'M21 41c1.1-1.7 1.7-3.3 1.8-5.5h2.4c.1 2.2.7 3.8 1.8 5.5',
+  'M17.5 28.5h13l-2.3 7h-8.4z',
+  'M17.5 28.5l-.5-2.7M30.5 28.5l.5-2.7',
+  'M24 25c-3.6-3 3.6-5.4.6-9-2.3-2.800-1-6 1.9-6.700 2.3-.5 3.6 1.400 2.600 3-.9 1.3-2.800.9-2.900-.6',
+];
+
 export function LogoMark({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <circle cx="24" cy="24" r="22" pathLength={1} />
-      <path d="M24 9c6.5 8 10.5 13.5 10.5 19.5a10.5 10.5 0 0 1-21 0C13.5 22.5 17.5 17 24 9z" pathLength={1} />
-      <path d="M24 23c2.5 3 4 5 4 7a4 4 0 0 1-8 0" pathLength={1} />
+      {MARK_PATHS.map((d) => (
+        <path key={d} d={d} pathLength={1} />
+      ))}
     </svg>
   );
 }

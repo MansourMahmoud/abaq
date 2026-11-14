@@ -236,7 +236,11 @@ export const branches: Branch[] = [
 export interface Review {
   id: string;
   author: Localized;
-  /** Customer photo from their store account; reviews without one show an initial. */
+  /**
+   * Customer photo from their store account; reviews without one show an
+   * initial. The demo data has none: stock portraits would present real people
+   * as customers who never wrote these reviews.
+   */
   avatar?: string;
   rating: number;
   text: Localized;
@@ -250,17 +254,15 @@ export interface Review {
   helpful: number;
 }
 
-const avatar = (name: string) => `/media/avatars/${name}.webp`;
-
 /** Sample reviews for the demo store; the Salla theme shows the store's real ones. */
 export const reviews: Review[] = [
-  { id: 'r1', author: l('سارة م.', 'Sara M.'), avatar: avatar('f1'), rating: 5, productId: 'p1', verified: true, date: '2026-11-02', helpful: 24, photos: ['goldBottle', 'spraying'], text: l('ثباته ممتاز، بقي معي من الصباح حتى المساء. التغليف أنيق والعيّنة المرفقة لفتة جميلة.', 'Lasting power is excellent, it stayed with me from morning to evening. Lovely wrapping, and the sample was a nice touch.') },
-  { id: 'r2', author: l('عبدالله ر.', 'Abdullah R.'), avatar: avatar('m1'), rating: 5, productId: 'p5', verified: true, date: '2026-10-28', helpful: 18, photos: ['oudOil'], text: l('دهن عود نظيف وواضح، والوصف مطابق تماماً لما وصلني.', 'A clean, clear oud oil, and it matched the description exactly.') },
+  { id: 'r1', author: l('سارة م.', 'Sara M.'), rating: 5, productId: 'p1', verified: true, date: '2026-11-02', helpful: 24, photos: ['goldBottle', 'spraying'], text: l('ثباته ممتاز، بقي معي من الصباح حتى المساء. التغليف أنيق والعيّنة المرفقة لفتة جميلة.', 'Lasting power is excellent, it stayed with me from morning to evening. Lovely wrapping, and the sample was a nice touch.') },
+  { id: 'r2', author: l('عبدالله ر.', 'Abdullah R.'), rating: 5, productId: 'p5', verified: true, date: '2026-10-28', helpful: 18, photos: ['oudOil'], text: l('دهن عود نظيف وواضح، والوصف مطابق تماماً لما وصلني.', 'A clean, clear oud oil, and it matched the description exactly.') },
   { id: 'r3', author: l('نورة ع.', 'Noura A.'), rating: 4, productId: 'p4', verified: true, date: '2026-10-21', helpful: 9, text: l('رائحة الورد طبيعية وليست حادة. تمنيت لو كان الحجم الكبير متوفراً.', 'The rose smells natural, not sharp. I only wish the large size were available.') },
-  { id: 'r4', author: l('فهد س.', 'Fahad S.'), avatar: avatar('m2'), rating: 5, productId: 'p9', verified: true, date: '2026-10-17', helpful: 12, photos: ['burnerCarpet'], text: l('البخور يملأ المجلس برائحة هادئة، والتوصيل كان خلال يومين.', 'The bakhoor fills the majlis with a calm scent, and delivery took two days.') },
-  { id: 'r5', author: l('ريم ك.', 'Reem K.'), avatar: avatar('f2'), rating: 5, productId: 'p3', verified: true, date: '2026-10-11', helpful: 31, photos: ['amberTrio'], text: l('عنبر الليل صار عطري اليومي. دافئ من غير ما يكون ثقيل، وكل من حولي يسأل عنه.', 'Night Amber became my daily scent. Warm without being heavy, and everyone asks about it.') },
+  { id: 'r4', author: l('فهد س.', 'Fahad S.'), rating: 5, productId: 'p9', verified: true, date: '2026-10-17', helpful: 12, photos: ['burnerCarpet'], text: l('البخور يملأ المجلس برائحة هادئة، والتوصيل كان خلال يومين.', 'The bakhoor fills the majlis with a calm scent, and delivery took two days.') },
+  { id: 'r5', author: l('ريم ك.', 'Reem K.'), rating: 5, productId: 'p3', verified: true, date: '2026-10-11', helpful: 31, photos: ['amberTrio'], text: l('عنبر الليل صار عطري اليومي. دافئ من غير ما يكون ثقيل، وكل من حولي يسأل عنه.', 'Night Amber became my daily scent. Warm without being heavy, and everyone asks about it.') },
   { id: 'r6', author: l('ماجد ح.', 'Majed H.'), rating: 4, productId: 'p1', verified: true, date: '2026-10-05', helpful: 6, text: l('عطر فخم ويناسب المناسبات. الفوحان قوي أول ساعة ثم يهدأ.', 'A rich scent that suits occasions. Projection is strong for the first hour, then it settles.') },
-  { id: 'r7', author: l('خالد ب.', 'Khaled B.'), avatar: avatar('m3'), rating: 5, productId: 'p10', verified: true, date: '2026-09-29', helpful: 15, photos: ['bottlesRow'], text: l('اشتريت طقم الإرث هدية لوالدي، والعلبة وحدها تستحق. وصل مع بطاقة إهداء مكتوبة بخط جميل.', 'I bought the Heritage Set for my father, and the box alone is worth it. It came with a beautifully written card.') },
+  { id: 'r7', author: l('خالد ب.', 'Khaled B.'), rating: 5, productId: 'p10', verified: true, date: '2026-09-29', helpful: 15, photos: ['bottlesRow'], text: l('اشتريت طقم الإرث هدية لوالدي، والعلبة وحدها تستحق. وصل مع بطاقة إهداء مكتوبة بخط جميل.', 'I bought the Heritage Set for my father, and the box alone is worth it. It came with a beautifully written card.') },
   { id: 'r8', author: l('لمى ف.', 'Lama F.'), rating: 5, productId: 'p4', verified: false, date: '2026-09-22', helpful: 4, text: l('ورد الطائف أنعم ورد جربته. طلبته مرتين.', 'Taif Rose is the softest rose I have tried. I have ordered it twice.') },
   { id: 'r9', author: l('تركي ن.', 'Turki N.'), rating: 3, productId: 'p3', verified: true, date: '2026-09-14', helpful: 2, text: l('الرائحة جميلة لكن الثبات على بشرتي متوسط. خدمة العملاء اقترحت عليّ تركيز البارفان.', 'A lovely scent, but lasting power on my skin is average. Support suggested the parfum concentration.') },
   { id: 'r10', author: l('هند ص.', 'Hind S.'), rating: 5, productId: 'p5', verified: true, date: '2026-09-03', helpful: 20, photos: ['rollOns'], text: l('ثالث مرة أطلب دهن العود الهندي. نفس الجودة في كل مرة، وهذا أهم شيء عندي.', 'My third order of the Indian oud oil. Same quality every time, which matters most to me.') },
