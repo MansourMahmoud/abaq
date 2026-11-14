@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.9.3
+
+- Product page: the notes section speaks about the product itself, by name and with its own notes
+
 ## 0.9.2
 
 - One-row product section fed from a chosen category, with a product count

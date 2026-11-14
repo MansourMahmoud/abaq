@@ -13,7 +13,7 @@ import { Picture } from '../components/ui/Picture';
 import { brands, categories, discountOf, findProduct, productDetails, relatedProducts } from '../data/catalog';
 import { reviews } from '../data/content';
 import { clipPoster, clips } from '../data/videos';
-import { useI18n } from '../i18n/I18nProvider';
+import { useI18n, type Localized } from '../i18n/I18nProvider';
 import type { MessageKey } from '../i18n/messages';
 import { useCart } from '../lib/cart';
 import { useVariant } from '../lib/variants';
@@ -31,7 +31,7 @@ const MAX_QUANTITY = 9;
 
 export function ProductPage() {
   const { slug = '' } = useParams();
-  const { t, pick, money, number } = useI18n();
+  const { t, pick, money, number, locale } = useI18n();
   const { add } = useCart();
   const navigate = useNavigate();
   const product = findProduct(slug);
@@ -56,6 +56,15 @@ export function ProductPage() {
   const productReviews = [...reviews].sort((a, b) => Number(b.productId === product.id) - Number(a.productId === product.id));
   const brand = brands.find((entry) => entry.id === product.brand);
   const name = pick(product.name);
+
+  /** Turns a dotted note list ("saffron · bergamot") into running text for the section's intro. */
+  const inSentence = (notes: Localized) =>
+    new Intl.ListFormat(locale, { type: 'conjunction' }).format(
+      pick(notes)
+        .split('·')
+        .map((note) => note.trim())
+        .filter(Boolean),
+    );
 
   // Gallery entries: every photo, then the product's clip when it has one.
   const showingClip = clip !== undefined && media === product.photos.length;
@@ -215,9 +224,16 @@ export function ProductPage() {
         <section className="section section--surface">
           <div className="container pyramid-layout">
             <div className="pyramid-layout__intro">
-              <p className="eyebrow">{t('product.notesEyebrow')}</p>
-              <h2 className="section__title">{t('product.notesTitle')}</h2>
-              <p className="text-soft">{t('product.notesLead')}</p>
+              <p className="eyebrow">{t('product.notesEyebrow', { name })}</p>
+              <h2 className="section__title">{t('product.notesTitle', { name })}</h2>
+              <p className="text-soft">
+                {t('product.notesLead', {
+                  name,
+                  top: inSentence(details.pyramid.top),
+                  heart: inSentence(details.pyramid.heart),
+                  base: inSentence(details.pyramid.base),
+                })}
+              </p>
               {([['product.longevity', 'product.longevityHint', details.longevity], ['product.sillage', 'product.sillageHint', details.sillage]] as const).map(
                 ([key, hint, value]) =>
                   value !== undefined && (
@@ -231,7 +247,7 @@ export function ProductPage() {
                           <span key={index} data-on={index < value} />
                         ))}
                       </span>
-                      <small>{t(hint)}</small>
+                      <small>{t(hint, { name })}</small>
                     </div>
                   ),
               )}
