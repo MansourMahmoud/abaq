@@ -53,3 +53,14 @@ theme colours.
 
 Products, reviews, branch details, registration numbers and customer photos
 are sample data. They are replaced by the store's own data in the Salla theme.
+
+## Theme guide
+
+The merchant guide for the Fawh Salla theme is served from this site at
+`/docs/` (Arabic) and `/docs/en/` (English). Its text lives in `docs-src/`
+(`sections.py` for the chapters, `blocks.py` for the 30 home blocks); rebuild
+it into `public/docs` with:
+
+```bash
+python3 docs-src/build.py
+```
